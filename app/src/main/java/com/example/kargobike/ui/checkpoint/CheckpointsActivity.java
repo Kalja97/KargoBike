@@ -91,7 +91,7 @@ public class CheckpointsActivity extends AppCompatActivity {
                 Intent intent = new Intent(view.getContext(), DetailsCheckpointActivity.class);
 /*
                 intent.putExtra("checkpointName", checkpointList.get(position).getCheckpointname());
-                intent.putExtra("order", checkpointList.get(position).getCountryName());
+                intent.putExtra("order", checkpointList.get(position).getOrderNr());
 
  */
                 startActivity(intent);
