@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/checkpoint_LinearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:id="@+id/cpRider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rider name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cpName" />
+
+        <TextView
+            android:id="@+id/cpDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="Date time"
+            app:layout_constraintStart_toEndOf="@+id/cpRider"
+            app:layout_constraintTop_toBottomOf="@+id/cpName" />
+
+        <TextView
+            android:id="@+id/cpName"
+            android:layout_width="341dp"
+            android:layout_height="46dp"
+            android:text="Checkpoint Name"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/cpLong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="Longitude"
+            app:layout_constraintStart_toEndOf="@+id/cpDate"
+            app:layout_constraintTop_toBottomOf="@+id/cpName" />
+
+        <TextView
+            android:id="@+id/cpLat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:text="Latitude"
+            app:layout_constraintStart_toEndOf="@+id/cpLong"
+            app:layout_constraintTop_toBottomOf="@+id/cpName" />
+
+        <TextView
+            android:id="@+id/cpType"
+            android:layout_width="76dp"
+            android:layout_height="86dp"
+            android:text="Type"
+            android:textAlignment="center"
+            app:layout_constraintStart_toEndOf="@+id/cpName"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
