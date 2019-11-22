@@ -3,8 +3,8 @@ package com.example.kargobike.viewmodel.order;
 import android.app.Application;
 
 import com.example.kargobike.BaseApp;
-import com.example.kargobike.Entities.Order;
-import com.example.kargobike.repository.OrderRepository;
+import com.example.kargobike.database.entity.Order;
+import com.example.kargobike.database.repository.OrderRepository;
 import com.example.kargobike.util.OnAsyncEventListener;
 
 import androidx.annotation.NonNull;
