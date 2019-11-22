@@ -3,7 +3,7 @@ package com.example.kargobike.viewmodel.order;
 import android.app.Application;
 
 import com.example.kargobike.BaseApp;
-import com.example.kargobike.database.entity.Order;
+import com.example.kargobike.database.entity.OrderF;
 import com.example.kargobike.database.repository.OrderRepository;
 import com.example.kargobike.util.OnAsyncEventListener;
 
@@ -20,7 +20,7 @@ public class OrderViewModel extends AndroidViewModel {
     private Application application;
 
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
-    private final MediatorLiveData<Order> observableOrder;
+    private final MediatorLiveData<OrderF> observableOrder;
 
     public OrderViewModel(@NonNull Application application,
                           final String ordername, OrderRepository orderRepository) {
@@ -72,19 +72,19 @@ public class OrderViewModel extends AndroidViewModel {
     /**
      * Expose the LiveData ClientEntity query so the UI can observe it.
      */
-    public LiveData<Order> getOrder() {
+    public LiveData<OrderF> getOrder() {
         return observableOrder;
     }
 
-    public void createOrder(Order order, OnAsyncEventListener callback) {
-        repository.insert(order, callback, application);
+    public void createOrder(OrderF order, OnAsyncEventListener callback) {
+        repository.insert(order, callback);
     }
 
-    public void updateOrder(Order order, OnAsyncEventListener callback) {
-        repository.update(order, callback, application);
+    public void updateOrder(OrderF order, OnAsyncEventListener callback) {
+        repository.update(order, callback);
     }
 
-    public void deleteOrder(Order order, OnAsyncEventListener callback) {
-        repository.delete(order, callback, application);
+    public void deleteOrder(OrderF order, OnAsyncEventListener callback) {
+        repository.delete(order, callback);
     }
 }

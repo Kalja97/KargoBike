@@ -2,7 +2,7 @@ package com.example.kargobike.firebase;
 
 import android.util.Log;
 
-import com.example.kargobike.Entities.Checkpoint;
+import com.example.kargobike.database.entity.Checkpoint;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

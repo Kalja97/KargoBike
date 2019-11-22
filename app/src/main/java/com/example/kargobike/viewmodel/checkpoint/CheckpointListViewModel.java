@@ -3,8 +3,8 @@ package com.example.kargobike.viewmodel.checkpoint;
 import android.app.Application;
 
 import com.example.kargobike.BaseApp;
-import com.example.kargobike.Entities.Checkpoint;
-import com.example.kargobike.repository.CheckpointRepository;
+import com.example.kargobike.database.entity.Checkpoint;
+import com.example.kargobike.database.repository.CheckpointRepository;
 
 import java.util.List;
 

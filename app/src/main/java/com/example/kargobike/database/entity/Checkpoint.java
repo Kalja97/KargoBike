@@ -1,28 +1,13 @@
-package com.example.kargobike.Entities;
+package com.example.kargobike.database.entity;
 
-import androidx.room.Entity;
-import androidx.room.ForeignKey;
-import androidx.room.Index;
-import androidx.room.PrimaryKey;
+import com.google.firebase.database.Exclude;
 
-@Entity(tableName = "checkpoints",
-        foreignKeys =
-        @ForeignKey(
-                entity = Order.class,
-                parentColumns = "orderNr",
-                childColumns = "orderNr",
-                onDelete = ForeignKey.CASCADE
-        ),
-        indices = {
-                @Index(
-                        value = {"orderNr"}
-                )}
-)
+import java.util.HashMap;
+import java.util.Map;
 
 public class Checkpoint {
 
-    @PrimaryKey(autoGenerate = true)
-    private Long id;
+    private String id;
 
     //    private Long fk;
     private String orderNr;
@@ -31,6 +16,11 @@ public class Checkpoint {
     private String gps;
     private String datetime;
     private String rider;
+
+    //Constructor
+    public Checkpoint(){
+
+    }
 
     public Checkpoint(String orderNr, String checkpointName, String type, String gps, String datetime, String rider){
         this.orderNr = orderNr;
@@ -41,11 +31,12 @@ public class Checkpoint {
         this.rider = rider;
     }
 
-    public Long getId() {
+    @Exclude
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -110,5 +101,18 @@ public class Checkpoint {
     @Override
     public String toString() {
         return id + "  (" + type + ")";
+    }
+
+    //Put informations in a map
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("orderNr", orderNr);
+        result.put("checkpointName", checkpointName);
+        result.put("type", type);
+        result.put("gps", gps);
+        result.put("datetime", datetime);
+        result.put("rider", rider);
+        return result;
     }
 }

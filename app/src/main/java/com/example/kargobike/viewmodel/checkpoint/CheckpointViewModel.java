@@ -3,8 +3,8 @@ package com.example.kargobike.viewmodel.checkpoint;
 import android.app.Application;
 
 import com.example.kargobike.BaseApp;
-import com.example.kargobike.Entities.Checkpoint;
-import com.example.kargobike.repository.CheckpointRepository;
+import com.example.kargobike.database.entity.Checkpoint;
+import com.example.kargobike.database.repository.CheckpointRepository;
 import com.example.kargobike.util.OnAsyncEventListener;
 
 import androidx.annotation.NonNull;
@@ -75,14 +75,14 @@ public class CheckpointViewModel  extends AndroidViewModel {
     }
 
     public void createCheckpoint(Checkpoint checkpoint, OnAsyncEventListener callback) {
-        repository.insert(checkpoint, callback, application);
+        repository.insert(checkpoint, callback);
     }
 
     public void updateCheckpoint(Checkpoint checkpoint, OnAsyncEventListener callback) {
-        repository.update(checkpoint, callback, application);
+        repository.update(checkpoint, callback);
     }
 
     public void deleteCheckpoint(Checkpoint checkpoint, OnAsyncEventListener callback) {
-        repository.delete(checkpoint, callback, application);
+        repository.delete(checkpoint, callback);
     }
 }

@@ -13,7 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.example.kargobike.Entities.Checkpoint;
+import com.example.kargobike.database.entity.Checkpoint;
 import com.example.kargobike.R;
 import com.example.kargobike.ui.SettingsActivity;
 import com.example.kargobike.viewmodel.checkpoint.CheckpointListViewModel;

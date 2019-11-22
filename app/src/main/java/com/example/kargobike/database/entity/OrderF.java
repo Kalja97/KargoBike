@@ -123,7 +123,7 @@ public class OrderF implements Comparable{
     public boolean equals(Object obj) {
         if (obj == null) return false;
         if (obj == this) return true;
-        if (!(obj instanceof Order)) return false;
+        if (!(obj instanceof OrderF)) return false;
         OrderF o = (OrderF) obj;
         return o.getOrderNr().equals(this.getOrderNr());
     }
