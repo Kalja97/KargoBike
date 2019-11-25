@@ -7,9 +7,10 @@
     tools:context=".ui.order.OrdersActivity">
 
     <ListView
+        android:id="@+id/recyclerviewitem_order"
         android:layout_width="409dp"
         android:layout_height="729dp"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="1dp"
-        android:id="@+id/listview"/>
+        tools:listitem="@layout/recyclerviewitem_order" />
 </LinearLayout>

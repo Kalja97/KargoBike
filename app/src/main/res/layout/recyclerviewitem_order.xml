@@ -1,11 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/checkpoint_LinearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/SendReceiv"
+            android:layout_width="331dp"
+            android:layout_height="53dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/sender"
+                android:layout_width="149dp"
+                android:layout_height="55dp"
+                android:text="sender"
+                android:textAlignment="viewStart"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="@+id/SendReceiv"
+                app:layout_constraintTop_toTopOf="@+id/SendReceiv" />
+
+
+            <ImageView
+                android:id="@+id/arrow"
+                android:layout_width="22dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toEndOf="@+id/sender"
+                app:layout_constraintTop_toTopOf="@+id/SendReceiv"
+                app:srcCompat="@android:drawable/ic_menu_send" />
+
+            <TextView
+                android:id="@+id/receiver"
+                android:layout_width="156dp"
+                android:layout_height="55dp"
+                android:text="receiver"
+                android:textAlignment="viewStart"
+                android:textSize="24sp"
+                app:layout_constraintStart_toEndOf="@+id/arrow"
+                app:layout_constraintTop_toTopOf="@+id/SendReceiv" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/oDatePickup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date Pick up"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/SendReceiv" />
+
+        <TextView
+            android:id="@+id/oDateDeliv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="Date Delivery"
+            app:layout_constraintStart_toEndOf="@+id/oDatePickup"
+            app:layout_constraintTop_toBottomOf="@+id/SendReceiv" />
+
+        <TextView
+            android:id="@+id/oProduct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="Product"
+            app:layout_constraintStart_toEndOf="@+id/oDateDeliv"
+            app:layout_constraintTop_toBottomOf="@+id/SendReceiv" />
+
+        <TextView
+            android:id="@+id/oQty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:text="Quantity"
+            app:layout_constraintStart_toEndOf="@+id/oProduct"
+            app:layout_constraintTop_toBottomOf="@+id/SendReceiv" />
+
+        <TextView
+            android:id="@+id/oStatus"
+            android:layout_width="65dp"
+            android:layout_height="56dp"
+            android:text="Status"
+            android:textAlignment="center"
+            tools:layout_editor_absoluteX="333dp"
+            tools:layout_editor_absoluteY="3dp"
+            app:layout_constraintStart_toEndOf="@+id/SendReceiv"
+            app:layout_constraintTop_toTopOf="parent"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </LinearLayout>

@@ -34,7 +34,7 @@ public class OrdersActivity extends AppCompatActivity {
 
 
         //Create the listview
-        listview = findViewById(R.id.listview);
+        listview = findViewById(R.id.recyclerviewitem_order);
         orderList = new ArrayList<>();
 
         //Array adapter
