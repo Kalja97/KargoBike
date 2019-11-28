@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.kargobike.R;
-import com.example.kargobike.database.entity.OrderF;
+import com.example.kargobike.database.entity.Order;
 import com.example.kargobike.util.RecyclerViewItemClickListener;
 
 import org.w3c.dom.Text;
@@ -82,13 +82,13 @@ public class OrderAdapter<T> extends RecyclerView.Adapter<OrderAdapter.OrderView
     @Override
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
         T item = data.get(position);
-        holder.sender.setText(((OrderF) item).getSender());
-        holder.receiver.setText(((OrderF) item).getReceiver());
-        holder.product.setText(((OrderF) item).getProduct());
-        holder.productQty.setText(""+((OrderF) item).getHowMany());
-        holder.datePickup.setText(((OrderF) item).getDatePickup());
-        holder.dateDeliv.setText(((OrderF) item).getDateDelivery());
-        holder.status.setText(((OrderF) item).getState());
+        holder.sender.setText(((Order) item).getSender());
+        holder.receiver.setText(((Order) item).getReceiver());
+        holder.product.setText(((Order) item).getProduct());
+        holder.productQty.setText(""+((Order) item).getHowMany());
+        holder.datePickup.setText(((Order) item).getDatePickup());
+        holder.dateDeliv.setText(((Order) item).getDateDelivery());
+        holder.status.setText(((Order) item).getState());
 
     }
 

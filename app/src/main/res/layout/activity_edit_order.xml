@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.order.EditOrderActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/labelOrderNr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Order Nr.:" />
+
+        <EditText
+            android:id="@+id/change_orderNr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/labelDateDelivery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delivery Date:" />
+
+        <EditText
+            android:id="@+id/change_dateDelivery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/labelDatePickup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pickup Date:" />
+
+        <EditText
+            android:id="@+id/change_datePickup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/labelReceiver"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Receiver:" />
+
+        <EditText
+            android:id="@+id/change_Receiver"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+        android:id="@+id/labelSender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sender:" />
+
+        <EditText
+            android:id="@+id/change_sender"
+            android:layout_width="match_parent"
+            android:inputType="textMultiLine"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/labelRider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rider:" />
+
+        <EditText
+            android:id="@+id/change_rider"
+            android:layout_width="match_parent"
+            android:inputType="textMultiLine"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/labelHowManyPackages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Amount Packages:" />
+
+        <EditText
+            android:id="@+id/change_howManyPackages"
+            android:layout_width="match_parent"
+            android:inputType="textMultiLine"
+            android:layout_height="wrap_content" />
+
+        <TextView
+        android:id="@+id/labelProduct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Product:" />
+
+
+    </LinearLayout>
+</LinearLayout>

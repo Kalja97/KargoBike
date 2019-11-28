@@ -1,6 +1,7 @@
 package com.example.kargobike.database.entity;
 
 
+
 import com.google.firebase.database.Exclude;
 
 import java.util.HashMap;
@@ -8,7 +9,7 @@ import java.util.Map;
 
 import androidx.annotation.NonNull;
 
-public class OrderF implements Comparable{
+public class Order implements Comparable{
 
     private String orderNr;
 
@@ -25,13 +26,13 @@ public class OrderF implements Comparable{
     private String state;
 
     //Empty Constructor
-    public OrderF(){
+    public Order(){
 
     }
 
     //Constructor with attributes
-    public OrderF(@NonNull String orderNr, String sender, String receiver, String product, int howMany, String rider,
-                  String datePickup, String dateDelivery, String state){
+    public Order(@NonNull String orderNr, String sender, String receiver, String product, int howMany, String rider,
+                 String datePickup, String dateDelivery, String state){
 
         this.sender = sender;
         this.receiver = receiver;
@@ -118,13 +119,15 @@ public class OrderF implements Comparable{
         this.state = state;
     }
 
+
+
     @Override
 
     public boolean equals(Object obj) {
         if (obj == null) return false;
         if (obj == this) return true;
-        if (!(obj instanceof OrderF)) return false;
-        OrderF o = (OrderF) obj;
+        if (!(obj instanceof Order)) return false;
+        Order o = (Order) obj;
         return o.getOrderNr().equals(this.getOrderNr());
     }
 
@@ -135,7 +138,7 @@ public class OrderF implements Comparable{
 
     @Override
     public String toString() {
-        return "OrderF{" +
+        return "Order{" +
                 "orderNr='" + orderNr + '\'' +
                 ", sender='" + sender + '\'' +
                 ", receiver='" + receiver + '\'' +

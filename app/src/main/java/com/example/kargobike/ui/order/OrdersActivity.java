@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import android.telecom.Call;
+
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.*;
 
 import android.util.Log;
 import android.view.*;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -18,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.kargobike.R;
 import com.example.kargobike.adapter.OrderAdapter;
-import com.example.kargobike.database.entity.OrderF;
+import com.example.kargobike.database.entity.Order;
 import com.example.kargobike.ui.SettingsActivity;
 import com.example.kargobike.ui.checkpoint.CheckpointsActivity;
 import com.example.kargobike.util.OnAsyncEventListener;
@@ -31,8 +34,6 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 public class OrdersActivity extends AppCompatActivity {
 
     private static final String TAG = "OrdersList";
@@ -43,11 +44,14 @@ public class OrdersActivity extends AppCompatActivity {
 //    private CheckpointEntity Checkpoint ;
 //    private CheckpointViewModel CheckpointViewModel;
 
-    private OrderAdapter<OrderF> adapter ;
+    private OrderAdapter<Order> adapter ;
 
-    private List<OrderF> Orders;
+    private List<Order> Orders;
 
     private String OrderNr, CheckpointId;
+
+    private Toolbar toolbar;
+
 
 
     @Override
@@ -55,6 +59,8 @@ public class OrdersActivity extends AppCompatActivity {
         setTitle("Orders");
         //getMenuInflater().inflate(R.menu.main_activity_actions, menu);
         return super.onCreateOptionsMenu(menu);
+
+
     }
 
     @Override
@@ -80,6 +86,9 @@ public class OrdersActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orders);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         OrderNr = getIntent().getStringExtra("OrderNr");
         //CheckpointId = getIntent().getStringExtra("CheckpointId");
@@ -130,6 +139,7 @@ public class OrdersActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
+
 
             //Create floatingButton for adding new Orders
             FloatingActionButton fab = findViewById(R.id.floatingActionAddOrder);
@@ -256,5 +266,4 @@ public class OrdersActivity extends AppCompatActivity {
         }
 
     }
-
 }

@@ -2,7 +2,7 @@ package com.example.kargobike.viewmodel.order;
 
 import android.app.Application;
 
-import com.example.kargobike.database.entity.OrderF;
+import com.example.kargobike.database.entity.Order;
 import com.example.kargobike.database.repository.OrderRepository;
 import com.example.kargobike.util.OnAsyncEventListener;
 
@@ -22,7 +22,7 @@ public class OrderListViewModel extends AndroidViewModel {
     private OrderRepository repository;
 
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
-    private final MediatorLiveData<List<OrderF>> observableOrders;
+    private final MediatorLiveData<List<Order>> observableOrders;
 
     public OrderListViewModel(@NonNull Application application, OrderRepository orderRepository) {
         super(application);
@@ -33,7 +33,7 @@ public class OrderListViewModel extends AndroidViewModel {
         // set by default null, until we get data from the database.
         observableOrders.setValue(null);
 
-        LiveData<List<OrderF>> locations = repository.getAllOrders();
+        LiveData<List<Order>> locations = repository.getAllOrders();
 
         // observe the changes of the entities from the database and forward them
         observableOrders.addSource(locations, observableOrders::setValue);
@@ -64,11 +64,11 @@ public class OrderListViewModel extends AndroidViewModel {
     /**
      * Expose the LiveData ClientEntities query so the UI can observe it.
      */
-    public LiveData<List<OrderF>> getOrders() {
+    public LiveData<List<Order>> getOrders() {
         return observableOrders;
     }
 
-    public void deleteOrder(OrderF order) {
+    public void deleteOrder(Order order) {
         repository.delete(order, new OnAsyncEventListener() {
             @Override
             public void onSuccess() {}

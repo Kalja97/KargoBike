@@ -3,7 +3,7 @@ package com.example.kargobike.viewmodel.order;
 import android.app.Application;
 
 import com.example.kargobike.BaseApp;
-import com.example.kargobike.database.entity.OrderF;
+import com.example.kargobike.database.entity.Order;
 import com.example.kargobike.database.repository.OrderRepository;
 import com.example.kargobike.util.OnAsyncEventListener;
 
@@ -17,17 +17,14 @@ import androidx.lifecycle.ViewModelProvider;
 public class OrderViewModel extends AndroidViewModel {
 
     private OrderRepository repository;
-    private Application application;
 
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
-    private final MediatorLiveData<OrderF> observableOrder;
+    private final MediatorLiveData<Order> observableOrder;
 
     public OrderViewModel(@NonNull Application application,
                           final String ordername, OrderRepository orderRepository) {
 
         super(application);
-
-        this.application = application;
 
         repository = orderRepository;
 
@@ -35,13 +32,13 @@ public class OrderViewModel extends AndroidViewModel {
         // set by default null, until we get data from the database.
         observableOrder.setValue(null);
 
-        /*
-        LiveData<Order> order = repository.getOrder(ordername, application);
+
+        LiveData<Order> order = repository.getOrder(ordername);
 
 
         //observe the changes of the client entity from the database and forward them
         observableOrder.addSource(order, observableOrder::setValue);
-  */
+
     }
 
     /**
@@ -51,12 +48,10 @@ public class OrderViewModel extends AndroidViewModel {
 
         @NonNull
         private final Application application;
-
         private final String ordername;
-
         private final OrderRepository repository;
 
-        public Factory(@NonNull Application application, String ordername, OrderRepository repository) {
+        public Factory(@NonNull Application application, String ordername) {
             this.application = application;
             this.ordername = ordername;
             this.repository = ((BaseApp) application).getOrderRepository();
@@ -69,22 +64,23 @@ public class OrderViewModel extends AndroidViewModel {
         }
     }
 
-    /**
-     * Expose the LiveData ClientEntity query so the UI can observe it.
-     */
-    public LiveData<OrderF> getOrder() {
+    //get a order
+    public LiveData<Order> getOrder() {
         return observableOrder;
     }
 
-    public void createOrder(OrderF order, OnAsyncEventListener callback) {
-        repository.insert(order, callback);
+    //create order
+    public void createOrder(Order order, OnAsyncEventListener callback) {
+        OrderRepository.getInstance().insert(order, callback);
     }
 
-    public void updateOrder(OrderF order, OnAsyncEventListener callback) {
-        repository.update(order, callback);
+    //update order
+    public void updateOrder(Order order, OnAsyncEventListener callback) {
+        OrderRepository.getInstance().update(order, callback);
     }
 
-    public void deleteOrder(OrderF order, OnAsyncEventListener callback) {
-        repository.delete(order, callback);
+    //delete order
+    public void deleteOrder(Order order, OnAsyncEventListener callback) {
+        OrderRepository.getInstance().delete(order, callback);
     }
 }

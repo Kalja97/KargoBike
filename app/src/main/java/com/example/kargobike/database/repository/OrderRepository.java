@@ -1,6 +1,6 @@
 package com.example.kargobike.database.repository;
 
-import com.example.kargobike.database.entity.OrderF;
+import com.example.kargobike.database.entity.Order;
 import com.example.kargobike.firebase.OrderListLiveData;
 import com.example.kargobike.firebase.OrderLiveData;
 import com.example.kargobike.util.OnAsyncEventListener;
@@ -31,21 +31,24 @@ public class OrderRepository {
         return instance;
     }
 
-    public LiveData<OrderF> getLocation(final String orderNr) {
+    //Query: Get a Location
+    public LiveData<Order> getOrder(final String orderNr) {
         DatabaseReference reference = FirebaseDatabase.getInstance()
-                .getReference("countries")
+                .getReference("orders")
                 .child(orderNr);
         return new OrderLiveData(reference);
     }
 
-    public LiveData<List<OrderF>> getAllOrders() {
+    //Query: Get all Orders
+    public LiveData<List<Order>> getAllOrders() {
         DatabaseReference reference = FirebaseDatabase.getInstance()
                 .getReference("orders");
         return new OrderListLiveData(reference);
     }
 
-    public void insert(final OrderF order, final OnAsyncEventListener callback) {
-        String id = order.getOrderNr();
+    //Query: Insert an order
+    public void insert(final Order order, final OnAsyncEventListener callback) {
+        String id = FirebaseDatabase.getInstance().getReference("orders").push().getKey();
         FirebaseDatabase.getInstance()
                 .getReference("orders")
                 .child(id)
@@ -58,7 +61,8 @@ public class OrderRepository {
                 });
     }
 
-    public void update(final OrderF order, final OnAsyncEventListener callback) {
+    //Query: Update an order
+    public void update(final Order order, final OnAsyncEventListener callback) {
         FirebaseDatabase.getInstance()
                 .getReference("orders")
                 .child(order.getOrderNr())
@@ -71,7 +75,8 @@ public class OrderRepository {
                 });
     }
 
-    public void delete(final OrderF order, OnAsyncEventListener callback) {
+    //Query: Delete an order
+    public void delete(final Order order, OnAsyncEventListener callback) {
         FirebaseDatabase.getInstance()
                 .getReference("orders")
                 .child(order.getOrderNr())

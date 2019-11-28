@@ -2,7 +2,7 @@ package com.example.kargobike.firebase;
 
 import android.util.Log;
 
-import com.example.kargobike.database.entity.OrderF;
+import com.example.kargobike.database.entity.Order;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -11,7 +11,7 @@ import com.google.firebase.database.ValueEventListener;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
-public class OrderLiveData extends LiveData<OrderF> {
+public class OrderLiveData extends LiveData<Order> {
     private static final String TAG = "OrderLiveData";
 
     //Attributes
@@ -40,7 +40,7 @@ public class OrderLiveData extends LiveData<OrderF> {
 
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            OrderF entity = dataSnapshot.getValue(OrderF.class);
+            Order entity = dataSnapshot.getValue(Order.class);
             if (entity != null) {
                 entity.setOrderNr(dataSnapshot.getKey());
                 setValue(entity);
