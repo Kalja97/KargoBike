@@ -8,7 +8,7 @@
     tools:context=".ui.order.OrdersActivity">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton2"
+        android:id="@+id/floatingActionButton"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginStart="328dp"

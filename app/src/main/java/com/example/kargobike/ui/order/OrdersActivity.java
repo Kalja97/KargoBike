@@ -4,11 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import android.telecom.Call;
+import androidx.recyclerview.widget.*;
+
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ListView;
+import android.view.*;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -21,6 +20,7 @@ import com.example.kargobike.R;
 import com.example.kargobike.adapter.OrderAdapter;
 import com.example.kargobike.database.entity.OrderF;
 import com.example.kargobike.ui.SettingsActivity;
+import com.example.kargobike.ui.checkpoint.CheckpointsActivity;
 import com.example.kargobike.util.OnAsyncEventListener;
 import com.example.kargobike.util.RecyclerViewItemClickListener;
 import com.example.kargobike.viewmodel.order.OrderListViewModel;
@@ -40,14 +40,14 @@ public class OrdersActivity extends AppCompatActivity {
     private OrderListViewModel OrderListViewModel;
     //private OrderMoveViewModel OrderMoveViewModel;
 
-//    private WorkstationEntity workstation ;
-//    private WorkstationViewModel workstationViewModel;
+//    private CheckpointEntity Checkpoint ;
+//    private CheckpointViewModel CheckpointViewModel;
 
     private OrderAdapter<OrderF> adapter ;
 
     private List<OrderF> Orders;
 
-    private String OrderId, workstationId;
+    private String OrderNr, CheckpointId;
 
 
     @Override
@@ -81,11 +81,11 @@ public class OrdersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orders);
 
-        OrderId = getIntent().getStringExtra("OrderId");
-        //workstationId = getIntent().getStringExtra("workstationId");
+        OrderNr = getIntent().getStringExtra("OrderNr");
+        //CheckpointId = getIntent().getStringExtra("CheckpointId");
 
         //Create the OrdersActivity with all the Orders
-        if(OrderId == null){
+        if(OrderNr == null){
             //Initialize Database and data
             RecyclerView recyclerView = findViewById(R.id.recyclerviewitem_orders);
 
@@ -111,7 +111,7 @@ public class OrdersActivity extends AppCompatActivity {
                                     Intent.FLAG_ACTIVITY_NO_HISTORY
                     );
 
-                    intent.putExtra("OrderId", Orders.get(position).getOrderNr());
+                    intent.putExtra("OrderNr", Orders.get(position).getOrderNr());
                     startActivity(intent);
                 }
 
@@ -126,11 +126,11 @@ public class OrdersActivity extends AppCompatActivity {
                                     Intent.FLAG_ACTIVITY_NO_HISTORY
                     );
 
-                    intent.putExtra("OrderId", Orders.get(position).getOrderNr());
+                    intent.putExtra("OrderNr", Orders.get(position).getOrderNr());
                     startActivity(intent);
                 }
             });
-
+/*
             //Create floatingButton for adding new Orders
             FloatingActionButton fab = findViewById(R.id.floatingActionAddOrder);
             fab.setOnClickListener(view -> {
@@ -141,7 +141,7 @@ public class OrdersActivity extends AppCompatActivity {
                 );
                 startActivity(intent);
             });
-
+*/
 
             //Get the Orders in the database by calling the ViewModel
             OrderListViewModel.Factory factory = new OrderListViewModel.Factory(getApplication());
@@ -154,7 +154,7 @@ public class OrdersActivity extends AppCompatActivity {
             });
             recyclerView.setAdapter(adapter);
 
-            //display the Order list for moving the workstations if OrderId != 0
+            //display the Order list for moving the Checkpoints if OrderNr != 0
         }else{
 
             RecyclerView recyclerView = findViewById(R.id.recyclerviewitem_orders);
@@ -166,16 +166,16 @@ public class OrdersActivity extends AppCompatActivity {
                     LinearLayoutManager.VERTICAL);
             recyclerView.addItemDecoration(dividerItemDecoration);
 
-            //Get the Workstation we want to move
-//            WorkstationViewModel.Factory wfactory = new WorkstationViewModel.Factory(getApplication(), workstationId, OrderId);
-//            workstationViewModel = ViewModelProviders.of(this, wfactory).get(WorkstationViewModel.class);
-//            workstationViewModel.getWorkstation().observe(this, workstationEntity -> {
-//                if(workstationEntity != null){
-//                    workstation = workstationEntity;
+            //Get the Checkpoint we want to move
+//            CheckpointViewModel.Factory wfactory = new CheckpointViewModel.Factory(getApplication(), CheckpointId, OrderNr);
+//            CheckpointViewModel = ViewModelProviders.of(this, wfactory).get(CheckpointViewModel.class);
+//            CheckpointViewModel.getCheckpoint().observe(this, CheckpointEntity -> {
+//                if(CheckpointEntity != null){
+//                    Checkpoint = CheckpointEntity;
 //                }
 //            });
 
-            //Handle ItemClick and update the workstation
+//            //Handle ItemClick and update the Checkpoint
 //            Orders = new ArrayList<>();
 //            adapter = new OrderAdapter<>(new RecyclerViewItemClickListener() {
 //                @Override
@@ -183,29 +183,29 @@ public class OrdersActivity extends AppCompatActivity {
 //                    Log.d(TAG, "Clicked position: "+ position);
 //                    Log.d(TAG, "Clicked on: "+Orders.get(position).getBuilding());
 //
-//                    workstation.setOrderId(Orders.get(position).getId());
+//                    Checkpoint.setOrderNr(Orders.get(position).getId());
 //
-//                    //Update the OrderId workstation for moving
-//                    workstationViewModel.updateWorkstation(workstation, new OnAsyncEventListener() {
+//                    //Update the OrderNr Checkpoint for moving
+//                    CheckpointViewModel.updateCheckpoint(Checkpoint, new OnAsyncEventListener() {
 //                        @Override
 //                        public void onSuccess() {
-//                            Log.d(TAG, "UpdateWorkstation: Success");
+//                            Log.d(TAG, "UpdateCheckpoint: Success");
 //                        }
 //
 //                        @Override
 //                        public void onFailure(Exception e) {
-//                            Log.d(TAG, "UpdateWorkstation: Failure", e);
+//                            Log.d(TAG, "UpdateCheckpoint: Failure", e);
 //                        }
 //                    });
 //
-//                    Intent intent = new Intent(OrdersActivity.this, WorkstationsActivity.class);
+//                    Intent intent = new Intent(OrdersActivity.this, CheckpointsActivity.class);
 //                    intent.setFlags(
 //                            Intent.FLAG_ACTIVITY_NO_ANIMATION |
 //                                    Intent.FLAG_ACTIVITY_NO_HISTORY
 //                    );
 //
-//                    intent.putExtra("OrderId", Orders.get(position).getId());
-//                    intent.putExtra("workstationId", workstationId);
+//                    intent.putExtra("OrderNr", Orders.get(position).getId());
+//                    intent.putExtra("CheckpointId", CheckpointId);
 //                    startActivity(intent);
 //                }
 //
@@ -214,36 +214,36 @@ public class OrdersActivity extends AppCompatActivity {
 //                    Log.d(TAG, "longClicked position:" + position);
 //                    Log.d(TAG, "longClicked on: " + Orders.get(position).toString());
 //
-//                    workstation.setOrderId(Orders.get(position).getId());
+//                    Checkpoint.setOrderNr(Orders.get(position).getId());
 //
-//                    workstationViewModel.updateWorkstation(workstation, new OnAsyncEventListener() {
+//                    CheckpointViewModel.updateCheckpoint(Checkpoint, new OnAsyncEventListener() {
 //                        @Override
 //                        public void onSuccess() {
-//                            Log.d(TAG, "UpdateWorkstation: Success");
+//                            Log.d(TAG, "UpdateCheckpoint: Success");
 //                        }
 //
 //                        @Override
 //                        public void onFailure(Exception e) {
-//                            Log.d(TAG, "UpdateWorkstation: Failure", e);
+//                            Log.d(TAG, "UpdateCheckpoint: Failure", e);
 //                        }
 //                    });
 //
 //
-//                    Intent intent = new Intent(OrdersActivity.this, WorkstationsActivity.class);
+//                    Intent intent = new Intent(OrdersActivity.this, CheckpointsActivity.class);
 //                    intent.setFlags(
 //                            Intent.FLAG_ACTIVITY_NO_ANIMATION |
 //                                    Intent.FLAG_ACTIVITY_NO_HISTORY
 //                    );
 //
-//                    intent.putExtra("OrderId", Orders.get(position).getOrderNr());
-//                    intent.putExtra("workstationId", workstationId);
-//                    startActivity(intent);
+//                    intent.putExtra("OrderNr", Orders.get(position).getOrderNr());
+//                    intent.putExtra("CheckpointId", CheckpointId);
+//                     startActivity(intent);
 //
 //                }
 //            });
 //
-//            //Display the Order list whithout the Order where the workstation is already in
-//            OrderMoveViewModel.Factory factory = new OrderMoveViewModel.Factory(getApplication(), OrderId);
+            //Display the Order list whithout the Order where the Checkpoint is already in
+//            OrderMoveViewModel.Factory factory = new OrderMoveViewModel.Factory(getApplication(), OrderNr);
 //            OrderMoveViewModel = ViewModelProviders.of(this, factory).get(OrderMoveViewModel.class);
 //            OrderMoveViewModel.getOrderMoveable().observe(this, OrderEntities -> {
 //                if(OrderEntities != null) {
