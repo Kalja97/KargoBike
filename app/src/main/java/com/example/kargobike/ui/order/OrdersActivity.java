@@ -105,7 +105,7 @@ public class OrdersActivity extends AppCompatActivity {
                     Log.d(TAG, "Clicked on: "+Orders.get(position).getOrderNr());
 
 
-                    Intent intent = new Intent(OrdersActivity.this, DetailsOrderActivity.class);
+                    Intent intent = new Intent(OrdersActivity.this, CheckpointsActivity.class);
                     intent.setFlags(
                             Intent.FLAG_ACTIVITY_NO_ANIMATION |
                                     Intent.FLAG_ACTIVITY_NO_HISTORY
@@ -120,7 +120,7 @@ public class OrdersActivity extends AppCompatActivity {
                     Log.d(TAG, "longClicked position:" + position);
                     Log.d(TAG, "longClicked on: " + Orders.get(position).toString());
 
-                    Intent intent = new Intent(OrdersActivity.this, DetailsOrderActivity.class);
+                    Intent intent = new Intent(OrdersActivity.this, CheckpointsActivity.class);
                     intent.setFlags(
                             Intent.FLAG_ACTIVITY_NO_ANIMATION |
                                     Intent.FLAG_ACTIVITY_NO_HISTORY

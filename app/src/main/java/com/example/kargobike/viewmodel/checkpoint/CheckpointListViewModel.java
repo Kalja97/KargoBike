@@ -17,59 +17,65 @@ import androidx.lifecycle.ViewModelProvider;
 
 public class CheckpointListViewModel extends AndroidViewModel {
 
+    private static final String TAG = "CheckpointListViewModel";
+
     private CheckpointRepository repository;
-    private Application application;
 
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
-    private final MediatorLiveData<List<Checkpoint>> observableOrders;
+    private final MediatorLiveData<List<Checkpoint>> observableCheckpoints;
 
     public CheckpointListViewModel(@NonNull Application application,
-                             CheckpointRepository checkpointRepository, String order) {
+                             final String orderNr, CheckpointRepository checkpointRepository) {
         super(application);
 
-        this.application = application;
-        this.repository = checkpointRepository;
+        repository = checkpointRepository;
 
-        observableOrders = new MediatorLiveData<>();
+        observableCheckpoints = new MediatorLiveData<>();
         // set by default null, until we get data from the database.
-        observableOrders.setValue(null);
+        observableCheckpoints.setValue(null);
 
-        /*
-        LiveData<List<Checkpoint>> checkpoints = repository.getCheckpoints(order, application);
+        LiveData<List<Checkpoint>> checkpoints = repository.getCheckpointsByOrder(orderNr);
 
-        // observe the changes of the client entity from the database and forward them
-        observableOrders.addSource(checkpoints, observableOrders::setValue);
-
-         */
+        // observe the changes of the entities from the database and forward them
+        observableCheckpoints.addSource(checkpoints, observableCheckpoints::setValue);
     }
 
-    /**
-     * A creator is used to inject the account id into the ViewModel
-     */
+    //Factory of the checkpoint list view model
     public static class Factory extends ViewModelProvider.NewInstanceFactory {
 
         @NonNull
         private final Application application;
-        private final String order;
-        private final CheckpointRepository repository;
+        private final String orderNr;
+        private final CheckpointRepository checkpointRepository;
 
-        public Factory(@NonNull Application application, String order) {
+        public Factory(@NonNull Application application, String orderNr) {
             this.application = application;
-            this.order = order;
-            repository = ((BaseApp) application).getCheckpointRepository();
+            this.orderNr = orderNr;
+            checkpointRepository =  CheckpointRepository.getInstance();
         }
 
         @Override
         public <T extends ViewModel> T create(Class<T> modelClass) {
             //noinspection unchecked
-            return (T) new CheckpointListViewModel(application, repository, order);
+            return (T) new CheckpointListViewModel(application, orderNr, checkpointRepository);
         }
     }
 
-    /**
-     * Expose the LiveData ClientEntity query so the UI can observe it.
-     */
+    //Get all checkpoints
     public LiveData<List<Checkpoint>> getCheckpoints() {
-        return observableOrders;
+        return observableCheckpoints;
     }
+
+    /*
+    public void deleteOrder(Checkpoint checkpoint) {
+        repository.delete(checkpoint, new OnAsyncEventListener() {
+            @Override
+            public void onSuccess() {}
+
+            @Override
+            public void onFailure(Exception e) {}
+        });
+    }
+    */
 }
+

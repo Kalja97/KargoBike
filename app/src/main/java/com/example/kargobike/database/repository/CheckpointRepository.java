@@ -43,7 +43,7 @@ public class CheckpointRepository {
     }
 
     //Query: get all checkpoints of a order
-    public LiveData<List<Checkpoint>> getcheckpointsByCountry(final String orderNr) {
+    public LiveData<List<Checkpoint>> getCheckpointsByOrder(final String orderNr) {
         DatabaseReference reference = FirebaseDatabase.getInstance()
                 .getReference("orders")
                 .child(orderNr)

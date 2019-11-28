@@ -37,7 +37,7 @@
                 android:layout_height="35dp"
                 app:layout_constraintStart_toEndOf="@+id/sender"
                 app:layout_constraintTop_toTopOf="@+id/SendReceiv"
-                app:srcCompat="@drawable/sendReceivArrow" />
+                app:srcCompat="@drawable/sendreceivarrow" />
 
             <TextView
                 android:id="@+id/receiver"

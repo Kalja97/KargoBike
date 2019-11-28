@@ -2,9 +2,13 @@ package com.example.kargobike.ui.checkpoint;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,21 +17,30 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.kargobike.adapter.CheckPointAdapter;
 import com.example.kargobike.database.entity.Checkpoint;
 import com.example.kargobike.R;
 import com.example.kargobike.ui.SettingsActivity;
+import com.example.kargobike.ui.order.OrdersActivity;
+import com.example.kargobike.util.RecyclerViewItemClickListener;
 import com.example.kargobike.viewmodel.checkpoint.CheckpointListViewModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CheckpointsActivity extends AppCompatActivity {
 
+    private static final String TAG = "CheckpointsList";
+    private CheckpointListViewModel CheckpointListViewModel;
+
     //Attributs
     private ListView listview;
     private List<Checkpoint> checkpointList;
     private CheckpointListViewModel viewModel;
     private String order;
+    private String CheckpointId;
+    private CheckPointAdapter<Checkpoint> adapter;
 
     //create options menu
     @Override
@@ -39,7 +52,7 @@ public class CheckpointsActivity extends AppCompatActivity {
 
     //Actions für Actionbar
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.action_add:
                 Intent intentHome = new Intent(this, AddCheckpointActivity.class);
                 intentHome.putExtra("order", order);
@@ -57,45 +70,82 @@ public class CheckpointsActivity extends AppCompatActivity {
     //on create method
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_checkpoints);
 
         setTitle("CheckpointsActivity");
 
-        order = getIntent().getStringExtra("order");
+        order = getIntent().getStringExtra("OrderNr");
+        CheckpointId = getIntent().getStringExtra("CheckpointId");
 
-        //Create listview
-        listview = findViewById(R.id.recyclerviewitem_checkpoints);
-        checkpointList = new ArrayList<>();
+        if (CheckpointId == null) {
+            //Initialize Database and data
+            RecyclerView recyclerView = findViewById(R.id.recyclerviewitem_checkpoints);
 
-        //Array adapter
-        ArrayAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
-        CheckpointListViewModel.Factory factory = new CheckpointListViewModel.Factory(getApplication(), order);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+            recyclerView.setLayoutManager(layoutManager);
 
-        //get data from database
-        viewModel = ViewModelProviders.of(this, factory).get(CheckpointListViewModel.class);
-        viewModel.getCheckpoints().observe(this, checkpointEntities -> {
-            if (checkpointEntities != null) {
-                checkpointList = checkpointEntities;
-                adapter.clear();
-                adapter.addAll(checkpointList);
-            }
-        });
+            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                    LinearLayoutManager.VERTICAL);
+            recyclerView.addItemDecoration(dividerItemDecoration);
 
-        listview.setAdapter(adapter);
+            //Handle itemClick and start a new activity
+            checkpointList = new ArrayList<>();
+            adapter = new CheckPointAdapter<>(new RecyclerViewItemClickListener() {
+                @Override
+                public void onItemClick(View v, int position) {
+                    Log.d(TAG, "Clicked position: "+ position);
+                    Log.d(TAG, "Clicked on: "+checkpointList.get(position).getOrderNr());
 
-        //onclicklistener for listview
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(view.getContext(), DetailsCheckpointActivity.class);
-/*
-                intent.putExtra("checkpointName", checkpointList.get(position).getCheckpointname());
-                intent.putExtra("order", checkpointList.get(position).getOrderNr());
 
- */
+                    Intent intent = new Intent(CheckpointsActivity.this, CheckpointsActivity.class);
+                    intent.setFlags(
+                            Intent.FLAG_ACTIVITY_NO_ANIMATION |
+                                    Intent.FLAG_ACTIVITY_NO_HISTORY
+                    );
+
+                    intent.putExtra("OrderNr", checkpointList.get(position).getOrderNr());
+                    startActivity(intent);
+                }
+
+                @Override
+                public void onItemLongClick(View v, int position) {
+                    Log.d(TAG, "longClicked position:" + position);
+                    Log.d(TAG, "longClicked on: " + checkpointList.get(position).toString());
+
+                    Intent intent = new Intent(CheckpointsActivity.this, CheckpointsActivity.class);
+                    intent.setFlags(
+                            Intent.FLAG_ACTIVITY_NO_ANIMATION |
+                                    Intent.FLAG_ACTIVITY_NO_HISTORY
+                    );
+
+                    intent.putExtra("OrderNr", checkpointList.get(position).getOrderNr());
+                    startActivity(intent);
+                }
+            });
+
+            //Create floatingButton for adding new Orders
+            FloatingActionButton fab = findViewById(R.id.floatingActionAddCheckPoint);
+            fab.setOnClickListener(view -> {
+                Intent intent = new Intent(CheckpointsActivity.this, AddCheckpointActivity.class);
+                intent.setFlags(
+                        Intent.FLAG_ACTIVITY_NO_ANIMATION |
+                                Intent.FLAG_ACTIVITY_NO_HISTORY
+                );
                 startActivity(intent);
-            }
-        });
+            });
+
+            CheckpointListViewModel.Factory factory = new CheckpointListViewModel.Factory(getApplication(), order);
+            CheckpointListViewModel = ViewModelProviders.of(this, factory).get(CheckpointListViewModel.class);
+            CheckpointListViewModel.getCheckpoints().observe(this, CheckpointEntities -> {
+                if(CheckpointEntities != null) {
+                    checkpointList = CheckpointEntities;
+                    adapter.setData(checkpointList);
+                }
+            });
+            recyclerView.setAdapter(adapter);
+
+        }
     }
 }
