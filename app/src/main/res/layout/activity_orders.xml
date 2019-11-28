@@ -1,16 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.order.OrdersActivity">
 
-    <ListView
-        android:id="@+id/recyclerviewitem_order"
-        android:layout_width="409dp"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton2"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="328dp"
+        android:layout_marginTop="572dp"
+        android:background="#009688"
+        android:clickable="true"
+        app:backgroundTint="#FF9800"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_add_white" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerviewitem_orders"
+        android:layout_width="0dp"
         android:layout_height="729dp"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/recyclerviewitem_order" />
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

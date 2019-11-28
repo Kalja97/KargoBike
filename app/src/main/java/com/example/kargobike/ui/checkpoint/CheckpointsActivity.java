@@ -65,7 +65,7 @@ public class CheckpointsActivity extends AppCompatActivity {
         order = getIntent().getStringExtra("order");
 
         //Create listview
-        listview = findViewById(R.id.listview);
+        listview = findViewById(R.id.recyclerviewitem_checkpoints);
         checkpointList = new ArrayList<>();
 
         //Array adapter
