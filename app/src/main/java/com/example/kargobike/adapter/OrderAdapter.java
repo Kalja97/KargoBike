@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.kargobike.R;
+import com.example.kargobike.database.entity.OrderF;
 import com.example.kargobike.util.RecyclerViewItemClickListener;
 
 import org.w3c.dom.Text;
@@ -24,11 +25,6 @@ public class OrderAdapter<T> extends RecyclerView.Adapter<OrderAdapter.OrderView
 {
     private RecyclerViewItemClickListener mylistener;
     private List<T> data;
-
-    public OrderAdapter(RecyclerViewItemClickListener listener) {
-        mylistener = listener;
-    }
-
 
     static class OrderViewHolder extends RecyclerView.ViewHolder {
         private final TextView sender;
@@ -57,36 +53,25 @@ public class OrderAdapter<T> extends RecyclerView.Adapter<OrderAdapter.OrderView
         }
     }
 
-    @NonNull
+    public OrderAdapter(RecyclerViewItemClickListener listener) {
+        mylistener = listener;
+    }
+
     @Override
     public OrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recyclerviewitem_order, parent, false);
 
-//        private String orderNr;
-//
-//        private String sender;
-//        private String receiver;
-//
-//        private String product;
-//        private int howMany;
-//
-//        private String rider;
-//        private String datePickup;
-//        private String dateDelivery;
-//
-//        private String state;
 
         final TextView twSender = v.findViewById(R.id.sender);
-        final TextView twreceiver = v.findViewById(R.id.receiver);
+        final TextView twReceiver = v.findViewById(R.id.receiver);
         final TextView twProduct = v.findViewById(R.id.oProduct);
         final TextView twQty =  v.findViewById(R.id.oQty);
         final TextView twDatePick = v.findViewById(R.id.oDatePickup);
         final TextView twDateDeliv = v.findViewById(R.id.oDateDeliv);
         final TextView twStatus = v.findViewById(R.id.oStatus);
 
-        final OrderViewHolder OrderViewHolder = new OrderViewHolder(v, twSender, twreceiver, twProduct, twQty, twDatePick, twDateDeliv, twStatus);
+        final OrderViewHolder OrderViewHolder = new OrderViewHolder(v, twSender, twReceiver, twProduct, twQty, twDatePick, twDateDeliv, twStatus);
         v.setOnClickListener(view -> mylistener.onItemClick(view, OrderViewHolder.getAdapterPosition()));
         v.setOnClickListener(view -> {
             mylistener.onItemLongClick(view, OrderViewHolder.getAdapterPosition());
@@ -96,6 +81,14 @@ public class OrderAdapter<T> extends RecyclerView.Adapter<OrderAdapter.OrderView
 
     @Override
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
+        T item = data.get(position);
+        holder.sender.setText(((OrderF) item).getSender());
+        holder.receiver.setText(((OrderF) item).getReceiver());
+        holder.product.setText(((OrderF) item).getProduct());
+        holder.productQty.setText(""+((OrderF) item).getHowMany());
+        holder.datePickup.setText(((OrderF) item).getDatePickup());
+        holder.dateDeliv.setText(((OrderF) item).getDateDelivery());
+        holder.status.setText(((OrderF) item).getState());
 
     }
 

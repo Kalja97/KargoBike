@@ -15,6 +15,8 @@ import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import static com.example.kargobike.database.repository.OrderRepository.*;
+
 public class OrderListViewModel extends AndroidViewModel {
 
     private OrderRepository repository;
@@ -49,7 +51,7 @@ public class OrderListViewModel extends AndroidViewModel {
 
         public Factory(@NonNull Application application) {
             this.application = application;
-            orderRepository = OrderRepository.getInstance();
+            orderRepository = getInstance();
         }
 
         @Override

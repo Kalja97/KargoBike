@@ -37,14 +37,14 @@
                 android:layout_height="35dp"
                 app:layout_constraintStart_toEndOf="@+id/sender"
                 app:layout_constraintTop_toTopOf="@+id/SendReceiv"
-                app:srcCompat="@android:drawable/ic_menu_send" />
+                app:srcCompat="@drawable/sendReceivArrow" />
 
             <TextView
                 android:id="@+id/receiver"
                 android:layout_width="142dp"
                 android:layout_height="37dp"
                 android:text="receiver"
-                android:textAlignment="textEnd"
+                android:textAlignment="viewStart"
                 android:textSize="24sp"
                 app:layout_constraintStart_toEndOf="@+id/arrow"
                 app:layout_constraintTop_toTopOf="@+id/SendReceiv" />
@@ -92,10 +92,9 @@
             android:layout_height="56dp"
             android:text="Status"
             android:textAlignment="center"
-            tools:layout_editor_absoluteX="333dp"
-            tools:layout_editor_absoluteY="3dp"
+            android:textAllCaps="true"
             app:layout_constraintStart_toEndOf="@+id/SendReceiv"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

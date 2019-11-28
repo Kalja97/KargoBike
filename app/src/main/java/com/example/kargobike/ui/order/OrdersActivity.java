@@ -130,7 +130,7 @@ public class OrdersActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
-/*
+
             //Create floatingButton for adding new Orders
             FloatingActionButton fab = findViewById(R.id.floatingActionAddOrder);
             fab.setOnClickListener(view -> {
@@ -141,7 +141,7 @@ public class OrdersActivity extends AppCompatActivity {
                 );
                 startActivity(intent);
             });
-*/
+
 
             //Get the Orders in the database by calling the ViewModel
             OrderListViewModel.Factory factory = new OrderListViewModel.Factory(getApplication());

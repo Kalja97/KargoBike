@@ -7,11 +7,11 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionAddOrder"
+        android:id="@+id/floatingActionAddCheckPoint"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_marginStart="328dp"
-        android:layout_marginTop="572dp"
+        android:layout_marginStart="340dp"
+        android:layout_marginTop="512dp"
         android:background="#009688"
         android:clickable="true"
         app:backgroundTint="#FF9800"
