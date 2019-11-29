@@ -24,13 +24,23 @@
     </string-array>
 
     <string-array name="arrayOfStates">
-        <item>progress</item>
-        <item>delievered</item>
+        <item>not started</item>
+        <item>in progress</item>
+        <item>delivered</item>
     </string-array>
 
     <string-array name="arrayOfProducts">
         <item>Product 1</item>
         <item>Product 2</item>
+    </string-array>
+
+    <string-array name="arrayOfTypes">
+        <item></item>
+        <item>Pickup</item>
+        <item>Delivery</item>
+        <item>Stock</item>
+        <item>Train station</item>
+        <item>Other</item>
     </string-array>
 
     <string name="app_version_title">App Version</string>

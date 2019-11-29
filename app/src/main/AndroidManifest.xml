@@ -26,6 +26,8 @@
         <activity android:name=".ui.order.EditOrderActivity">
 
         </activity>
+        <activity android:name=".ui.checkpoint.AddCheckpointActivity"/>
+        <activity android:name=".ui.checkpoint.EditCheckpointActivity"/>
 
     </application>
 

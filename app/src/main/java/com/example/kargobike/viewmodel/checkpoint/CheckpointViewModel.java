@@ -52,7 +52,7 @@ public class CheckpointViewModel extends AndroidViewModel {
             this.application = application;
             this.orderNr = orderNr;
             this.id = id;
-            repository = ((BaseApp) application).getCheckpointRepository();;
+            repository = CheckpointRepository.getInstance();;
         }
 
         @Override

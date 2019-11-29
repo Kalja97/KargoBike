@@ -1,6 +1,7 @@
 package com.example.kargobike.ui.checkpoint;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,15 +14,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
 import com.example.kargobike.adapter.CheckPointAdapter;
 import com.example.kargobike.database.entity.Checkpoint;
 import com.example.kargobike.R;
+import com.example.kargobike.ui.LogActivity;
 import com.example.kargobike.ui.SettingsActivity;
-import com.example.kargobike.ui.order.OrdersActivity;
 import com.example.kargobike.util.RecyclerViewItemClickListener;
 import com.example.kargobike.viewmodel.checkpoint.CheckpointListViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -35,27 +32,28 @@ public class CheckpointsActivity extends AppCompatActivity {
     private CheckpointListViewModel CheckpointListViewModel;
 
     //Attributs
-    private ListView listview;
+   // private ListView listview;
     private List<Checkpoint> checkpointList;
-    private CheckpointListViewModel viewModel;
+   // private CheckpointListViewModel viewModel;
     private String order;
     private String CheckpointId;
     private CheckPointAdapter<Checkpoint> adapter;
+
+    private Toolbar toolbar;
 
     //create options menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_checkpoints, menu);
+        inflater.inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     //Actions für Actionbar
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_add:
-                Intent intentHome = new Intent(this, AddCheckpointActivity.class);
-                intentHome.putExtra("order", order);
+            case R.id.action_logout:
+                Intent intentHome = new Intent(this, LogActivity.class);
                 startActivity(intentHome);
                 return true;
 
@@ -74,7 +72,9 @@ public class CheckpointsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkpoints);
 
-        setTitle("CheckpointsActivity");
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setTitle("Checkpoints");
 
         order = getIntent().getStringExtra("OrderNr");
         CheckpointId = getIntent().getStringExtra("CheckpointId");
@@ -99,28 +99,29 @@ public class CheckpointsActivity extends AppCompatActivity {
                     Log.d(TAG, "Clicked on: "+checkpointList.get(position).getOrderNr());
 
 
-                    Intent intent = new Intent(CheckpointsActivity.this, CheckpointsActivity.class);
+                    Intent intent = new Intent(CheckpointsActivity.this, EditCheckpointActivity.class);
                     intent.setFlags(
                             Intent.FLAG_ACTIVITY_NO_ANIMATION |
                                     Intent.FLAG_ACTIVITY_NO_HISTORY
                     );
-
-                    intent.putExtra("OrderNr", checkpointList.get(position).getOrderNr());
+                    intent.putExtra("CheckpointId", checkpointList.get(position).getId());
+                    intent.putExtra("OrderNr", order);
                     startActivity(intent);
                 }
 
                 @Override
                 public void onItemLongClick(View v, int position) {
-                    Log.d(TAG, "longClicked position:" + position);
-                    Log.d(TAG, "longClicked on: " + checkpointList.get(position).toString());
+                    Log.d(TAG, "Clicked position: "+ position);
+                    Log.d(TAG, "Clicked on: "+checkpointList.get(position).getOrderNr());
 
-                    Intent intent = new Intent(CheckpointsActivity.this, CheckpointsActivity.class);
+
+                    Intent intent = new Intent(CheckpointsActivity.this, EditCheckpointActivity.class);
                     intent.setFlags(
                             Intent.FLAG_ACTIVITY_NO_ANIMATION |
                                     Intent.FLAG_ACTIVITY_NO_HISTORY
                     );
-
-                    intent.putExtra("OrderNr", checkpointList.get(position).getOrderNr());
+                    intent.putExtra("CheckpointId", checkpointList.get(position).getId());
+                    intent.putExtra("OrderNr", order);
                     startActivity(intent);
                 }
             });
@@ -133,6 +134,7 @@ public class CheckpointsActivity extends AppCompatActivity {
                         Intent.FLAG_ACTIVITY_NO_ANIMATION |
                                 Intent.FLAG_ACTIVITY_NO_HISTORY
                 );
+                intent.putExtra("OrderNr", order);
                 startActivity(intent);
             });
 
