@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.kargobike.R;
+import com.example.kargobike.ui.order.OrdersActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -105,6 +106,10 @@ public class LogActivity extends AppCompatActivity {
 
             System.out.println(" SIGN IN : " + name + email);
         }
+        Intent orderA = new Intent(this, OrdersActivity.class);
+        startActivity(orderA);
+
+
     }
 
     /* LOGOUT METHOD
