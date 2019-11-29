@@ -1,6 +1,7 @@
 package com.example.kargobike.ui.order;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import android.telecom.Call;
@@ -50,7 +51,9 @@ public class OrdersActivity extends AppCompatActivity {
 
     private String OrderNr, CheckpointId;
 
-   // private Toolbar toolbar;
+    private Toolbar toolbar;
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -58,14 +61,6 @@ public class OrdersActivity extends AppCompatActivity {
         inflater.inflate(R.menu.menu_main,menu);
         return true;
     }
-
-
-    //   @Override
-  //  public boolean onCreateOptionsMenu(Menu menu){
-  //      setTitle("Orders");
-  //      //getMenuInflater().inflate(R.menu.main_activity_actions, menu);
-  //      return super.onCreateOptionsMenu(menu);
-
 
 
 
@@ -94,8 +89,8 @@ public class OrdersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_orders);
 
 
-        //toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         OrderNr = getIntent().getStringExtra("OrderNr");
         //CheckpointId = getIntent().getStringExtra("CheckpointId");
@@ -271,8 +266,6 @@ public class OrdersActivity extends AppCompatActivity {
             recyclerView.setAdapter(adapter);
 
         }
-
-
 
     }
 }

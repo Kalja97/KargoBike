@@ -44,4 +44,5 @@
     <string name="developers_title">Developers</string>
     <string name="developers_summary">Patrick, Jannis, Caroline and Samuel</string>
     <string name="title_activity_checkpoints_maps">Map</string>
+    <string name="error_invalid_packages">Must be a number</string>
 </resources>

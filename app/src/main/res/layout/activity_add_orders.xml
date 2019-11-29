@@ -10,7 +10,7 @@
     tools:context=".ui.order.AddOrderActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_addOrder"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
@@ -33,7 +33,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
+
+        <EditText
         android:id="@+id/dateDelivery"
         android:layout_width="288dp"
         android:layout_height="50dp"
