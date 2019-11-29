@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 <LinearLayout
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.order.AddOrderActivity">
@@ -28,18 +29,34 @@
         android:layout_marginTop="36dp"
         android:lineSpacingExtra="6dp"
         android:text="Add order"
-        android:textColor="#51d8c7"
+        android:textColor="?attr/colorPrimary"
         android:textSize="42sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
         <EditText
+            android:id="@+id/datePickup"
+            android:layout_width="288dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="28dp"
+            android:hint="Date Pickup (dd.mm.yyyy)"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="#000"
+            android:textColorHint="#000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titel"
+            />
+
+        <EditText
         android:id="@+id/dateDelivery"
         android:layout_width="288dp"
         android:layout_height="50dp"
         android:layout_marginStart="48dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="28dp"
         android:hint="Date Delivery (dd.mm.yyyy)"
         android:paddingLeft="20dp"
         android:paddingTop="10dp"
@@ -47,22 +64,8 @@
         android:textColor="#000"
         android:textColorHint="#000"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titel" />
+        app:layout_constraintTop_toBottomOf="@+id/datePickup" />
 
-    <EditText
-        android:id="@+id/datePickup"
-        android:layout_width="288dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="28dp"
-        android:hint="Date Pickup (dd.mm.yyyy)"
-        android:paddingLeft="20dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:textColor="#000"
-        android:textColorHint="#000"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dateDelivery" />
 
 
     <EditText
@@ -78,7 +81,7 @@
         android:textColor="#000"
         android:textColorHint="#000"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/datePickup" />
+        app:layout_constraintTop_toBottomOf="@+id/dateDelivery" />
 
     <EditText
         android:id="@+id/sender"
@@ -125,37 +128,37 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rider" />
 
-    <Spinner
-        android:id="@+id/product"
-        android:entries="@array/arrayOfProducts"
-        android:layout_width="288dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="28dp"
-        android:hint=""
-        android:paddingLeft="20dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:textColor="#000"
-        android:textColorHint="#000"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/howManyPackages" />
+        <Spinner
+            android:id="@+id/product"
+            android:layout_width="287dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="28dp"
+            android:entries="@array/arrayOfProducts"
+            android:hint=""
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="#000"
+            android:textColorHint="#000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/howManyPackages" />
 
-    <Spinner
-        android:id="@+id/state"
-        android:entries="@array/arrayOfStates"
-        android:layout_width="288dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="28dp"
-        android:hint=""
-        android:paddingLeft="20dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:textColor="#000"
-        android:textColorHint="#000"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/product" />
+        <Spinner
+            android:id="@+id/state"
+            android:layout_width="287dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="28dp"
+            android:entries="@array/arrayOfStates"
+            android:hint=""
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="#000"
+            android:textColorHint="#000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/product" />
 
     <Button
         android:id="@+id/btnaddlocation"
@@ -172,20 +175,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/state" />
 
-    <Button
-        android:id="@+id/btncancel"
-        android:layout_width="122dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/bgbtn"
-        android:text="Cancel"
-        android:textAllCaps="false"
-        android:textColor="#fff"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.166"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/state" />
+        <Button
+            android:id="@+id/btncancel"
+            android:layout_width="122dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/bgbtn"
+            android:text="Cancel"
+            android:textAllCaps="false"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.166"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/state" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>
