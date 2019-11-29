@@ -23,16 +23,17 @@
 
             <TextView
                 android:id="@+id/receiver"
-                android:layout_width="142dp"
-                android:layout_height="31dp"
+                android:layout_width="178dp"
+                android:layout_height="34dp"
                 android:text="receiver"
                 android:textAlignment="viewStart"
-                android:textSize="24sp"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.741"
+                app:layout_constraintHorizontal_bias="0.769"
                 app:layout_constraintStart_toEndOf="@+id/arrow"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.818" />
 
             <TextView
                 android:id="@+id/sender"
@@ -42,7 +43,7 @@
                 android:layout_marginTop="8dp"
                 android:text="sender"
                 android:textAlignment="viewStart"
-                android:textSize="24sp"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
