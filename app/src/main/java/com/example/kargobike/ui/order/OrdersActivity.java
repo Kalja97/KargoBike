@@ -50,18 +50,24 @@ public class OrdersActivity extends AppCompatActivity {
 
     private String OrderNr, CheckpointId;
 
-    private Toolbar toolbar;
-
-
+   // private Toolbar toolbar;
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        setTitle("Orders");
-        //getMenuInflater().inflate(R.menu.main_activity_actions, menu);
-        return super.onCreateOptionsMenu(menu);
-
-
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main,menu);
+        return true;
     }
+
+
+    //   @Override
+  //  public boolean onCreateOptionsMenu(Menu menu){
+  //      setTitle("Orders");
+  //      //getMenuInflater().inflate(R.menu.main_activity_actions, menu);
+  //      return super.onCreateOptionsMenu(menu);
+
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -87,8 +93,9 @@ public class OrdersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orders);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
+        //toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
 
         OrderNr = getIntent().getStringExtra("OrderNr");
         //CheckpointId = getIntent().getStringExtra("CheckpointId");
@@ -264,6 +271,8 @@ public class OrdersActivity extends AppCompatActivity {
             recyclerView.setAdapter(adapter);
 
         }
+
+
 
     }
 }
