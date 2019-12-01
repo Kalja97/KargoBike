@@ -14,6 +14,8 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.kargobike.R;
 import com.example.kargobike.database.entity.Order;
+import com.example.kargobike.ui.LogActivity;
+import com.example.kargobike.ui.SettingsActivity;
 import com.example.kargobike.ui.checkpoint.CheckpointsActivity;
 import com.example.kargobike.util.OnAsyncEventListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -37,7 +39,7 @@ public class DetailsOrderActivity extends AppCompatActivity {
 
     private Toast toast ;
 
-    private TextView tvOrderNr;
+    //private TextView tvOrderNr;
     private EditText etSender;
     private EditText etReceiver;
     private EditText etProduct;
@@ -108,9 +110,9 @@ public class DetailsOrderActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
 
-        String orderNr = getIntent().getStringExtra("OrderNr");
+        //String orderNr = getIntent().getStringExtra("OrderNr");
 
-        setTitle("Order N° " + orderNr);
+        setTitle("KargoBike - Order Details");
         toolbar.setTitleTextColor(Color.WHITE);
 
         MenuInflater inflater = getMenuInflater();
@@ -182,13 +184,24 @@ public class DetailsOrderActivity extends AppCompatActivity {
                         etCountry.getText().toString());
             }*/
         }
-        return super.onOptionsItemSelected(item);
+
+        if(item.getItemId() == R.id.action_logout){
+            Intent intentHome = new Intent(this, LogActivity.class);
+            startActivity(intentHome);
+        }
+
+        if(item.getItemId() == R.id.action_logout){
+            Intent intentSettings = new Intent(this, SettingsActivity.class);
+            startActivity(intentSettings);
+        }
+
+            return super.onOptionsItemSelected(item);
     }
 
     private void initiateView(){
         isEditable = false;
 
-        tvOrderNr = findViewById(R.id.orderNumber);
+        //tvOrderNr = findViewById(R.id.orderNumber);
         etSender = findViewById(R.id.sender);
         etReceiver = findViewById(R.id.receiver);
         etProduct = findViewById(R.id.product);
@@ -346,7 +359,7 @@ public class DetailsOrderActivity extends AppCompatActivity {
     public void saveChanges(String sender, String receiver, String product,
                             int productQty, String datePickup, String dateDeliv, String status, String rider){
 
-        order.setOrderNr(""+R.id.orderNumber);
+        //order.setOrderNr(""+R.id.orderNumber);
         order.setSender(sender);
         order.setReceiver(receiver);
         order.setProduct(product);

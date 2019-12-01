@@ -46,8 +46,8 @@
             android:layout_marginStart="48dp"
             android:layout_marginTop="36dp"
             android:lineSpacingExtra="6dp"
-            android:text="Order N°"
-            android:textColor="#51d8c7"
+            android:text="Order Details"
+            android:textColor="?attr/colorPrimary"
             android:textSize="42sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -57,26 +57,14 @@
             android:layout_width="83dp"
             android:layout_height="45dp"
             android:layout_marginStart="48dp"
-            android:lineSpacingExtra="6dp"
+            android:layout_marginTop="28dp"
             android:text="Status"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:textColor="#02463D"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/titel" />
-
-        <TextView
-            android:id="@+id/orderNumber"
-            android:layout_width="83dp"
-            android:layout_height="62dp"
-            android:layout_marginStart="220dp"
-            android:layout_marginTop="36dp"
-            android:lineSpacingExtra="6dp"
-            android:text="465"
-            android:textAlignment="viewStart"
-            android:textColor="#51d8c7"
-            android:textSize="42sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/dateDelivery"

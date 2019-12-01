@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.kargobike.R;
 import com.example.kargobike.adapter.OrderAdapter;
 import com.example.kargobike.database.entity.Order;
+import com.example.kargobike.ui.LogActivity;
 import com.example.kargobike.ui.SettingsActivity;
 import com.example.kargobike.ui.checkpoint.CheckpointsActivity;
 import com.example.kargobike.util.OnAsyncEventListener;
@@ -57,25 +58,22 @@ public class OrdersActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
-        setTitle("Orders");
-        toolbar.setTitleTextColor(Color.WHITE);
-
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main,menu);
-        return true;
+        inflater.inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
-
-
-    @Override
+    //Actions für Actionbar
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch(item.getItemId()){
-            case R.id.action_settings:
-                Intent MySettings = new Intent(OrdersActivity.this, SettingsActivity.class);
-                startActivity(MySettings);
+        switch (item.getItemId()) {
+            case R.id.action_logout:
+                Intent intentHome = new Intent(this, LogActivity.class);
+                startActivity(intentHome);
                 return true;
+
+            case R.id.action_settings:
+                Intent intentSettings = new Intent(this, SettingsActivity.class);
+                startActivity(intentSettings);
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -95,6 +93,10 @@ public class OrdersActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //change title in toolbar and it's color
+        setTitle("KargoBike - Orders");
+        toolbar.setTitleTextColor(Color.WHITE);
 
         OrderNr = getIntent().getStringExtra("OrderNr");
         //CheckpointId = getIntent().getStringExtra("CheckpointId");
