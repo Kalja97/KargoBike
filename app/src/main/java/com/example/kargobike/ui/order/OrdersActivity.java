@@ -23,15 +23,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.kargobike.R;
 import com.example.kargobike.adapter.OrderAdapter;
 import com.example.kargobike.database.entity.Order;
-import com.example.kargobike.ui.LogActivity;
 import com.example.kargobike.ui.SettingsActivity;
 import com.example.kargobike.ui.checkpoint.CheckpointsActivity;
 import com.example.kargobike.util.OnAsyncEventListener;
 import com.example.kargobike.util.RecyclerViewItemClickListener;
 import com.example.kargobike.viewmodel.order.OrderListViewModel;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +57,10 @@ public class OrdersActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
+        setTitle("Orders");
+        toolbar.setTitleTextColor(Color.WHITE);
+
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main,menu);
         return true;
@@ -67,15 +70,12 @@ public class OrdersActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_logout:
-                Intent intentHome = new Intent(this, LogActivity.class);
-                startActivity(intentHome);
-                return true;
 
+        switch(item.getItemId()){
             case R.id.action_settings:
-                Intent intentSettings = new Intent(this, SettingsActivity.class);
-                startActivity(intentSettings);
+                Intent MySettings = new Intent(OrdersActivity.this, SettingsActivity.class);
+                startActivity(MySettings);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -95,7 +95,9 @@ public class OrdersActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTitle("KargoBike - Orders");
+
+        OrderNr = getIntent().getStringExtra("OrderNr");
+        //CheckpointId = getIntent().getStringExtra("CheckpointId");
 
         //Create the OrdersActivity with all the Orders
         if(OrderNr == null){
@@ -118,7 +120,7 @@ public class OrdersActivity extends AppCompatActivity {
                     Log.d(TAG, "Clicked on: "+Orders.get(position).getOrderNr());
 
 
-                    Intent intent = new Intent(OrdersActivity.this, CheckpointsActivity.class);
+                    Intent intent = new Intent(OrdersActivity.this, DetailsOrderActivity.class);
                     intent.setFlags(
                             Intent.FLAG_ACTIVITY_NO_ANIMATION |
                                     Intent.FLAG_ACTIVITY_NO_HISTORY
@@ -133,7 +135,7 @@ public class OrdersActivity extends AppCompatActivity {
                     Log.d(TAG, "longClicked position:" + position);
                     Log.d(TAG, "longClicked on: " + Orders.get(position).toString());
 
-                    Intent intent = new Intent(OrdersActivity.this, CheckpointsActivity.class);
+                    Intent intent = new Intent(OrdersActivity.this, DetailsOrderActivity.class);
                     intent.setFlags(
                             Intent.FLAG_ACTIVITY_NO_ANIMATION |
                                     Intent.FLAG_ACTIVITY_NO_HISTORY

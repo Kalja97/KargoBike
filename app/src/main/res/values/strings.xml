@@ -54,5 +54,24 @@
     <string name="developers_title">Developers</string>
     <string name="developers_summary">Patrick, Jannis, Caroline and Samuel</string>
     <string name="title_activity_checkpoints_maps">Map</string>
+    <string name="title_order_details">Order details</string>
+    <string name="title_order_create">Create order</string>
+    <string name="message_DELETE_ORDER">Do you really want to delete this order?</string>
+    <string name="order_error_sender">Sender field is empty!</string>
+    <string name="order_error_receiver">Receiver field is empty!</string>
+    <string name="order_error_product">Product field is empty!</string>
+    <string name="order_error_productQty">Invalid number of product!</string>
+    <string name="order_error_datePickup">Pickup Date field is empty!</string>
+    <string name="order_error_dateDeliv">Delivery Date Sender field is empty!</string>
+    <string name="order_error_status">Status field is empty!</string>
+    <string name="order_error_rider">Rider field is empty!</string>
+    <string name="action_filter">Filter</string>
+    <string name="action_move">Move</string>
+    <string name="action_create_order">Create order</string>
+    <string name="action_edited_order">order Edited</string>
+    <string name="action_create_checkpoint">Create checkpoint</string>
+    <string name="action_edited_checkpoint">checkpoint Edited</string>
+    <string name="action_error_order">order not edited</string>
+    <string name="action_error_checkpoint">checkpoint not edited</string>
     <string name="error_invalid_packages">Must be a number</string>
 </resources>

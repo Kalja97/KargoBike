@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.order.AddOrderActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:titleTextColor="@android:color/white"
+        android:background="?attr/colorPrimary"
+        tools:ignore="MissingConstraints">
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="596dp">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/checkpointsButton"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="324dp"
+            android:layout_marginTop="508dp"
+            android:background="#009688"
+            android:clickable="true"
+            app:backgroundTint="#FF002B"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/checkpoint_logo"
+            tools:ignore="NotSibling" />
+
+        <TextView
+            android:id="@+id/titel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="36dp"
+            android:lineSpacingExtra="6dp"
+            android:text="Order N°"
+            android:textColor="#51d8c7"
+            android:textSize="42sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/state"
+            android:layout_width="83dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="48dp"
+            android:lineSpacingExtra="6dp"
+            android:text="Status"
+            android:textColor="#02463D"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titel" />
+
+        <TextView
+            android:id="@+id/orderNumber"
+            android:layout_width="83dp"
+            android:layout_height="62dp"
+            android:layout_marginStart="220dp"
+            android:layout_marginTop="36dp"
+            android:lineSpacingExtra="6dp"
+            android:text="465"
+            android:textAlignment="viewStart"
+            android:textColor="#51d8c7"
+            android:textSize="42sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/dateDelivery"
+            android:layout_width="267dp"
+            android:layout_height="53dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="18dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="Date Delivery"
+            android:textColor="#000"
+            android:textColorHint="#000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/state" />
+
+
+        <EditText
+            android:id="@+id/datePickup"
+            android:layout_width="288dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="48dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="Date Pickup"
+            android:textColor="#000"
+            android:textColorHint="#000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dateDelivery" />
+
+        <EditText
+            android:id="@+id/receiver"
+            android:layout_width="288dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="18dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="Hans Müller"
+            android:textColor="#000"
+            android:textColorHint="#000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/datePickup" />
+
+        <EditText
+            android:id="@+id/sender"
+            android:layout_width="288dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="18dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="Paulo Deltoro"
+            android:textColor="#000"
+            android:textColorHint="#000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/receiver" />
+
+        <EditText
+            android:id="@+id/rider"
+            android:layout_width="288dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="18dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="Terrence Babouinos"
+            android:textColor="#000"
+            android:textColorHint="#000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sender" />
+
+        <EditText
+            android:id="@+id/howManyPackages"
+            android:layout_width="63dp"
+            android:layout_height="47dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="18dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="3"
+            android:textColor="#000"
+            android:textColorHint="#000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rider" />
+
+        <EditText
+            android:id="@+id/product"
+            android:layout_width="206dp"
+            android:layout_height="47dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="18dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="Product X"
+            android:textColor="#000"
+            android:textColorHint="#000"
+            app:layout_constraintStart_toStartOf="@id/howManyPackages"
+            app:layout_constraintTop_toBottomOf="@+id/rider" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
+</ScrollView>
