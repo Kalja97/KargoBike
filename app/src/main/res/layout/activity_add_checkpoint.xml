@@ -12,7 +12,7 @@
     tools:context=".ui.checkpoint.EditCheckpointActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_addCheckpoint"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
@@ -31,7 +31,7 @@
         android:layout_marginTop="28dp"
         android:lineSpacingExtra="6dp"
         android:text="Add checkpoint"
-        android:textColor="#51d8c7"
+        android:textColor="?attr/colorPrimary"
         android:textSize="42sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -2,6 +2,7 @@ package com.example.kargobike.ui.checkpoint;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -53,7 +54,7 @@ public class AddCheckpointActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_checkpoint);
 
         //Toolbar
-        toolbar = findViewById(R.id.toolbar_addCheckpoint);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         String ord = "";
@@ -61,8 +62,9 @@ public class AddCheckpointActivity extends AppCompatActivity {
         CheckpointViewModel.Factory factory = new CheckpointViewModel.Factory(getApplication(), ord, ord2);
         viewModel = ViewModelProviders.of(this, factory).get(CheckpointViewModel.class);
 
-        //change title in toolbar
-        setTitle("Add checkpoint");
+        //change title in toolbar and it's color
+        setTitle("KargoBike - Checkpoints");
+        toolbar.setTitleTextColor(Color.WHITE);
 
         initializeForm();
 

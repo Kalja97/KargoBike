@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -74,7 +75,10 @@ public class CheckpointsActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTitle("Checkpoints");
+
+        //change title in toolbar and it's color
+        setTitle("KargoBike - Checkpoints");
+        toolbar.setTitleTextColor(Color.WHITE);
 
         order = getIntent().getStringExtra("OrderNr");
         CheckpointId = getIntent().getStringExtra("CheckpointId");

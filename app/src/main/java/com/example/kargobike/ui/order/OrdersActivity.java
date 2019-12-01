@@ -95,6 +95,7 @@ public class OrdersActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        setTitle("KargoBike - Orders");
 
         //Create the OrdersActivity with all the Orders
         if(OrderNr == null){

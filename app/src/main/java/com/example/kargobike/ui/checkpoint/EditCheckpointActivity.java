@@ -2,6 +2,7 @@ package com.example.kargobike.ui.checkpoint;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,6 +21,7 @@ import com.example.kargobike.util.OnAsyncEventListener;
 import com.example.kargobike.viewmodel.checkpoint.CheckpointViewModel;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
 
 public class EditCheckpointActivity extends AppCompatActivity {
@@ -32,6 +34,9 @@ public class EditCheckpointActivity extends AppCompatActivity {
 
     //Button
     Button btnChange;
+
+    //Toolbar
+    private Toolbar toolbar;
 
     //get intent
     String id;
@@ -52,6 +57,14 @@ public class EditCheckpointActivity extends AppCompatActivity {
 
         id = getIntent().getStringExtra("CheckpointId");
         orderNr = getIntent().getStringExtra("OrderNr");
+
+        //Toolbar
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        //change title in toolbar and it's color
+        setTitle("KargoBike - Checkpoints");
+        toolbar.setTitleTextColor(Color.WHITE);
 
         initiateView();
 

@@ -69,7 +69,7 @@ public class AddOrderActivity extends AppCompatActivity {
         viewModel = ViewModelProviders.of(this, factory).get(OrderViewModel.class);
 
         //change title in toolbar and it's color
-        setTitle("Add order");
+        setTitle("KargoBike - Orders");
         toolbar.setTitleTextColor(Color.WHITE);
 
         //Initialize editText and Spinner
