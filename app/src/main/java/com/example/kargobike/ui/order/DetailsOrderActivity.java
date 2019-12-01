@@ -1,11 +1,16 @@
 package com.example.kargobike.ui.order;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import android.util.Log;
 import android.view.MenuInflater;
+import android.view.View;
+import android.widget.DatePicker;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
@@ -27,6 +32,8 @@ import android.widget.EditText;
 
 import com.example.kargobike.viewmodel.order.OrderViewModel;
 
+import java.util.Calendar;
+
 public class DetailsOrderActivity extends AppCompatActivity {
 
     private static final String TAG = "orderDetails";
@@ -42,11 +49,11 @@ public class DetailsOrderActivity extends AppCompatActivity {
     //private TextView tvOrderNr;
     private EditText etSender;
     private EditText etReceiver;
-    private EditText etProduct;
+    private Spinner spProduct;
     private EditText etProductQty;
     private EditText etDatePickup;
     private EditText etDateDeliv;
-    private EditText etStatus;
+    private Spinner spStatus;
     private EditText etRider;
 
     private boolean isEditable;
@@ -56,6 +63,10 @@ public class DetailsOrderActivity extends AppCompatActivity {
     FloatingActionButton fab ;
     private Toolbar toolbar;
 
+    //NEW
+    private DatePickerDialog.OnDateSetListener DateSetListenerDelivery;
+    private DatePickerDialog.OnDateSetListener DateSetListenerPickup;
+    //
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 /*
@@ -104,6 +115,75 @@ public class DetailsOrderActivity extends AppCompatActivity {
             setTitle(R.string.title_order_create);
             switchToEdit();
         }
+
+        //NEW
+
+        //OnClickListener für Date Delivery
+        etDateDeliv.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(
+                        DetailsOrderActivity.this,
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        DateSetListenerDelivery,
+                        year,month,day);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+
+        //OnClickListener für Date Pickup
+        etDatePickup.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(
+                        DetailsOrderActivity.this,
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        DateSetListenerPickup,
+                        year,month,day);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+
+        //DateSetListener for Date Delivery
+        DateSetListenerDelivery = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                month = month + 1;
+                Log.d(TAG, "onDateSet: dd/mm/yyy: " + day + "/" + month + "/" + year);
+
+                String date = day + "/" + month + "/" + year;
+                etDateDeliv.setText(date);
+
+
+            }
+        };
+
+        //DateSetListener for Date Pickup
+        DateSetListenerPickup = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                month = month + 1;
+                Log.d(TAG, "onDateSet: mm/dd/yyy: " + day + "/" + month + "/" + year);
+
+                String date = day + "/" + month + "/" + year;
+                etDatePickup.setText(date);
+
+
+            }
+        };
+
 
     }
 
@@ -204,27 +284,27 @@ public class DetailsOrderActivity extends AppCompatActivity {
         //tvOrderNr = findViewById(R.id.orderNumber);
         etSender = findViewById(R.id.sender);
         etReceiver = findViewById(R.id.receiver);
-        etProduct = findViewById(R.id.product);
+        spProduct = findViewById(R.id.product);
         etProductQty = findViewById(R.id.howManyPackages);
         etDatePickup = findViewById(R.id.datePickup);
         etDateDeliv = findViewById(R.id.dateDelivery);
-        etStatus = findViewById(R.id.state);
+        spStatus = findViewById(R.id.state);
         etRider = findViewById(R.id.rider);
 
         etReceiver.setFocusable(false);
         etReceiver.setEnabled(false);
         etSender.setFocusable(false);
         etSender.setEnabled(false);
-        etProduct.setFocusable(false);
-        etProduct.setEnabled(false);
+        spProduct.setFocusable(false);
+        spProduct.setEnabled(false);
         etProductQty.setFocusable(false);
         etProductQty.setEnabled(false);
         etDatePickup.setFocusable(false);
         etDatePickup.setEnabled(false);
         etDateDeliv.setFocusable(false);
         etDateDeliv.setEnabled(false);
-        etStatus.setFocusable(false);
-        etStatus.setEnabled(false);
+        spStatus.setFocusable(false);
+        spStatus.setEnabled(false);
         etRider.setFocusable(false);
         etRider.setEnabled(false);
 
@@ -234,41 +314,44 @@ public class DetailsOrderActivity extends AppCompatActivity {
         if(!isEditable){
             fab.hide();
 
+
             etReceiver.setFocusableInTouchMode(true);
             etReceiver.setFocusable(true);
             etReceiver.setEnabled(true);
             etSender.setFocusableInTouchMode(true);
             etSender.setFocusable(true);
             etSender.setEnabled(true);
-            etProduct.setFocusableInTouchMode(true);
-            etProduct.setFocusable(true);
-            etProduct.setEnabled(true);
+            spProduct.setFocusableInTouchMode(true);
+            spProduct.setFocusable(false);
+            spProduct.setEnabled(true);
             etProductQty.setFocusableInTouchMode(true);
             etProductQty.setFocusable(true);
             etProductQty.setEnabled(true);
             etDatePickup.setFocusableInTouchMode(true);
-            etDatePickup.setFocusable(true);
+            etDatePickup.setFocusable(false);
             etDatePickup.setEnabled(true);
             etDateDeliv.setFocusableInTouchMode(true);
-            etDateDeliv.setFocusable(true);
+            etDateDeliv.setFocusable(false);
             etDateDeliv.setEnabled(true);
-            etStatus.setFocusableInTouchMode(true);
-            etStatus.setFocusable(true);
-            etStatus.setEnabled(true);
+            spStatus.setFocusableInTouchMode(true);
+            spStatus.setFocusable(false);
+            spStatus.setEnabled(true);
             etRider.setFocusableInTouchMode(true);
             etRider.setFocusable(true);
             etRider.setEnabled(true);
+
+
 
 
         }else{
             saveChanges(
                     etSender.getText().toString(),
                     etReceiver.getText().toString(),
-                    etProduct.getText().toString(),
+                    spProduct.getSelectedItem().toString(),
                     Integer.parseInt(etProductQty.getText().toString()),
                     etDatePickup.getText().toString(),
                     etDateDeliv.getText().toString(),
-                    etStatus.getText().toString(),
+                    spStatus.getSelectedItem().toString(),
                     etRider.getText().toString()
             );
             fab.hide();
@@ -276,16 +359,16 @@ public class DetailsOrderActivity extends AppCompatActivity {
             etReceiver.setEnabled(false);
             etSender.setFocusable(false);
             etSender.setEnabled(false);
-            etProduct.setFocusable(false);
-            etProduct.setEnabled(false);
+            spProduct.setFocusable(false);
+            spProduct.setEnabled(false);
             etProductQty.setFocusable(false);
             etProductQty.setEnabled(false);
             etDatePickup.setFocusable(false);
             etDatePickup.setEnabled(false);
             etDateDeliv.setFocusable(false);
             etDateDeliv.setEnabled(false);
-            etStatus.setFocusable(false);
-            etStatus.setEnabled(false);
+            spStatus.setFocusable(false);
+            spStatus.setEnabled(false);
             etRider.setFocusable(false);
             etRider.setEnabled(false);
         }
@@ -304,24 +387,13 @@ public class DetailsOrderActivity extends AppCompatActivity {
             etReceiver.setError(getString(R.string.order_error_receiver));
             return;
         }
-        if(product.isEmpty()){
-            etProduct.setError(getString(R.string.order_error_product));
-            return;
-        }
-        if(productQty > 100 || productQty == 0 || productQty < 1){
-            etProduct.setError(getString(R.string.order_error_productQty));
-            return;
-        }
+
         if(datePickup.isEmpty()){
             etDatePickup.setError(getString(R.string.order_error_datePickup));
             return;
         }
         if(dateDeliv.isEmpty()){
             etDatePickup.setError(getString(R.string.order_error_dateDeliv));
-            return;
-        }
-        if(status.isEmpty()){
-            etDatePickup.setError(getString(R.string.order_error_status));
             return;
         }
 
@@ -399,13 +471,14 @@ public class DetailsOrderActivity extends AppCompatActivity {
     private void updateContent(){
         if(order != null){
 
+
             etSender.setText(order.getSender());
             etReceiver.setText(order.getReceiver());
-            etProduct.setText(order.getProduct());
+            spProduct.setSelection(0);
             etProductQty.setText(""+order.getHowMany());
             etDatePickup.setText(order.getDatePickup());
             etDateDeliv.setText(order.getDateDelivery());
-            etStatus.setText(order.getState());
+            spStatus.setSelection(0);
             etRider.setText(order.getRider());
 
         }
