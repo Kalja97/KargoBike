@@ -22,7 +22,11 @@ import com.example.kargobike.ui.LogActivity;
 import com.example.kargobike.ui.SettingsActivity;
 import com.example.kargobike.util.RecyclerViewItemClickListener;
 import com.example.kargobike.viewmodel.checkpoint.CheckpointListViewModel;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +63,15 @@ public class CheckpointsActivity extends AppCompatActivity {
                 return true;
 
             case R.id.action_settings:
+
+                FirebaseAuth.getInstance().signOut();
+                GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions
+                        .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestIdToken(getString(R.string.default_web_client_id))
+                        .requestEmail()
+                        .build();
+                GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);;
+                mGoogleSignInClient.signOut();
                 Intent intentSettings = new Intent(this, SettingsActivity.class);
                 startActivity(intentSettings);
             default:

@@ -29,9 +29,14 @@ import com.example.kargobike.ui.checkpoint.CheckpointsActivity;
 import com.example.kargobike.util.OnAsyncEventListener;
 import com.example.kargobike.util.RecyclerViewItemClickListener;
 import com.example.kargobike.viewmodel.order.OrderListViewModel;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,8 +77,19 @@ public class OrdersActivity extends AppCompatActivity {
                 return true;
 
             case R.id.action_settings:
+                FirebaseAuth.getInstance().signOut();
+                GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions
+                        .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestIdToken(getString(R.string.default_web_client_id))
+                        .requestEmail()
+                        .build();
+                GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);;
+                mGoogleSignInClient.signOut();
+
                 Intent intentSettings = new Intent(this, SettingsActivity.class);
                 startActivity(intentSettings);
+
+
             default:
                 return super.onOptionsItemSelected(item);
         }
