@@ -121,7 +121,7 @@ public class EditCheckpointActivity extends AppCompatActivity {
             public void onSuccess() {
                 Log.d(TAG, "updateCheckpoint: success");
                 Intent intent = new Intent(EditCheckpointActivity.this, CheckpointsActivity.class);
-                intent.putExtra("orderNr", orderNr);
+                intent.putExtra("OrderNr", orderNr);
                 intent.putExtra("CheckpointId", id);
                 startActivity(intent);
             }

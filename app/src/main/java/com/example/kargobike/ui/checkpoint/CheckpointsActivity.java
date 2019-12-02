@@ -101,6 +101,15 @@ public class CheckpointsActivity extends AppCompatActivity {
         order = getIntent().getStringExtra("OrderNr");
         //CheckpointId = getIntent().getStringExtra("CheckpointId");
 
+        CheckpointListViewModel.Factory factory = new CheckpointListViewModel.Factory(getApplication(), order);
+        CheckpointListViewModel = ViewModelProviders.of(this, factory).get(CheckpointListViewModel.class);
+        CheckpointListViewModel.getCheckpoints().observe(this, CheckpointEntities -> {
+            if(CheckpointEntities != null) {
+                checkpointList = CheckpointEntities;
+                adapter.setData(checkpointList);
+            }
+        });
+
         if (CheckpointId == null) {
             //Initialize Database and data
             RecyclerView recyclerView = findViewById(R.id.recyclerviewitem_checkpoints);
@@ -143,7 +152,7 @@ public class CheckpointsActivity extends AppCompatActivity {
                                     Intent.FLAG_ACTIVITY_NO_HISTORY
                     );
                     intent.putExtra("CheckpointId", checkpointList.get(position).getId());
-                    intent.putExtra("OrderNr", order);
+                    intent.putExtra("OrderNr", checkpointList.get(position).getOrderNr());
                     intent.putExtra("checkpointName", checkpointList.get(position).getCheckpointName());
                     startActivity(intent);
                 }
@@ -161,14 +170,7 @@ public class CheckpointsActivity extends AppCompatActivity {
                 startActivity(intent);
             });
 
-            CheckpointListViewModel.Factory factory = new CheckpointListViewModel.Factory(getApplication(), order);
-            CheckpointListViewModel = ViewModelProviders.of(this, factory).get(CheckpointListViewModel.class);
-            CheckpointListViewModel.getCheckpoints().observe(this, CheckpointEntities -> {
-                if(CheckpointEntities != null) {
-                    checkpointList = CheckpointEntities;
-                    adapter.setData(checkpointList);
-                }
-            });
+
             recyclerView.setAdapter(adapter);
 
         }

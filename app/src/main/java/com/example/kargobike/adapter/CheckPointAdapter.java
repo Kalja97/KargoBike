@@ -77,6 +77,7 @@ public class CheckPointAdapter<T> extends RecyclerView.Adapter<CheckPointAdapter
 
     }
 
+
     @Override
     public int getItemCount() {
         if (data != null) {
