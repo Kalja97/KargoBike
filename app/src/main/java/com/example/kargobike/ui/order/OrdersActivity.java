@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.*;
 
 import android.util.Log;
 import android.view.*;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -59,6 +60,8 @@ public class OrdersActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
 
+    private TextView user;
+
 
 
     @Override
@@ -72,19 +75,13 @@ public class OrdersActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_logout:
+
+                logout();
                 Intent intentHome = new Intent(this, LogActivity.class);
                 startActivity(intentHome);
                 return true;
 
             case R.id.action_settings:
-                FirebaseAuth.getInstance().signOut();
-                GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions
-                        .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .requestIdToken(getString(R.string.default_web_client_id))
-                        .requestEmail()
-                        .build();
-                GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);;
-                mGoogleSignInClient.signOut();
 
                 Intent intentSettings = new Intent(this, SettingsActivity.class);
                 startActivity(intentSettings);
@@ -93,6 +90,18 @@ public class OrdersActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    //Method for logout
+   private void logout(){
+        FirebaseAuth.getInstance().signOut();
+        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions
+                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);;
+        mGoogleSignInClient.signOut();
     }
 
     @Override
@@ -107,8 +116,13 @@ public class OrdersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_orders);
 
 
+        //Toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //Show user in toolbar
+        user = (TextView)findViewById(R.id.toolbarTextView);
+        user.setText(getIntent().getStringExtra("user_name"));
 
         //change title in toolbar and it's color
         setTitle("KargoBike - Orders");

@@ -99,15 +99,16 @@ public class LogActivity extends AppCompatActivity {
     }
 
     private void updateUI(FirebaseUser user) {
-
         if(user != null ){
             String name = user.getDisplayName();
             String email = user.getEmail();
 
             System.out.println(" SIGN IN : " + name + email);
+            Intent orderA = new Intent(this, OrdersActivity.class);
+            orderA.putExtra("user_name", name);
+            startActivity(orderA);
         }
-        Intent orderA = new Intent(this, OrdersActivity.class);
-        startActivity(orderA);
+
 
 
     }

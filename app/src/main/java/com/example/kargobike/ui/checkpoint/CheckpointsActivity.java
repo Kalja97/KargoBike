@@ -58,25 +58,30 @@ public class CheckpointsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_logout:
+                logout();
                 Intent intentHome = new Intent(this, LogActivity.class);
                 startActivity(intentHome);
                 return true;
 
             case R.id.action_settings:
 
-                FirebaseAuth.getInstance().signOut();
-                GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions
-                        .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .requestIdToken(getString(R.string.default_web_client_id))
-                        .requestEmail()
-                        .build();
-                GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);;
-                mGoogleSignInClient.signOut();
+
                 Intent intentSettings = new Intent(this, SettingsActivity.class);
                 startActivity(intentSettings);
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void logout(){
+        FirebaseAuth.getInstance().signOut();
+        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions
+                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);;
+        mGoogleSignInClient.signOut();
     }
 
     //on create method
@@ -94,7 +99,7 @@ public class CheckpointsActivity extends AppCompatActivity {
         toolbar.setTitleTextColor(Color.WHITE);
 
         order = getIntent().getStringExtra("OrderNr");
-        CheckpointId = getIntent().getStringExtra("CheckpointId");
+        //CheckpointId = getIntent().getStringExtra("CheckpointId");
 
         if (CheckpointId == null) {
             //Initialize Database and data
@@ -139,6 +144,7 @@ public class CheckpointsActivity extends AppCompatActivity {
                     );
                     intent.putExtra("CheckpointId", checkpointList.get(position).getId());
                     intent.putExtra("OrderNr", order);
+                    intent.putExtra("checkpointName", checkpointList.get(position).getCheckpointName());
                     startActivity(intent);
                 }
             });
