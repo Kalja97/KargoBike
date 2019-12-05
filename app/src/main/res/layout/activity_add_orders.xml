@@ -130,12 +130,11 @@
         app:layout_constraintTop_toBottomOf="@+id/rider" />
 
         <Spinner
-            android:id="@+id/product"
+            android:id="@+id/productlist"
             android:layout_width="287dp"
             android:layout_height="40dp"
             android:layout_marginStart="48dp"
             android:layout_marginTop="28dp"
-            android:entries="@array/arrayOfProducts"
             android:hint=""
             android:paddingLeft="20dp"
             android:paddingTop="10dp"
@@ -159,7 +158,7 @@
             android:textColor="#000"
             android:textColorHint="#000"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/product" />
+            app:layout_constraintTop_toBottomOf="@+id/productlist" />
 
     <Button
         android:id="@+id/btnaddlocation"

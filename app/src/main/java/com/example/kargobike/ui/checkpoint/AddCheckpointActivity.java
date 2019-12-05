@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.kargobike.R;
 import com.example.kargobike.database.entity.Checkpoint;
+import com.example.kargobike.ui.MainActivity;
 import com.example.kargobike.util.OnAsyncEventListener;
 import com.example.kargobike.viewmodel.checkpoint.CheckpointViewModel;
 
@@ -134,7 +135,7 @@ public class AddCheckpointActivity extends AppCompatActivity {
             @Override
             public void onSuccess() {
                 Log.d(TAG, "create checkpoint: success");
-                Intent intent = new Intent(AddCheckpointActivity.this, CheckpointsActivity.class);
+                Intent intent = new Intent(AddCheckpointActivity.this, MainActivity.class);
                 intent.putExtra("orderNr", orderNr);
                 startActivity(intent);
             }

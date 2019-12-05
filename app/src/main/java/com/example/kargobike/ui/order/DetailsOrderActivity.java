@@ -11,18 +11,20 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.kargobike.R;
+import com.example.kargobike.adapter.ListAdapter;
 import com.example.kargobike.database.entity.Order;
+import com.example.kargobike.database.entity.Product;
 import com.example.kargobike.ui.LogActivity;
 import com.example.kargobike.ui.SettingsActivity;
 import com.example.kargobike.ui.checkpoint.CheckpointsActivity;
 import com.example.kargobike.util.OnAsyncEventListener;
+import com.example.kargobike.viewmodel.product.ProductListViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import android.app.AlertDialog;
@@ -32,6 +34,7 @@ import android.widget.EditText;
 
 import com.example.kargobike.viewmodel.order.OrderViewModel;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class DetailsOrderActivity extends AppCompatActivity {
@@ -66,20 +69,14 @@ public class DetailsOrderActivity extends AppCompatActivity {
     //NEW
     private DatePickerDialog.OnDateSetListener DateSetListenerDelivery;
     private DatePickerDialog.OnDateSetListener DateSetListenerPickup;
+
+    // Needed for Productlist
+    private ProductListViewModel productListViewModel;
+    private ListAdapter adapterProductsList;
+
     //
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-/*
-        // Check the theme
-        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
-        {
-            // set darkTheme if the button is checked
-            setTheme(R.style.DarkTheme);
-        }
-        else
-            // set darkTheme if the button isn't checked
-            setTheme(R.style.AppTheme);
-*/
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_orders);
 
@@ -87,8 +84,6 @@ public class DetailsOrderActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         String OrderNr = getIntent().getStringExtra("OrderNr");
-
-        initiateView();
 
         OrderViewModel.Factory factory = new OrderViewModel.Factory(getApplication(), OrderNr);
         viewModel = ViewModelProviders.of(this, factory).get(OrderViewModel.class);
@@ -98,6 +93,8 @@ public class DetailsOrderActivity extends AppCompatActivity {
                 updateContent();
             }
         });
+
+        initiateView();
 
         fab = findViewById(R.id.checkpointsButton);
         fab.setOnClickListener(view -> {
@@ -179,12 +176,8 @@ public class DetailsOrderActivity extends AppCompatActivity {
 
                 String date = day + "/" + month + "/" + year;
                 etDatePickup.setText(date);
-
-
             }
         };
-
-
     }
 
     @Override
@@ -192,7 +185,7 @@ public class DetailsOrderActivity extends AppCompatActivity {
 
         //String orderNr = getIntent().getStringExtra("OrderNr");
 
-        setTitle("KargoBike - Order Details");
+        setTitle("KargoBike - Orders");
         toolbar.setTitleTextColor(Color.WHITE);
 
         MenuInflater inflater = getMenuInflater();
@@ -291,6 +284,10 @@ public class DetailsOrderActivity extends AppCompatActivity {
         spStatus = findViewById(R.id.state);
         etRider = findViewById(R.id.rider);
 
+        adapterProductsList = new ListAdapter<>(DetailsOrderActivity.this, R.layout.list_row, new ArrayList<>());
+        spProduct.setAdapter(adapterProductsList);
+        setSelectedProduct();
+
         etReceiver.setFocusable(false);
         etReceiver.setEnabled(false);
         etSender.setFocusable(false);
@@ -307,6 +304,40 @@ public class DetailsOrderActivity extends AppCompatActivity {
         spStatus.setEnabled(false);
         etRider.setFocusable(false);
         etRider.setEnabled(false);
+
+    }
+
+    private void setSelectedProduct() {
+        //Receive all product names from DB
+        ProductListViewModel.Factory factory = new ProductListViewModel.Factory(
+                getApplication());
+        productListViewModel = ViewModelProviders.of(this, factory)
+                .get(ProductListViewModel.class);
+
+        productListViewModel.getProducts().observe(this, products -> {
+            if (products != null) {
+
+                ArrayList<String> productStrings = new ArrayList<String>();
+                for (Product p : products
+                ) {
+                    productStrings.add(p.toString());
+                }
+
+                int selectedIndex = 0;
+
+                for (int i = 0; i < productStrings.size(); i++) {
+                    if (productStrings.get(i).equals(order.getProduct())){
+                        selectedIndex = i;
+                        break;
+                    }
+                }
+
+                adapterProductsList.updateData(new ArrayList<>(productStrings));
+                spProduct.setSelection(selectedIndex);
+            }
+        });
+
+
 
     }
 
@@ -339,9 +370,6 @@ public class DetailsOrderActivity extends AppCompatActivity {
             etRider.setFocusableInTouchMode(true);
             etRider.setFocusable(true);
             etRider.setEnabled(true);
-
-
-
 
         }else{
             saveChanges(
@@ -377,7 +405,6 @@ public class DetailsOrderActivity extends AppCompatActivity {
 
     private void createOrder(String sender, String receiver, String product,
                              int productQty, String datePickup, String dateDeliv, String status, String rider){
-
 
         if(sender.isEmpty()){
             etSender.setError(getString(R.string.order_error_sender));
@@ -483,6 +510,4 @@ public class DetailsOrderActivity extends AppCompatActivity {
 
         }
     }
-
-
 }

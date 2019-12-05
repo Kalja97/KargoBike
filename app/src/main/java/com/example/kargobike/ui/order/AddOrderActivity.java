@@ -16,11 +16,17 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.example.kargobike.R;
+import com.example.kargobike.adapter.ListAdapter;
 import com.example.kargobike.database.entity.Order;
+import com.example.kargobike.database.entity.Product;
+import com.example.kargobike.ui.MainActivity;
 import com.example.kargobike.util.OnAsyncEventListener;
 import com.example.kargobike.viewmodel.order.OrderViewModel;
+import com.example.kargobike.viewmodel.product.ProductListViewModel;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -43,7 +49,13 @@ public class AddOrderActivity extends AppCompatActivity {
     private String state;
     private int howMany;
 
-    private OrderViewModel viewModel;
+    private OrderViewModel orderViewModel;
+
+    // Needed for Productlist
+    private Spinner spProducts;
+    private ProductListViewModel productListViewModel;
+    private ListAdapter adapterProductsList;
+
     private Toolbar toolbar;
 
     private DatePickerDialog.OnDateSetListener DateSetListenerDelivery;
@@ -57,7 +69,6 @@ public class AddOrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_orders);
 
-
         //Toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -66,21 +77,26 @@ public class AddOrderActivity extends AppCompatActivity {
 
         //initialize viewmodel
         OrderViewModel.Factory factory = new OrderViewModel.Factory(getApplication(), loc);
-        viewModel = ViewModelProviders.of(this, factory).get(OrderViewModel.class);
+        orderViewModel = ViewModelProviders.of(this, factory).get(OrderViewModel.class);
 
         //change title in toolbar and it's color
         setTitle("KargoBike - Orders");
         toolbar.setTitleTextColor(Color.WHITE);
 
-        //Initialize editText and Spinner
+        //Initialize editTexts
         EditText etHowManyPackages = (EditText) findViewById(R.id.howManyPackages);
-        Spinner spProduct = (Spinner) findViewById(R.id.product);
         EditText etReceiver = (EditText) findViewById(R.id.receiver);
         EditText etRider = (EditText) findViewById(R.id.rider);
         EditText etSender = (EditText) findViewById(R.id.sender);
         Spinner spState = (Spinner) findViewById(R.id.state);
         EditText etDateDelivery = (EditText) findViewById(R.id.dateDelivery);
         EditText etDatePickup = (EditText) findViewById(R.id.datePickup);
+
+        //Spinner for Products
+        spProducts = (Spinner) findViewById(R.id.productlist);
+        adapterProductsList = new ListAdapter<>(AddOrderActivity.this, R.layout.list_row, new ArrayList<>());
+        spProducts.setAdapter(adapterProductsList);
+        fillProductList();
 
         etDateDelivery.setFocusable(false);
         etDatePickup.setFocusable(false);
@@ -132,8 +148,6 @@ public class AddOrderActivity extends AppCompatActivity {
 
                 String date = day + "/" + month + "/" + year;
                 etDateDelivery.setText(date);
-
-
             }
         };
 
@@ -146,8 +160,6 @@ public class AddOrderActivity extends AppCompatActivity {
 
                 String date = day + "/" + month + "/" + year;
                 etDatePickup.setText(date);
-
-
             }
         };
 
@@ -176,7 +188,7 @@ public class AddOrderActivity extends AppCompatActivity {
                 sender = etSender.getText().toString().trim();
                 rider = etRider.getText().toString().trim();
                 state = spState.getSelectedItem().toString();
-                product = spProduct.getSelectedItem().toString();
+                product = spProducts.getSelectedItem().toString();
 
                 //Check if all filed are filled in
                 if(dateDelivery.isEmpty() || datePickup.isEmpty() || howManyPackages.isEmpty() || receiver.isEmpty() ||
@@ -216,11 +228,11 @@ public class AddOrderActivity extends AppCompatActivity {
                 order.setProduct(product);
 
                 //add to firebase
-                viewModel.createOrder(order, new OnAsyncEventListener() {
+                orderViewModel.createOrder(order, new OnAsyncEventListener() {
                     @Override
                     public void onSuccess() {
                         Log.d(TAG, "create order: success");
-                        Intent intent = new Intent(AddOrderActivity.this, OrdersActivity.class);
+                        Intent intent = new Intent(AddOrderActivity.this, MainActivity.class);
 
                         startActivity(intent);
                     }
@@ -236,6 +248,28 @@ public class AddOrderActivity extends AppCompatActivity {
                         alertDialog.show();
                     }
                 });
+            }
+        });
+    }
+
+    // Fill the Product Dropdown with data from firebase DB
+    private void fillProductList() {
+        //Receive all product names from DB
+        ProductListViewModel.Factory factory = new ProductListViewModel.Factory(
+                getApplication());
+        productListViewModel = ViewModelProviders.of(this, factory)
+                .get(ProductListViewModel.class);
+
+        productListViewModel.getProducts().observe(this, products -> {
+            if (products != null) {
+
+                ArrayList<String> productStrings = new ArrayList<String>();
+                for (Product p : products
+                ) {
+                    productStrings.add(p.toString());
+                }
+
+                adapterProductsList.updateData(new ArrayList<>(productStrings));
             }
         });
     }
@@ -258,6 +292,4 @@ public class AddOrderActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
-
 }

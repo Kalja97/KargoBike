@@ -13,35 +13,23 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".ui.LogActivity" >
-
         </activity>
-
         <activity android:name=".ui.order.OrdersActivity">
-
         </activity>
         <activity android:name=".ui.checkpoint.CheckpointsActivity"/>
-
         <activity android:name=".ui.order.AddOrderActivity">
-
-
         </activity>
-        <!--<activity android:name=".ui.order.EditOrderActivity"/>-->
         <activity android:name=".ui.order.DetailsOrderActivity"/>
-
         <activity android:name=".ui.checkpoint.AddCheckpointActivity"/>
-
         <activity android:name=".ui.checkpoint.EditCheckpointActivity"/>
-
         <activity android:name=".ui.MainActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
+        <activity android:name=".ui.product.ProductlistActivity"/>
+        <activity android:name=".ui.product.EditProductActivity" />
+        <activity android:name=".ui.product.AddProductActivity"/>
     </application>
-
 </manifest>
