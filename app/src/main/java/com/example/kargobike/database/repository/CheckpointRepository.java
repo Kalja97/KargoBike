@@ -33,31 +33,45 @@ public class CheckpointRepository {
     }
 
     //Query: get a checkpoint
-    public LiveData<Checkpoint> getCheckpoint(final String orderNr, final String id) {
+    public LiveData<Checkpoint> getCheckpoint(final String checkPointID, final String id) {
         DatabaseReference reference = FirebaseDatabase.getInstance()
-                .getReference("orders")
-                .child(orderNr)
+                .getReference("checkpoints")
+                .child(checkPointID)
                 .child("checkpoints")
                 .child(id);
         return new CheckpointLiveData(reference);
     }
 
     //Query: get all checkpoints of a order
-    public LiveData<List<Checkpoint>> getCheckpointsByOrder(final String orderNr) {
+    public LiveData<List<Checkpoint>> getCheckpointsByOrder(final String checkPointID) {
         DatabaseReference reference = FirebaseDatabase.getInstance()
                 .getReference("orders")
-                .child(orderNr)
+                .child(checkPointID)
                 .child("checkpoints");
-        return new CheckpointListLiveData(reference, orderNr);
+        return new CheckpointListLiveData(reference, checkPointID);
+    }
+
+    //Query: get all checkpoints
+//    public LiveData<List<Checkpoint>> getCheckpoints(final String checkPointID) {
+//        DatabaseReference reference = FirebaseDatabase.getInstance()
+//                .getReference("checkpoints")
+//                .child(checkPointID)
+//                .child("checkpoints");
+//        return new CheckpointListLiveData(reference, checkPointID);
+//    }
+
+    //Query: get all checkpoints
+    public LiveData<List<Checkpoint>> getCheckpoints() {
+        DatabaseReference reference = FirebaseDatabase.getInstance()
+                .getReference("checkpoints");
+        return new CheckpointListLiveData(reference);
     }
 
     //Query: insert a checkpoint
     public void insert(final Checkpoint checkpoint, final OnAsyncEventListener callback) {
-        String id = FirebaseDatabase.getInstance().getReference("orders").push().getKey();
+        String id = FirebaseDatabase.getInstance().getReference("checkpoints").push().getKey();
         FirebaseDatabase.getInstance()
-                .getReference("orders")
-                .child(checkpoint.getOrderNr())
-                .child("checkpoints")
+                .getReference("checkpoints")
                 .child(id)
                 .setValue(checkpoint, (databaseError, databaseReference) -> {
                     if (databaseError != null) {
@@ -68,13 +82,12 @@ public class CheckpointRepository {
                 });
     }
 
+
     //Query: update a checkpoint
     public void update(final Checkpoint checkpoint, final OnAsyncEventListener callback) {
         FirebaseDatabase.getInstance()
-                .getReference("orders")
-                .child(checkpoint.getOrderNr())
-                .child("checkpoints")
-                .child(checkpoint.getId())
+                .getReference("checkpoints")
+                .child(checkpoint.getcheckPointID())
                 .updateChildren(checkpoint.toMap(), (databaseError, databaseReference) -> {
                     if (databaseError != null) {
                         callback.onFailure(databaseError.toException());
@@ -84,11 +97,12 @@ public class CheckpointRepository {
                 });
     }
 
+
     //Query: delete a checkpoint
     public void delete(final Checkpoint checkpoint, OnAsyncEventListener callback) {
         FirebaseDatabase.getInstance()
-                .getReference("orders")
-                .child(checkpoint.getOrderNr())
+                .getReference("checkpoints")
+                .child(checkpoint.getcheckPointID())
                 .child("checkpoints")
                 .child(checkpoint.getId())
                 .removeValue((databaseError, databaseReference) -> {

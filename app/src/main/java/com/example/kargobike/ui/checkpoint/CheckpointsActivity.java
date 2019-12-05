@@ -40,7 +40,7 @@ public class CheckpointsActivity extends AppCompatActivity {
    // private ListView listview;
     private List<Checkpoint> checkpointList;
    // private CheckpointListViewModel viewModel;
-    private String order;
+    //private String order;
     private String CheckpointId;
     private CheckPointAdapter<Checkpoint> adapter;
 
@@ -98,10 +98,10 @@ public class CheckpointsActivity extends AppCompatActivity {
         setTitle("KargoBike - Checkpoints");
         toolbar.setTitleTextColor(Color.WHITE);
 
-        order = getIntent().getStringExtra("OrderNr");
+        //order = getIntent().getStringExtra("OrderNr");
         //CheckpointId = getIntent().getStringExtra("CheckpointId");
 
-        CheckpointListViewModel.Factory factory = new CheckpointListViewModel.Factory(getApplication(), order);
+        CheckpointListViewModel.Factory factory = new CheckpointListViewModel.Factory(getApplication());
         CheckpointListViewModel = ViewModelProviders.of(this, factory).get(CheckpointListViewModel.class);
         CheckpointListViewModel.getCheckpoints().observe(this, CheckpointEntities -> {
             if(CheckpointEntities != null) {
@@ -127,7 +127,7 @@ public class CheckpointsActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(View v, int position) {
                     Log.d(TAG, "Clicked position: "+ position);
-                    Log.d(TAG, "Clicked on: "+checkpointList.get(position).getOrderNr());
+                    Log.d(TAG, "Clicked on: "+checkpointList.get(position).getcheckPointID());
 
 
                     Intent intent = new Intent(CheckpointsActivity.this, EditCheckpointActivity.class);
@@ -135,15 +135,15 @@ public class CheckpointsActivity extends AppCompatActivity {
                             Intent.FLAG_ACTIVITY_NO_ANIMATION |
                                     Intent.FLAG_ACTIVITY_NO_HISTORY
                     );
-                    intent.putExtra("CheckpointId", checkpointList.get(position).getId());
-                    intent.putExtra("OrderNr", order);
+                    intent.putExtra("CheckpointID", checkpointList.get(position).getId());
+                    //intent.putExtra("OrderNr", order);
                     startActivity(intent);
                 }
 
                 @Override
                 public void onItemLongClick(View v, int position) {
                     Log.d(TAG, "Clicked position: "+ position);
-                    Log.d(TAG, "Clicked on: "+checkpointList.get(position).getOrderNr());
+                    Log.d(TAG, "Clicked on: "+checkpointList.get(position).getcheckPointID());
 
 
                     Intent intent = new Intent(CheckpointsActivity.this, EditCheckpointActivity.class);
@@ -152,13 +152,13 @@ public class CheckpointsActivity extends AppCompatActivity {
                                     Intent.FLAG_ACTIVITY_NO_HISTORY
                     );
                     intent.putExtra("CheckpointId", checkpointList.get(position).getId());
-                    intent.putExtra("OrderNr", checkpointList.get(position).getOrderNr());
+                    //intent.putExtra("OrderNr", checkpointList.get(position).getcheckPointID());
                     intent.putExtra("checkpointName", checkpointList.get(position).getCheckpointName());
                     startActivity(intent);
                 }
             });
-
-            //Create floatingButton for adding new Orders
+            /*
+            //Create floatingButton for adding new checkpoints in orders
             FloatingActionButton fab = findViewById(R.id.floatingActionAddCheckPoint);
             fab.setOnClickListener(view -> {
                 Intent intent = new Intent(CheckpointsActivity.this, AddCheckpointActivity.class);
@@ -170,7 +170,7 @@ public class CheckpointsActivity extends AppCompatActivity {
                 startActivity(intent);
             });
 
-
+*/
             recyclerView.setAdapter(adapter);
 
         }

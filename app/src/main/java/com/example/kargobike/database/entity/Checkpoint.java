@@ -10,7 +10,7 @@ public class Checkpoint {
     private String id;
 
     //    private Long fk;
-    private String orderNr;
+    private String checkPointID;
     private String checkpointName;
     private String type;
     private String gps;
@@ -22,8 +22,8 @@ public class Checkpoint {
 
     }
 
-    public Checkpoint(String orderNr, String checkpointName, String type, String gps, String datetime, String rider){
-        this.orderNr = orderNr;
+    public Checkpoint(String checkPointID, String checkpointName, String type, String gps, String datetime, String rider){
+        this.checkPointID = checkPointID;
         this.checkpointName = checkpointName;
         this. type = type;
         this.gps = gps;
@@ -40,12 +40,12 @@ public class Checkpoint {
         this.id = id;
     }
 
-    public String getOrderNr() {
-        return orderNr;
+    public String getcheckPointID() {
+        return checkPointID;
     }
 
-    public void setOrderNr(String orderNr) {
-        this.orderNr = orderNr;
+    public void setcheckPointID(String checkPointID) {
+        this.checkPointID = checkPointID;
     }
 
     public String getCheckpointName() {
@@ -107,7 +107,7 @@ public class Checkpoint {
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("orderNr", orderNr);
+        result.put("checkPointID", checkPointID);
         result.put("checkpointName", checkpointName);
         result.put("type", type);
         result.put("gps", gps);

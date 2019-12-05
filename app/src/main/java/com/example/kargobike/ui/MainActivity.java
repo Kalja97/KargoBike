@@ -20,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.kargobike.R;
 import com.example.kargobike.adapter.OrderAdapter;
+import com.example.kargobike.ui.checkpoint.AddCheckpointActivity;
+import com.example.kargobike.ui.checkpoint.CheckpointsActivity;
 import com.example.kargobike.ui.order.AddOrderActivity;
 import com.example.kargobike.ui.order.DetailsOrderActivity;
 import com.example.kargobike.ui.order.OrdersActivity;
@@ -34,6 +36,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 
 import static androidx.core.content.ContextCompat.startActivity;
+import static com.example.kargobike.R.id.checkpointAddImageButton;
+import static com.example.kargobike.R.id.checkpointListImageButton;
 import static com.example.kargobike.R.id.orderAddImageButton;
 import static com.example.kargobike.R.id.orderListImageButton;
 
@@ -115,16 +119,16 @@ public class MainActivity extends AppCompatActivity
         setTitle("KargoBike - Orders");
         toolbar.setTitleTextColor(Color.WHITE);
 
-            //Create imageButton to display the list of orders
-            ImageButton oListButton = (ImageButton)findViewById(orderListImageButton);
-            oListButton.setOnClickListener(view -> {
-                Intent intent = new Intent(MainActivity.this, OrdersActivity.class);
-                intent.setFlags(
-                        Intent.FLAG_ACTIVITY_NO_ANIMATION |
-                                Intent.FLAG_ACTIVITY_NO_HISTORY
-                );
-                startActivity(intent);
-            });
+        //Create imageButton to display the list of orders
+        ImageButton oListButton = (ImageButton)findViewById(orderListImageButton);
+        oListButton.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, OrdersActivity.class);
+            intent.setFlags(
+                    Intent.FLAG_ACTIVITY_NO_ANIMATION |
+                            Intent.FLAG_ACTIVITY_NO_HISTORY
+            );
+            startActivity(intent);
+        });
 
 
         //Create imageButton for adding new Orders
@@ -138,7 +142,27 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
             });
 
+        //Create imageButton for adding new Checkpoints
+        ImageButton cAdd = (ImageButton)findViewById(checkpointAddImageButton);
+        cAdd.setOnClickListener(view -> {
+            Intent intent = new Intent(this, AddCheckpointActivity.class);
+            intent.setFlags(
+                    Intent.FLAG_ACTIVITY_NO_ANIMATION |
+                            Intent.FLAG_ACTIVITY_NO_HISTORY
+            );
+            startActivity(intent);
+        });
 
+        //Create imageButton to display the list of orders
+        ImageButton cListButton = (ImageButton)findViewById(checkpointListImageButton);
+        cListButton.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, CheckpointsActivity.class);
+            intent.setFlags(
+                    Intent.FLAG_ACTIVITY_NO_ANIMATION |
+                            Intent.FLAG_ACTIVITY_NO_HISTORY
+            );
+            startActivity(intent);
+        });
 
 
         }

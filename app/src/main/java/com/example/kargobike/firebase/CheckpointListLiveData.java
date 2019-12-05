@@ -20,13 +20,17 @@ public class CheckpointListLiveData extends LiveData<List<Checkpoint>> {
 
     //Attributes
     private final DatabaseReference reference;
-    private final String orderNr;
+    //private final String orderNr;
     private final MyValueEventListener listener = new MyValueEventListener();
 
     //Constructor
     public CheckpointListLiveData(DatabaseReference ref, String orderNr) {
         reference = ref;
-        this.orderNr = orderNr;
+        //this.orderNr = orderNr;
+    }
+
+    public CheckpointListLiveData(DatabaseReference ref) {
+        reference = ref;
     }
 
     //on active method
@@ -58,9 +62,10 @@ public class CheckpointListLiveData extends LiveData<List<Checkpoint>> {
     private List<Checkpoint> toCheckpoints(DataSnapshot snapshot) {
         List<Checkpoint> checkpoints = new ArrayList<>();
         for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+
             Checkpoint entity = childSnapshot.getValue(Checkpoint.class);
-            entity.setId(childSnapshot.getKey());
-            entity.setOrderNr(orderNr);
+            entity.setcheckPointID(childSnapshot.getKey());
+            //entity.setOrderNr(orderNr);
             checkpoints.add(entity);
         }
         return checkpoints;

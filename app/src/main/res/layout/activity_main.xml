@@ -40,7 +40,7 @@
         android:layout_marginBottom="10dp"
         android:background="#FFFFFF"
         android:text="Current orders"
-        app:layout_constraintBottom_toTopOf="@+id/CheckPointListButton"
+        app:layout_constraintBottom_toTopOf="@+id/checkpointListButton"
         app:layout_constraintEnd_toStartOf="@+id/orderAddButton"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -78,7 +78,7 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:background="#FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/CheckPointAddButton"
+        app:layout_constraintBottom_toTopOf="@+id/checkpointAddButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintVertical_bias="1.0"
@@ -106,7 +106,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/CheckPointListButton"
+        android:id="@+id/checkpointListButton"
         android:layout_width="190dp"
         android:layout_height="190dp"
         android:layout_marginStart="10dp"
@@ -114,13 +114,13 @@
         android:layout_marginBottom="10dp"
         android:background="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/ReportsButton"
-        app:layout_constraintEnd_toStartOf="@+id/CheckPointAddButton"
+        app:layout_constraintEnd_toStartOf="@+id/checkpointAddButton"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints">
 
         <ImageButton
-            android:id="@+id/CheckPointListImageButton"
+            android:id="@+id/checkpointListImageButton"
             android:layout_width="170dp"
             android:layout_height="170dp"
             android:background="#FFFFFF"
@@ -133,7 +133,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Checkpoints list"
+            android:text="checkpoints list"
             android:textAlignment="center"
             android:textColor="#F35C5C"
             android:textSize="20dp"
@@ -142,7 +142,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/CheckPointAddButton"
+        android:id="@+id/checkpointAddButton"
         android:layout_width="190dp"
         android:layout_height="190dp"
         android:layout_marginEnd="10dp"
@@ -154,7 +154,7 @@
         tools:ignore="MissingConstraints">>
 
         <ImageButton
-            android:id="@+id/CheckPointAddImageButton"
+            android:id="@+id/checkpointAddImageButton"
             android:layout_width="170dp"
             android:layout_height="170dp"
             android:background="#FFFFFF"
