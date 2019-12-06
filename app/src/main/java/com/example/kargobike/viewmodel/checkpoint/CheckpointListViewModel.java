@@ -25,7 +25,7 @@ public class CheckpointListViewModel extends AndroidViewModel {
     private final MediatorLiveData<List<Checkpoint>> observableCheckpoints;
 
     public CheckpointListViewModel(@NonNull Application application,
-                             /*final String orderNr,*/ CheckpointRepository checkpointRepository) {
+                             final String orderNr, CheckpointRepository checkpointRepository) {
         super(application);
 
         repository = checkpointRepository;
@@ -34,8 +34,16 @@ public class CheckpointListViewModel extends AndroidViewModel {
         // set by default null, until we get data from the database.
         observableCheckpoints.setValue(null);
 
-        //LiveData<List<Checkpoint>> checkpoints = repository.getCheckpointsByOrder(orderNr);
-        LiveData<List<Checkpoint>> checkpoints = repository.getCheckpoints();
+        LiveData<List<Checkpoint>> checkpoints;
+
+        if(orderNr == null)
+        {
+            checkpoints = repository.getCheckpoints();
+        }
+        else
+        {
+            checkpoints= repository.getCheckpointsByOrder(orderNr);
+        }
         // observe the changes of the entities from the database and forward them
         observableCheckpoints.addSource(checkpoints, observableCheckpoints::setValue);
     }
@@ -45,19 +53,19 @@ public class CheckpointListViewModel extends AndroidViewModel {
 
         @NonNull
         private final Application application;
-        //private final String orderNr;
         private final CheckpointRepository checkpointRepository;
+        private final String orderNr;
 
-        public Factory(@NonNull Application application/*, String orderNr*/) {
+        public Factory(@NonNull Application application, String orderNr) {
             this.application = application;
-            //this.orderNr = orderNr;
+            this.orderNr = orderNr;
             checkpointRepository =  CheckpointRepository.getInstance();
         }
 
         @Override
         public <T extends ViewModel> T create(Class<T> modelClass) {
             //noinspection unchecked
-            return (T) new CheckpointListViewModel(application/*, orderNr*/, checkpointRepository);
+            return (T) new CheckpointListViewModel(application, orderNr, checkpointRepository);
         }
     }
 
@@ -66,16 +74,5 @@ public class CheckpointListViewModel extends AndroidViewModel {
         return observableCheckpoints;
     }
 
-    /*
-    public void deleteOrder(Checkpoint checkpoint) {
-        repository.delete(checkpoint, new OnAsyncEventListener() {
-            @Override
-            public void onSuccess() {}
-
-            @Override
-            public void onFailure(Exception e) {}
-        });
-    }
-    */
 }
 

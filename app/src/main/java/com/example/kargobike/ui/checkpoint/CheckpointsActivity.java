@@ -40,7 +40,7 @@ public class CheckpointsActivity extends AppCompatActivity {
    // private ListView listview;
     private List<Checkpoint> checkpointList;
    // private CheckpointListViewModel viewModel;
-    //private String order;
+    private String order;
     private String CheckpointId;
     private CheckPointAdapter<Checkpoint> adapter;
 
@@ -98,10 +98,10 @@ public class CheckpointsActivity extends AppCompatActivity {
         setTitle("KargoBike - Checkpoints");
         toolbar.setTitleTextColor(Color.WHITE);
 
-        //order = getIntent().getStringExtra("OrderNr");
+        order = getIntent().getStringExtra("OrderNr");
         //CheckpointId = getIntent().getStringExtra("CheckpointId");
 
-        CheckpointListViewModel.Factory factory = new CheckpointListViewModel.Factory(getApplication());
+        CheckpointListViewModel.Factory factory = new CheckpointListViewModel.Factory(getApplication(),order);
         CheckpointListViewModel = ViewModelProviders.of(this, factory).get(CheckpointListViewModel.class);
         CheckpointListViewModel.getCheckpoints().observe(this, CheckpointEntities -> {
             if(CheckpointEntities != null) {
