@@ -1,5 +1,6 @@
 package com.example.kargobike.ui.checkpoint;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
@@ -7,14 +8,21 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Spinner;
+
 import com.example.kargobike.adapter.CheckPointAdapter;
 import com.example.kargobike.database.entity.Checkpoint;
 import com.example.kargobike.R;
@@ -156,21 +164,46 @@ public class CheckpointsActivity extends AppCompatActivity {
                     intent.putExtra("checkpointName", checkpointList.get(position).getCheckpointName());
                     startActivity(intent);
                 }
+
             });
-            /*
+
             //Create floatingButton for adding new checkpoints in orders
             FloatingActionButton fab = findViewById(R.id.floatingActionAddCheckPoint);
             fab.setOnClickListener(view -> {
-                Intent intent = new Intent(CheckpointsActivity.this, AddCheckpointActivity.class);
-                intent.setFlags(
-                        Intent.FLAG_ACTIVITY_NO_ANIMATION |
-                                Intent.FLAG_ACTIVITY_NO_HISTORY
-                );
-                intent.putExtra("OrderNr", order);
-                startActivity(intent);
+//                Intent intent = new Intent(CheckpointsActivity.this, AddCheckpointActivity.class);
+//                intent.setFlags(
+//                        Intent.FLAG_ACTIVITY_NO_ANIMATION |
+//                                Intent.FLAG_ACTIVITY_NO_HISTORY
+//                );
+//                intent.putExtra("OrderNr", order);
+//                startActivity(intent);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Title");
+
+                // Set up the input
+                final EditText input = new EditText(this);
+                // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                builder.setView(input);
+
+                // Set up the buttons
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String m_Text = input.getText().toString();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
             });
 
-*/
+
             recyclerView.setAdapter(adapter);
 
         }

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="@android:dimen/app_icon_size"><![CDATA[
+
+
+    />
+
+    ]]>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:text="Select a checkpoint"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="30sp" />
+
+    <Spinner
+        android:id="@+id/type"
+        android:layout_width="288dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="40dp"
+        android:entries="@array/arrayOfCheckpoints"
+        android:hint=""
+        android:paddingTop="10dp"
+        android:textColor="#000"
+        android:textColorHint="#000"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+
+
+</FrameLayout>
