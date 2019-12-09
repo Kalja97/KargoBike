@@ -19,10 +19,12 @@ import com.example.kargobike.R;
 import com.example.kargobike.adapter.ListAdapter;
 import com.example.kargobike.database.entity.Order;
 import com.example.kargobike.database.entity.Product;
+import com.example.kargobike.database.entity.User;
 import com.example.kargobike.ui.MainActivity;
 import com.example.kargobike.util.OnAsyncEventListener;
 import com.example.kargobike.viewmodel.order.OrderViewModel;
 import com.example.kargobike.viewmodel.product.ProductListViewModel;
+import com.example.kargobike.viewmodel.user.UserListViewModel;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -51,10 +53,15 @@ public class AddOrderActivity extends AppCompatActivity {
 
     private OrderViewModel orderViewModel;
 
-    // Needed for Productlist
+    // Needed for Product choice
     private Spinner spProducts;
     private ProductListViewModel productListViewModel;
     private ListAdapter adapterProductsList;
+
+    // Needed for Rider choice
+    private Spinner spRiders;
+    private UserListViewModel riderListViewModel;
+    private ListAdapter adapterRidersList;
 
     private Toolbar toolbar;
 
@@ -86,7 +93,6 @@ public class AddOrderActivity extends AppCompatActivity {
         //Initialize editTexts
         EditText etHowManyPackages = (EditText) findViewById(R.id.howManyPackages);
         EditText etReceiver = (EditText) findViewById(R.id.receiver);
-        EditText etRider = (EditText) findViewById(R.id.rider);
         EditText etSender = (EditText) findViewById(R.id.sender);
         Spinner spState = (Spinner) findViewById(R.id.state);
         EditText etDateDelivery = (EditText) findViewById(R.id.dateDelivery);
@@ -97,6 +103,12 @@ public class AddOrderActivity extends AppCompatActivity {
         adapterProductsList = new ListAdapter<>(AddOrderActivity.this, R.layout.list_row, new ArrayList<>());
         spProducts.setAdapter(adapterProductsList);
         fillProductList();
+
+        //Spinner for Products
+        spRiders = (Spinner) findViewById(R.id.ridersList);
+        adapterRidersList = new ListAdapter<>(AddOrderActivity.this, R.layout.list_row, new ArrayList<>());
+        spRiders.setAdapter(adapterRidersList);
+        fillUserList();
 
         etDateDelivery.setFocusable(false);
         etDatePickup.setFocusable(false);
@@ -186,7 +198,7 @@ public class AddOrderActivity extends AppCompatActivity {
                 howManyPackages = etHowManyPackages.getText().toString().trim();
                 receiver = etReceiver.getText().toString().trim();
                 sender = etSender.getText().toString().trim();
-                rider = etRider.getText().toString().trim();
+                rider = spRiders.getSelectedItem().toString();
                 state = spState.getSelectedItem().toString();
                 product = spProducts.getSelectedItem().toString();
 
@@ -270,6 +282,26 @@ public class AddOrderActivity extends AppCompatActivity {
                 }
 
                 adapterProductsList.updateData(new ArrayList<>(productStrings));
+            }
+        });
+    }
+
+    private void fillUserList() {
+        UserListViewModel.Factory factory = new UserListViewModel.Factory(
+                getApplication());
+        riderListViewModel = ViewModelProviders.of(this, factory)
+                .get(UserListViewModel.class);
+
+        riderListViewModel.getUsers().observe(this, riders -> {
+            if (riders != null) {
+
+                ArrayList<String> userStrings = new ArrayList<String>();
+                for (User rider: riders
+                ) {
+                    userStrings.add(rider.toString());
+                }
+
+                adapterRidersList.updateData(new ArrayList<>(userStrings));
             }
         });
     }

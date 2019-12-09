@@ -20,11 +20,13 @@ import com.example.kargobike.R;
 import com.example.kargobike.adapter.ListAdapter;
 import com.example.kargobike.database.entity.Order;
 import com.example.kargobike.database.entity.Product;
+import com.example.kargobike.database.entity.User;
 import com.example.kargobike.ui.LogActivity;
 import com.example.kargobike.ui.SettingsActivity;
 import com.example.kargobike.ui.checkpoint.CheckpointsActivity;
 import com.example.kargobike.util.OnAsyncEventListener;
 import com.example.kargobike.viewmodel.product.ProductListViewModel;
+import com.example.kargobike.viewmodel.user.UserListViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import android.app.AlertDialog;
@@ -57,7 +59,7 @@ public class DetailsOrderActivity extends AppCompatActivity {
     private EditText etDatePickup;
     private EditText etDateDeliv;
     private Spinner spStatus;
-    private EditText etRider;
+    private Spinner spRider;
 
     private boolean isEditable;
 
@@ -74,6 +76,9 @@ public class DetailsOrderActivity extends AppCompatActivity {
     private ProductListViewModel productListViewModel;
     private ListAdapter adapterProductsList;
 
+    // Needed for Riders List
+    private UserListViewModel ridersListViewModel;
+    private ListAdapter adapterRidersList;
     //
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -282,11 +287,15 @@ public class DetailsOrderActivity extends AppCompatActivity {
         etDatePickup = findViewById(R.id.datePickup);
         etDateDeliv = findViewById(R.id.dateDelivery);
         spStatus = findViewById(R.id.state);
-        etRider = findViewById(R.id.rider);
+        spRider = findViewById(R.id.rider);
 
         adapterProductsList = new ListAdapter<>(DetailsOrderActivity.this, R.layout.list_row, new ArrayList<>());
         spProduct.setAdapter(adapterProductsList);
         setSelectedProduct();
+
+        adapterRidersList = new ListAdapter<>(DetailsOrderActivity.this, R.layout.list_row, new ArrayList<>());
+        spRider.setAdapter(adapterRidersList);
+        setSelectedRider();
 
         etReceiver.setFocusable(false);
         etReceiver.setEnabled(false);
@@ -302,8 +311,8 @@ public class DetailsOrderActivity extends AppCompatActivity {
         etDateDeliv.setEnabled(false);
         spStatus.setFocusable(false);
         spStatus.setEnabled(false);
-        etRider.setFocusable(false);
-        etRider.setEnabled(false);
+        spRider.setFocusable(false);
+        spRider.setEnabled(false);
 
     }
 
@@ -336,9 +345,36 @@ public class DetailsOrderActivity extends AppCompatActivity {
                 spProduct.setSelection(selectedIndex);
             }
         });
+    }
 
+    private void setSelectedRider() {
+        UserListViewModel.Factory factory = new UserListViewModel.Factory(
+                getApplication());
+        ridersListViewModel = ViewModelProviders.of(this, factory)
+                .get(UserListViewModel.class);
 
+        ridersListViewModel.getUsers().observe(this, riders -> {
+            if (riders != null) {
 
+                ArrayList<String> riderStrings = new ArrayList<String>();
+                for (User rider : riders
+                ) {
+                    riderStrings.add(rider.toString());
+                }
+
+                int selectedIndex = 0;
+
+                for (int i = 0; i < riderStrings.size(); i++) {
+                    if (riderStrings.get(i).equals(order.getRider())){
+                        selectedIndex = i;
+                        break;
+                    }
+                }
+
+                adapterRidersList.updateData(new ArrayList<>(riderStrings));
+                spRider.setSelection(selectedIndex);
+            }
+        });
     }
 
     private void switchToEdit(){
@@ -367,9 +403,9 @@ public class DetailsOrderActivity extends AppCompatActivity {
             spStatus.setFocusableInTouchMode(true);
             spStatus.setFocusable(false);
             spStatus.setEnabled(true);
-            etRider.setFocusableInTouchMode(true);
-            etRider.setFocusable(true);
-            etRider.setEnabled(true);
+            spRider.setFocusableInTouchMode(true);
+            spRider.setFocusable(true);
+            spRider.setEnabled(true);
 
         }else{
             saveChanges(
@@ -380,7 +416,7 @@ public class DetailsOrderActivity extends AppCompatActivity {
                     etDatePickup.getText().toString(),
                     etDateDeliv.getText().toString(),
                     spStatus.getSelectedItem().toString(),
-                    etRider.getText().toString()
+                    spRider.getSelectedItem().toString()
             );
             fab.hide();
             etReceiver.setFocusable(false);
@@ -397,8 +433,8 @@ public class DetailsOrderActivity extends AppCompatActivity {
             etDateDeliv.setEnabled(false);
             spStatus.setFocusable(false);
             spStatus.setEnabled(false);
-            etRider.setFocusable(false);
-            etRider.setEnabled(false);
+            spRider.setFocusable(false);
+            spRider.setEnabled(false);
         }
         isEditable = !isEditable;
     }
@@ -421,12 +457,6 @@ public class DetailsOrderActivity extends AppCompatActivity {
         }
         if(dateDeliv.isEmpty()){
             etDatePickup.setError(getString(R.string.order_error_dateDeliv));
-            return;
-        }
-
-        //!!! For the moment we don't check if the rider is in the database!!!
-        if(rider.isEmpty()){
-            etRider.setError(getString(R.string.order_error_rider));
             return;
         }
 
@@ -497,17 +527,11 @@ public class DetailsOrderActivity extends AppCompatActivity {
 
     private void updateContent(){
         if(order != null){
-
-
             etSender.setText(order.getSender());
             etReceiver.setText(order.getReceiver());
-            spProduct.setSelection(0);
             etProductQty.setText(""+order.getHowMany());
             etDatePickup.setText(order.getDatePickup());
             etDateDeliv.setText(order.getDateDelivery());
-            spStatus.setSelection(0);
-            etRider.setText(order.getRider());
-
         }
     }
 }

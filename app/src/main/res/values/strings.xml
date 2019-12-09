@@ -57,6 +57,8 @@
     <string name="title_order_details">Order details</string>
     <string name="title_order_create">Create order</string>
     <string name="message_DELETE_ORDER">Do you really want to delete this order?</string>
+    <string name="message_DELETE_PRODUCT">Do you really want to delete this product?</string>
+    <string name="message_DELETE_USER">Do you really want to delete this user?</string>
     <string name="order_error_sender">Sender field is empty!</string>
     <string name="order_error_receiver">Receiver field is empty!</string>
     <string name="order_error_product">Product field is empty!</string>

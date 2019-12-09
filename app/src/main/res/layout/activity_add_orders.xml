@@ -98,20 +98,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/receiver" />
 
-    <EditText
-        android:id="@+id/rider"
-        android:layout_width="288dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="28dp"
-        android:hint="Rider (Hans Müller)"
-        android:paddingLeft="20dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:textColor="#000"
-        android:textColorHint="#000"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sender" />
+        <Spinner
+            android:id="@+id/ridersList"
+            android:layout_width="287dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="28dp"
+            android:hint=""
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="#000"
+            android:textColorHint="#000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sender" />
 
     <EditText
         android:id="@+id/howManyPackages"
@@ -127,12 +127,12 @@
         android:textColor="#000"
         android:textColorHint="#000"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rider" />
+        app:layout_constraintTop_toBottomOf="@+id/ridersList" />
 
         <Spinner
             android:id="@+id/productlist"
             android:layout_width="287dp"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:layout_marginStart="48dp"
             android:layout_marginTop="28dp"
             android:hint=""
