@@ -21,82 +21,94 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <TextView
-        android:id="@+id/titel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="36dp"
-        android:lineSpacingExtra="6dp"
-        android:text="Add order"
-        android:textColor="?attr/colorPrimary"
-        android:textSize="42sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        <TextView
+            android:id="@+id/titel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="36dp"
+            android:lineSpacingExtra="6dp"
+            android:text="Add order"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="42sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/datePickup"
+            android:id="@+id/customer"
             android:layout_width="288dp"
             android:layout_height="50dp"
             android:layout_marginStart="48dp"
             android:layout_marginTop="28dp"
-            android:hint="Date Pickup (dd.mm.yyyy)"
+            android:hint="Customer"
             android:paddingLeft="20dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:textColor="#000"
             android:textColorHint="#000"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titel"
+            app:layout_constraintTop_toBottomOf="@+id/titel" />
+
+        <EditText
+            android:id="@+id/fromAddress"
+            android:layout_width="288dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="28dp"
+            android:hint="From Address"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="#000"
+            android:textColorHint="#000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/customer" />
+
+        <EditText
+            android:id="@+id/toAddress"
+            android:layout_width="288dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="28dp"
+            android:hint="To Address"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="#000"
+            android:textColorHint="#000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fromAddress"
             />
 
         <EditText
-        android:id="@+id/dateDelivery"
-        android:layout_width="288dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="28dp"
-        android:hint="Date Delivery (dd.mm.yyyy)"
-        android:paddingLeft="20dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:textColor="#000"
-        android:textColorHint="#000"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/datePickup" />
+            android:id="@+id/dateDelivery"
+            android:layout_width="288dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="28dp"
+            android:hint="Date"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="#000"
+            android:textColorHint="#000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toAddress" />
 
-
-
-    <EditText
-        android:id="@+id/receiver"
-        android:layout_width="288dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="28dp"
-        android:hint="Receiver (Hans Müller)"
-        android:paddingLeft="20dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:textColor="#000"
-        android:textColorHint="#000"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dateDelivery" />
-
-    <EditText
-        android:id="@+id/sender"
-        android:layout_width="288dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="28dp"
-        android:hint="Sender (Hans Müller)"
-        android:paddingLeft="20dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:textColor="#000"
-        android:textColorHint="#000"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/receiver" />
+            <EditText
+            android:id="@+id/timeDelivery"
+            android:layout_width="288dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="28dp"
+            android:hint="Time"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="#000"
+            android:textColorHint="#000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dateDelivery" />
 
         <Spinner
             android:id="@+id/ridersList"
@@ -111,23 +123,7 @@
             android:textColor="#000"
             android:textColorHint="#000"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sender" />
-
-    <EditText
-        android:id="@+id/howManyPackages"
-        android:layout_width="288dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="28dp"
-        android:hint="Amount of Packages"
-        android:inputType="number"
-        android:paddingLeft="20dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:textColor="#000"
-        android:textColorHint="#000"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ridersList" />
+            app:layout_constraintTop_toBottomOf="@+id/timeDelivery" />
 
         <Spinner
             android:id="@+id/productlist"
@@ -142,7 +138,23 @@
             android:textColor="#000"
             android:textColorHint="#000"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/howManyPackages" />
+            app:layout_constraintTop_toBottomOf="@+id/ridersList" />
+
+        <EditText
+            android:id="@+id/howManyPackages"
+            android:layout_width="288dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="28dp"
+            android:hint="Amount of Packages"
+            android:inputType="number"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="#000"
+            android:textColorHint="#000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/productlist" />
 
         <Spinner
             android:id="@+id/state"
@@ -158,22 +170,22 @@
             android:textColor="#000"
             android:textColorHint="#000"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/productlist" />
+            app:layout_constraintTop_toBottomOf="@+id/howManyPackages" />
 
-    <Button
-        android:id="@+id/btnaddlocation"
-        android:layout_width="122dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/bgbtn"
-        android:text="Add"
-        android:textAllCaps="false"
-        android:textColor="#fff"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.74"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/state" />
+        <Button
+            android:id="@+id/btnaddlocation"
+            android:layout_width="122dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bgbtn"
+            android:text="Add"
+            android:textAllCaps="false"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.74"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/state" />
 
         <Button
             android:id="@+id/btncancel"

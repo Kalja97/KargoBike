@@ -13,13 +13,11 @@ import com.example.kargobike.R;
 import com.example.kargobike.database.entity.Order;
 import com.example.kargobike.util.RecyclerViewItemClickListener;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 /**
  * Author: Samuel Pinto Da Silva
- * Creation date:
- * Last update date: 25.11.2019
+ * Creation date: 25.11.2019
+ * Last update date: 10.12.2019 ( by Patrick Garbely)
  */
 public class OrderAdapter<T> extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder>
 {
@@ -27,29 +25,28 @@ public class OrderAdapter<T> extends RecyclerView.Adapter<OrderAdapter.OrderView
     private List<T> data;
 
     static class OrderViewHolder extends RecyclerView.ViewHolder {
-        private final TextView sender;
-        private final TextView receiver;
-
+        private final TextView customer;
+        private final TextView fromAddress;
+        private final TextView toAdress;
         private final TextView product;
         private final TextView productQty;
-
-        //private final TextView rider;
-        private final TextView datePickup;
         private final TextView dateDeliv;
-
+        private final TextView timeDeliv;
         private final TextView status;
 
 
-        private OrderViewHolder(View view, TextView sender, TextView receiver, TextView product,
-                                TextView productQty,TextView datePickup, TextView dateDeliv, TextView status) {
+        private OrderViewHolder(View view, TextView customer, TextView fromAddress, TextView product,
+                                TextView productQty, TextView toAdress, TextView dateDeliv ,TextView timeDeliv, TextView status) {
             super(view);
-            this.sender = sender;
-            this.receiver = receiver;
-            this.status = status;
-            this.datePickup = datePickup;
-            this.dateDeliv = dateDeliv;
+            this.customer = customer;
+            this.fromAddress = fromAddress;
+            this.toAdress = toAdress;
             this.product = product;
             this.productQty = productQty;
+            this.status = status;
+            this.dateDeliv = dateDeliv;
+            this.timeDeliv = timeDeliv;
+
         }
     }
 
@@ -62,16 +59,16 @@ public class OrderAdapter<T> extends RecyclerView.Adapter<OrderAdapter.OrderView
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recyclerviewitem_order, parent, false);
 
-
-        final TextView twSender = v.findViewById(R.id.sender);
-        final TextView twReceiver = v.findViewById(R.id.receiver);
+        final TextView twCustomer = v.findViewById(R.id.oCustomer);
+        final TextView twFromAdress = v.findViewById(R.id.fromAddress);
+        final TextView twToAdress = v.findViewById(R.id.toAddress);
         final TextView twProduct = v.findViewById(R.id.oProduct);
         final TextView twQty =  v.findViewById(R.id.oQty);
-        final TextView twDatePick = v.findViewById(R.id.oDatePickup);
-        final TextView twDateDeliv = v.findViewById(R.id.oDateDeliv);
+        final TextView twDateDelivery = v.findViewById(R.id.oDateDelivery);
+        final TextView twTimeDelivery = v.findViewById(R.id.oTimeDelivery);
         final TextView twStatus = v.findViewById(R.id.oStatus);
 
-        final OrderViewHolder OrderViewHolder = new OrderViewHolder(v, twSender, twReceiver, twProduct, twQty, twDatePick, twDateDeliv, twStatus);
+        final OrderViewHolder OrderViewHolder = new OrderViewHolder(v, twCustomer, twFromAdress, twProduct, twQty, twToAdress,twDateDelivery, twTimeDelivery, twStatus);
         v.setOnClickListener(view -> mylistener.onItemClick(view, OrderViewHolder.getAdapterPosition()));
         v.setOnClickListener(view -> {
             mylistener.onItemLongClick(view, OrderViewHolder.getAdapterPosition());
@@ -82,14 +79,14 @@ public class OrderAdapter<T> extends RecyclerView.Adapter<OrderAdapter.OrderView
     @Override
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
         T item = data.get(position);
-        holder.sender.setText(((Order) item).getSender());
-        holder.receiver.setText(((Order) item).getReceiver());
+        holder.customer.setText(((Order) item).getCustomer());
+        holder.fromAddress.setText(((Order) item).getFromAddress());
+        holder.toAdress.setText(((Order) item).getToAddress());
         holder.product.setText(((Order) item).getProduct());
         holder.productQty.setText(""+((Order) item).getHowMany());
-        holder.datePickup.setText(((Order) item).getDatePickup());
         holder.dateDeliv.setText(((Order) item).getDateDelivery());
+        holder.timeDeliv.setText(((Order) item).getTimeDelivery());
         holder.status.setText(((Order) item).getState());
-
     }
 
     @Override
@@ -131,6 +128,4 @@ public class OrderAdapter<T> extends RecyclerView.Adapter<OrderAdapter.OrderView
             result.dispatchUpdatesTo(this);
         }
     }
-
-
 }

@@ -1,6 +1,7 @@
 package com.example.kargobike.ui.order;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -11,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -52,14 +54,15 @@ public class DetailsOrderActivity extends AppCompatActivity {
     private Toast toast ;
 
     //private TextView tvOrderNr;
-    private EditText etSender;
-    private EditText etReceiver;
+    private EditText etDateDeliv;
+    private EditText etTimeDelivery;
+    private EditText etFromAddress;
+    private EditText etToAddress;
+    private Spinner spRider;
+    private EditText etCustomer;
+    private Spinner spStatus;
     private Spinner spProduct;
     private EditText etProductQty;
-    private EditText etDatePickup;
-    private EditText etDateDeliv;
-    private Spinner spStatus;
-    private Spinner spRider;
 
     private boolean isEditable;
 
@@ -69,8 +72,8 @@ public class DetailsOrderActivity extends AppCompatActivity {
     private Toolbar toolbar;
 
     //NEW
-    private DatePickerDialog.OnDateSetListener DateSetListenerDelivery;
-    private DatePickerDialog.OnDateSetListener DateSetListenerPickup;
+    private DatePickerDialog.OnDateSetListener DateSetListener;
+    private TimePickerDialog.OnTimeSetListener TimeSetListener;
 
     // Needed for Productlist
     private ProductListViewModel productListViewModel;
@@ -132,34 +135,32 @@ public class DetailsOrderActivity extends AppCompatActivity {
                 DatePickerDialog dialog = new DatePickerDialog(
                         DetailsOrderActivity.this,
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-                        DateSetListenerDelivery,
+                        DateSetListener,
                         year,month,day);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
         });
 
-        //OnClickListener für Date Pickup
-        etDatePickup.setOnClickListener(new View.OnClickListener(){
+        //OnClickListener for Time
+        etTimeDelivery.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 Calendar cal = Calendar.getInstance();
-                int year = cal.get(Calendar.YEAR);
-                int month = cal.get(Calendar.MONTH);
-                int day = cal.get(Calendar.DAY_OF_MONTH);
+                int hours = cal.get(Calendar.HOUR_OF_DAY);
+                int minutes = cal.get(Calendar.MINUTE);
 
-                DatePickerDialog dialog = new DatePickerDialog(
+                TimePickerDialog dialog = new TimePickerDialog(
                         DetailsOrderActivity.this,
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-                        DateSetListenerPickup,
-                        year,month,day);
+                        TimeSetListener, hours, minutes, true);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
         });
 
         //DateSetListener for Date Delivery
-        DateSetListenerDelivery = new DatePickerDialog.OnDateSetListener() {
+        DateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 month = month + 1;
@@ -172,15 +173,14 @@ public class DetailsOrderActivity extends AppCompatActivity {
             }
         };
 
-        //DateSetListener for Date Pickup
-        DateSetListenerPickup = new DatePickerDialog.OnDateSetListener() {
+        //TimeSetListener for Time
+        TimeSetListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                month = month + 1;
-                Log.d(TAG, "onDateSet: mm/dd/yyy: " + day + "/" + month + "/" + year);
+            public void onTimeSet(TimePicker timePicker, int hours, int minutes) {
+                Log.d(TAG, "onTimeSet: hh:mm :" + hours + ":" + minutes);
 
-                String date = day + "/" + month + "/" + year;
-                etDatePickup.setText(date);
+                String time = hours + ":" + minutes;
+                etTimeDelivery.setText(time);
             }
         };
     }
@@ -280,14 +280,16 @@ public class DetailsOrderActivity extends AppCompatActivity {
         isEditable = false;
 
         //tvOrderNr = findViewById(R.id.orderNumber);
-        etSender = findViewById(R.id.sender);
-        etReceiver = findViewById(R.id.receiver);
-        spProduct = findViewById(R.id.product);
-        etProductQty = findViewById(R.id.howManyPackages);
-        etDatePickup = findViewById(R.id.datePickup);
-        etDateDeliv = findViewById(R.id.dateDelivery);
-        spStatus = findViewById(R.id.state);
-        spRider = findViewById(R.id.rider);
+        etCustomer = findViewById(R.id.etCustomer);
+        spProduct = findViewById(R.id.spProduct);
+        etProductQty = findViewById(R.id.ethowManyPackages);
+        etTimeDelivery = findViewById(R.id.etTimeDelivery);
+        etDateDeliv = findViewById(R.id.etDateDelivery);
+        spStatus = findViewById(R.id.spState);
+        spRider = findViewById(R.id.spRider);
+        etFromAddress = findViewById(R.id.etFromAddress);
+        etToAddress = findViewById(R.id.etToAddress);
+
 
         adapterProductsList = new ListAdapter<>(DetailsOrderActivity.this, R.layout.list_row, new ArrayList<>());
         spProduct.setAdapter(adapterProductsList);
@@ -297,23 +299,24 @@ public class DetailsOrderActivity extends AppCompatActivity {
         spRider.setAdapter(adapterRidersList);
         setSelectedRider();
 
-        etReceiver.setFocusable(false);
-        etReceiver.setEnabled(false);
-        etSender.setFocusable(false);
-        etSender.setEnabled(false);
+        etCustomer.setFocusable(false);
+        etCustomer.setEnabled(false);
         spProduct.setFocusable(false);
         spProduct.setEnabled(false);
         etProductQty.setFocusable(false);
         etProductQty.setEnabled(false);
-        etDatePickup.setFocusable(false);
-        etDatePickup.setEnabled(false);
+        etTimeDelivery.setFocusable(false);
+        etTimeDelivery.setEnabled(false);
         etDateDeliv.setFocusable(false);
         etDateDeliv.setEnabled(false);
         spStatus.setFocusable(false);
         spStatus.setEnabled(false);
         spRider.setFocusable(false);
         spRider.setEnabled(false);
-
+        etFromAddress.setFocusable(false);
+        etFromAddress.setEnabled(false);
+        etToAddress.setFocusable(false);
+        etToAddress.setEnabled(false);
     }
 
     private void setSelectedProduct() {
@@ -381,22 +384,18 @@ public class DetailsOrderActivity extends AppCompatActivity {
         if(!isEditable){
             fab.hide();
 
-
-            etReceiver.setFocusableInTouchMode(true);
-            etReceiver.setFocusable(true);
-            etReceiver.setEnabled(true);
-            etSender.setFocusableInTouchMode(true);
-            etSender.setFocusable(true);
-            etSender.setEnabled(true);
+            etCustomer.setFocusableInTouchMode(true);
+            etCustomer.setFocusable(true);
+            etCustomer.setEnabled(true);
             spProduct.setFocusableInTouchMode(true);
             spProduct.setFocusable(false);
             spProduct.setEnabled(true);
             etProductQty.setFocusableInTouchMode(true);
             etProductQty.setFocusable(true);
             etProductQty.setEnabled(true);
-            etDatePickup.setFocusableInTouchMode(true);
-            etDatePickup.setFocusable(false);
-            etDatePickup.setEnabled(true);
+            etTimeDelivery.setFocusableInTouchMode(true);
+            etTimeDelivery.setFocusable(false);
+            etTimeDelivery.setEnabled(true);
             etDateDeliv.setFocusableInTouchMode(true);
             etDateDeliv.setFocusable(false);
             etDateDeliv.setEnabled(true);
@@ -406,29 +405,35 @@ public class DetailsOrderActivity extends AppCompatActivity {
             spRider.setFocusableInTouchMode(true);
             spRider.setFocusable(true);
             spRider.setEnabled(true);
+            etFromAddress.setFocusableInTouchMode(true);
+            etFromAddress.setFocusable(true);
+            etFromAddress.setEnabled(true);
+            etToAddress.setFocusableInTouchMode(true);
+            etToAddress.setFocusable(true);
+            etToAddress.setEnabled(true);
 
         }else{
             saveChanges(
-                    etSender.getText().toString(),
-                    etReceiver.getText().toString(),
-                    spProduct.getSelectedItem().toString(),
-                    Integer.parseInt(etProductQty.getText().toString()),
-                    etDatePickup.getText().toString(),
+                    etCustomer.getText().toString(),
+                    etFromAddress.getText().toString(),
+                    etToAddress.getText().toString(),
+                    etTimeDelivery.getText().toString(),
                     etDateDeliv.getText().toString(),
                     spStatus.getSelectedItem().toString(),
-                    spRider.getSelectedItem().toString()
+                    spRider.getSelectedItem().toString(),
+                    spProduct.getSelectedItem().toString(),
+                    Integer.parseInt(etProductQty.getText().toString())
             );
             fab.hide();
-            etReceiver.setFocusable(false);
-            etReceiver.setEnabled(false);
-            etSender.setFocusable(false);
-            etSender.setEnabled(false);
+
+            etCustomer.setFocusable(false);
+            etCustomer.setEnabled(false);
             spProduct.setFocusable(false);
             spProduct.setEnabled(false);
             etProductQty.setFocusable(false);
             etProductQty.setEnabled(false);
-            etDatePickup.setFocusable(false);
-            etDatePickup.setEnabled(false);
+            etTimeDelivery.setFocusable(false);
+            etTimeDelivery.setEnabled(false);
             etDateDeliv.setFocusable(false);
             etDateDeliv.setEnabled(false);
             spStatus.setFocusable(false);
@@ -439,11 +444,12 @@ public class DetailsOrderActivity extends AppCompatActivity {
         isEditable = !isEditable;
     }
 
+    /*
     private void createOrder(String sender, String receiver, String product,
                              int productQty, String datePickup, String dateDeliv, String status, String rider){
 
         if(sender.isEmpty()){
-            etSender.setError(getString(R.string.order_error_sender));
+            etCustomer.setError(getString(R.string.order_error_sender));
             return;
         }
         if(receiver.isEmpty()){
@@ -452,17 +458,16 @@ public class DetailsOrderActivity extends AppCompatActivity {
         }
 
         if(datePickup.isEmpty()){
-            etDatePickup.setError(getString(R.string.order_error_datePickup));
+            etTimeDelivery.setError(getString(R.string.order_error_datePickup));
             return;
         }
         if(dateDeliv.isEmpty()){
-            etDatePickup.setError(getString(R.string.order_error_dateDeliv));
+            etTimeDelivery.setError(getString(R.string.order_error_dateDeliv));
             return;
         }
 
         order = new Order();
-        order.setSender(sender);
-        order.setReceiver(receiver);
+        order.setCustomer(sender);
         order.setProduct(product);
         order.setHowMany(productQty);
         order.setDatePickup(datePickup);
@@ -485,18 +490,20 @@ public class DetailsOrderActivity extends AppCompatActivity {
 
     }
 
-    public void saveChanges(String sender, String receiver, String product,
-                            int productQty, String datePickup, String dateDeliv, String status, String rider){
+*/
 
-        //order.setOrderNr(""+R.id.orderNumber);
-        order.setSender(sender);
-        order.setReceiver(receiver);
-        order.setProduct(product);
-        order.setHowMany(productQty);
-        order.setDatePickup(datePickup);
-        order.setDateDelivery(dateDeliv);
-        order.setState(status);
+    public void saveChanges(String customer, String fromAddress, String toAddress, String timeDelivery,
+                            String dateDelivery, String state, String rider,String product, int howMany){
+
+        order.setDateDelivery(dateDelivery);
+        order.setTimeDelivery(timeDelivery);
+        order.setFromAddress(fromAddress);
+        order.setHowMany(howMany);
+        order.setToAddress(toAddress);
+        order.setCustomer(customer);
         order.setRider(rider);
+        order.setState(state);
+        order.setProduct(product);
 
         viewModel.updateOrder(order, new OnAsyncEventListener() {
             @Override
@@ -527,11 +534,12 @@ public class DetailsOrderActivity extends AppCompatActivity {
 
     private void updateContent(){
         if(order != null){
-            etSender.setText(order.getSender());
-            etReceiver.setText(order.getReceiver());
-            etProductQty.setText(""+order.getHowMany());
-            etDatePickup.setText(order.getDatePickup());
+            etCustomer.setText(order.getCustomer());
+            etTimeDelivery.setText(order.getTimeDelivery());
             etDateDeliv.setText(order.getDateDelivery());
+            etFromAddress.setText(order.getFromAddress());
+            etToAddress.setText(order.getToAddress());
+            etProductQty.setText(""+order.getHowMany());
         }
     }
 }

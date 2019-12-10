@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 public class EditOrderActivity extends AppCompatActivity {
-
+/*
     private static final String TAG = "EditOrder";
 
     //Edit texts of the layout
@@ -86,7 +86,7 @@ public class EditOrderActivity extends AppCompatActivity {
         order.setDatePickup(datePickup);
         order.setHowMany(howManyPackages);
         order.setReceiver(receiver);
-        order.setSender(sender);
+        order.setCustomer(sender);
         order.setRider(rider);
 
 
@@ -144,10 +144,12 @@ public class EditOrderActivity extends AppCompatActivity {
             etOrderNr.setText(order.getOrderNr());
             etDateDelivery.setText(order.getDateDelivery());
             etReceiver.setText(order.getReceiver());
-            etSender.setText(order.getSender());
+            etSender.setText(order.getCustomer());
             etRider.setText(order.getRider());
             etHowManyPackages.setText(String.valueOf(order.getHowMany()));
         }
     }
 
+
+ */
 }
