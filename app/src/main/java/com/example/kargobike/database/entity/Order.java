@@ -1,7 +1,5 @@
 package com.example.kargobike.database.entity;
 
-
-
 import com.google.firebase.database.Exclude;
 
 import java.util.HashMap;
@@ -12,17 +10,14 @@ import androidx.annotation.NonNull;
 public class Order implements Comparable{
 
     private String orderNr;
-
-    private String sender;
-    private String receiver;
-
+    private String customer;
+    private String fromAddress;
+    private String toAddress;
     private String product;
     private int howMany;
-
     private String rider;
-    private String datePickup;
     private String dateDelivery;
-
+    private String timeDelivery;
     private String state;
 
     //Empty Constructor
@@ -31,16 +26,16 @@ public class Order implements Comparable{
     }
 
     //Constructor with attributes
-    public Order(@NonNull String orderNr, String sender, String receiver, String product, int howMany, String rider,
-                 String datePickup, String dateDelivery, String state){
-
-        this.sender = sender;
-        this.receiver = receiver;
+    public Order(@NonNull String orderNr, String customer, String fromAddress, String toAddress, String product, int howMany, String rider, String dateDelivery,String timeDelivery, String state) {
+        this.orderNr = orderNr;
+        this.customer = customer;
+        this.fromAddress = fromAddress;
+        this.toAddress = toAddress;
         this.product = product;
         this.howMany = howMany;
         this.rider = rider;
-        this.datePickup = datePickup;
-        this.dateDelivery = dateDelivery;
+        this.dateDelivery =  dateDelivery;
+        this.timeDelivery = timeDelivery;
         this.state = state;
     }
 
@@ -55,20 +50,28 @@ public class Order implements Comparable{
         this.orderNr = orderNr;
     }
 
-    public String getSender() {
-        return sender;
+    public String getCustomer() {
+        return customer;
     }
 
-    public void setSender(String sender) {
-        this.sender = sender;
+    public void setCustomer(String customer) {
+        this.customer = customer;
     }
 
-    public String getReceiver() {
-        return receiver;
+    public String getFromAddress() {
+        return fromAddress;
     }
 
-    public void setReceiver(String receiver) {
-        this.receiver = receiver;
+    public void setFromAddress(String fromAddress) {
+        this.fromAddress = fromAddress;
+    }
+
+    public String getToAddress() {
+        return toAddress;
+    }
+
+    public void setToAddress(String toAddress) {
+        this.toAddress = toAddress;
     }
 
     public String getProduct() {
@@ -95,20 +98,20 @@ public class Order implements Comparable{
         this.rider = rider;
     }
 
-    public String getDatePickup() {
-        return datePickup;
-    }
-
-    public void setDatePickup(String datePickup) {
-        this.datePickup = datePickup;
-    }
-
     public String getDateDelivery() {
         return dateDelivery;
     }
 
     public void setDateDelivery(String dateDelivery) {
         this.dateDelivery = dateDelivery;
+    }
+
+    public String getTimeDelivery() {
+        return timeDelivery;
+    }
+
+    public void setTimeDelivery(String timeDelivery) {
+        this.timeDelivery = timeDelivery;
     }
 
     public String getState() {
@@ -118,8 +121,6 @@ public class Order implements Comparable{
     public void setState(String state) {
         this.state = state;
     }
-
-
 
     @Override
 
@@ -140,13 +141,14 @@ public class Order implements Comparable{
     public String toString() {
         return "Order{" +
                 "orderNr='" + orderNr + '\'' +
-                ", sender='" + sender + '\'' +
-                ", receiver='" + receiver + '\'' +
+                ", customer='" + customer + '\'' +
+                ", fromAddress='" + fromAddress + '\'' +
+                ", toAddress='" + toAddress + '\'' +
                 ", product='" + product + '\'' +
                 ", howMany=" + howMany +
                 ", rider='" + rider + '\'' +
-                ", datePickup='" + datePickup + '\'' +
                 ", dateDelivery='" + dateDelivery + '\'' +
+                ", timeDelivery='" + timeDelivery + '\'' +
                 ", state='" + state + '\'' +
                 '}';
     }
@@ -155,15 +157,15 @@ public class Order implements Comparable{
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("OrderNr", orderNr);
-        result.put("sender", sender);
-        result.put("receiver", receiver);
+        result.put("customer", customer);
+        result.put("fromAddress", fromAddress);
+        result.put("toAddress", toAddress);
         result.put("product", product);
         result.put("howMany", howMany);
         result.put("rider", rider);
-        result.put("datePickup", datePickup);
         result.put("dateDelivery", dateDelivery);
+        result.put("timeDelivery", timeDelivery);
         result.put("state", state);
         return result;
-
     }
 }

@@ -16,7 +16,7 @@ public class Product implements Comparable{
 
     //Empty Constructor
     public Product(){
-
+        this.active = true;
     }
 
     //Constructor with attributes
@@ -66,9 +66,9 @@ public class Product implements Comparable{
     public boolean equals(Object obj) {
         if (obj == null) return false;
         if (obj == this) return true;
-        if (!(obj instanceof Order)) return false;
-        Order o = (Order) obj;
-        return o.getOrderNr().equals(this.getProductNumber());
+        if (!(obj instanceof Product)) return false;
+        Product p = (Product) obj;
+        return p.getProductNumber().equals(this.getProductNumber());
     }
 
     @Override
@@ -84,11 +84,10 @@ public class Product implements Comparable{
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("productNumber", number);
-        result.put("productName", name);
-        result.put("productPrice", price);
-        result.put("productState", active);
+        //result.put("productNumber", number);
+        result.put("name", name);
+        result.put("price", price);
+        result.put("active", active);
         return result;
-
     }
 }

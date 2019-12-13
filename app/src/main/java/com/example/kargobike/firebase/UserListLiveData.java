@@ -2,7 +2,7 @@ package com.example.kargobike.firebase;
 
 import android.util.Log;
 
-import com.example.kargobike.database.entity.Product;
+import com.example.kargobike.database.entity.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -14,16 +14,16 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
-public class ProductListLiveData extends LiveData<List<Product>> {
+public class UserListLiveData extends LiveData<List<User>> {
 
-    private static final String TAG = "ProductListLiveData";
+    private static final String TAG = "UserListLiveData";
 
     //Attributes
     private final DatabaseReference reference;
     private final MyValueEventListener listener = new MyValueEventListener();
 
     //Constructor
-    public ProductListLiveData(DatabaseReference ref) {
+    public UserListLiveData(DatabaseReference ref) {
         reference = ref;
     }
 
@@ -43,7 +43,7 @@ public class ProductListLiveData extends LiveData<List<Product>> {
     private class MyValueEventListener implements ValueEventListener {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            setValue(toProducts(dataSnapshot));
+            setValue(toUsers(dataSnapshot));
         }
 
         @Override
@@ -52,16 +52,16 @@ public class ProductListLiveData extends LiveData<List<Product>> {
         }
     }
 
-    //fill the arraylist with the products
-    private List<Product> toProducts(DataSnapshot snapshot) {
-        List<Product> products = new ArrayList<>();
+    //fill the arraylist with the users
+    private List<User> toUsers(DataSnapshot snapshot) {
+        List<User> users = new ArrayList<>();
         for (DataSnapshot childSnapshot : snapshot.getChildren()) {
-            Product entity = childSnapshot.getValue(Product.class);
-            entity.setProductNumber(childSnapshot.getKey());
+            User entity = childSnapshot.getValue(User.class);
+            entity.setIdNumber(childSnapshot.getKey());
             if (entity.getActive()==true) {
-                products.add(entity);
+                users.add(entity);
             }
         }
-        return products;
+        return users;
     }
 }

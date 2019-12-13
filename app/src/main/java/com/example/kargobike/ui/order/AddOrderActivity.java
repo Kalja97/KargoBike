@@ -2,6 +2,7 @@ package com.example.kargobike.ui.order;
 
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -14,19 +15,21 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 
 import com.example.kargobike.R;
 import com.example.kargobike.adapter.ListAdapter;
 import com.example.kargobike.database.entity.Order;
 import com.example.kargobike.database.entity.Product;
+import com.example.kargobike.database.entity.User;
 import com.example.kargobike.ui.MainActivity;
 import com.example.kargobike.util.OnAsyncEventListener;
 import com.example.kargobike.viewmodel.order.OrderViewModel;
 import com.example.kargobike.viewmodel.product.ProductListViewModel;
+import com.example.kargobike.viewmodel.user.UserListViewModel;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -40,27 +43,32 @@ public class AddOrderActivity extends AppCompatActivity {
 
     //Attributes
     private String dateDelivery;
-    private String datePickup;
-    private String howManyPackages;
-    private String product;
-    private String receiver;
+    private String timeDelivery;
+    private String fromAddress;
+    private String toAddress;
     private String rider;
-    private String sender;
+    private String customer;
     private String state;
+    private String product;
+    private String howManyPackages;
     private int howMany;
 
     private OrderViewModel orderViewModel;
 
-    // Needed for Productlist
+    // Needed for Product choice
     private Spinner spProducts;
     private ProductListViewModel productListViewModel;
     private ListAdapter adapterProductsList;
 
+    // Needed for Rider choice
+    private Spinner spRiders;
+    private UserListViewModel riderListViewModel;
+    private ListAdapter adapterRidersList;
+
     private Toolbar toolbar;
 
-    private DatePickerDialog.OnDateSetListener DateSetListenerDelivery;
-    private DatePickerDialog.OnDateSetListener DateSetListenerPickup;
-
+    private DatePickerDialog.OnDateSetListener DateSetListener;
+    private TimePickerDialog.OnTimeSetListener TimeSetListener;
 
     //on create method
 
@@ -85,12 +93,12 @@ public class AddOrderActivity extends AppCompatActivity {
 
         //Initialize editTexts
         EditText etHowManyPackages = (EditText) findViewById(R.id.howManyPackages);
-        EditText etReceiver = (EditText) findViewById(R.id.receiver);
-        EditText etRider = (EditText) findViewById(R.id.rider);
-        EditText etSender = (EditText) findViewById(R.id.sender);
+        EditText etToAddress = (EditText) findViewById(R.id.toAddress);
+        EditText etCustomer = (EditText) findViewById(R.id.customer);
         Spinner spState = (Spinner) findViewById(R.id.state);
         EditText etDateDelivery = (EditText) findViewById(R.id.dateDelivery);
-        EditText etDatePickup = (EditText) findViewById(R.id.datePickup);
+        EditText etTimeDelivery = (EditText) findViewById(R.id.timeDelivery);
+        EditText etFromAddress = (EditText) findViewById(R.id.fromAddress);
 
         //Spinner for Products
         spProducts = (Spinner) findViewById(R.id.productlist);
@@ -98,10 +106,16 @@ public class AddOrderActivity extends AppCompatActivity {
         spProducts.setAdapter(adapterProductsList);
         fillProductList();
 
-        etDateDelivery.setFocusable(false);
-        etDatePickup.setFocusable(false);
+        //Spinner for Products
+        spRiders = (Spinner) findViewById(R.id.ridersList);
+        adapterRidersList = new ListAdapter<>(AddOrderActivity.this, R.layout.list_row, new ArrayList<>());
+        spRiders.setAdapter(adapterRidersList);
+        fillUserList();
 
-        //OnClickListener für Date Delivery
+        etDateDelivery.setFocusable(false);
+        etTimeDelivery.setFocusable(false);
+
+        //OnClickListener for Date
         etDateDelivery.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -113,34 +127,32 @@ public class AddOrderActivity extends AppCompatActivity {
                 DatePickerDialog dialog = new DatePickerDialog(
                         AddOrderActivity.this,
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-                        DateSetListenerDelivery,
+                        DateSetListener,
                         year,month,day);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
         });
 
-        //OnClickListener für Date Pickup
-        etDatePickup.setOnClickListener(new View.OnClickListener(){
+        //OnClickListener for Time
+        etTimeDelivery.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 Calendar cal = Calendar.getInstance();
-                int year = cal.get(Calendar.YEAR);
-                int month = cal.get(Calendar.MONTH);
-                int day = cal.get(Calendar.DAY_OF_MONTH);
+                int hours = cal.get(Calendar.HOUR_OF_DAY);
+                int minutes = cal.get(Calendar.MINUTE);
 
-                DatePickerDialog dialog = new DatePickerDialog(
+                TimePickerDialog dialog = new TimePickerDialog(
                         AddOrderActivity.this,
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-                        DateSetListenerPickup,
-                        year,month,day);
+                        TimeSetListener, hours, minutes, true);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
         });
 
-        //DateSetListener for Date Delivery
-        DateSetListenerDelivery = new DatePickerDialog.OnDateSetListener() {
+        //DateSetListener for Date
+        DateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 month = month + 1;
@@ -151,15 +163,14 @@ public class AddOrderActivity extends AppCompatActivity {
             }
         };
 
-        //DateSetListener for Date Pickup
-        DateSetListenerPickup = new DatePickerDialog.OnDateSetListener() {
+        //TimeSetListener for Time
+        TimeSetListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                month = month + 1;
-                Log.d(TAG, "onDateSet: mm/dd/yyy: " + day + "/" + month + "/" + year);
+            public void onTimeSet(TimePicker timePicker, int hours, int minutes) {
+                Log.d(TAG, "onTimeSet: hh:mm :" + hours + ":" + minutes);
 
-                String date = day + "/" + month + "/" + year;
-                etDatePickup.setText(date);
+                String time = hours + ":" + minutes;
+                etTimeDelivery.setText(time);
             }
         };
 
@@ -182,17 +193,18 @@ public class AddOrderActivity extends AppCompatActivity {
 
                 //Get text from inputs
                 dateDelivery = etDateDelivery.getText().toString().trim();
-                datePickup = etDatePickup.getText().toString().trim();
+                timeDelivery = etTimeDelivery.getText().toString().trim();
+                fromAddress = etFromAddress.getText().toString().trim();
                 howManyPackages = etHowManyPackages.getText().toString().trim();
-                receiver = etReceiver.getText().toString().trim();
-                sender = etSender.getText().toString().trim();
-                rider = etRider.getText().toString().trim();
+                toAddress = etToAddress.getText().toString().trim();
+                customer = etCustomer.getText().toString().trim();
+                rider = spRiders.getSelectedItem().toString();
                 state = spState.getSelectedItem().toString();
                 product = spProducts.getSelectedItem().toString();
 
                 //Check if all filed are filled in
-                if(dateDelivery.isEmpty() || datePickup.isEmpty() || howManyPackages.isEmpty() || receiver.isEmpty() ||
-                sender.isEmpty() || rider.isEmpty() || state.isEmpty() || product.isEmpty()){
+                if(dateDelivery.isEmpty() || timeDelivery.isEmpty() || fromAddress.isEmpty() || howManyPackages.isEmpty() || toAddress.isEmpty() ||
+                customer.isEmpty() || rider.isEmpty() || state.isEmpty() || product.isEmpty()){
                     final AlertDialog alertDialog = new AlertDialog.Builder(AddOrderActivity.this).create();
                     alertDialog.setTitle("Not all fields filled in");
                     alertDialog.setCancelable(true);
@@ -219,10 +231,11 @@ public class AddOrderActivity extends AppCompatActivity {
                 //create new location object
                 Order order = new Order();
                 order.setDateDelivery(dateDelivery);
-                order.setDatePickup(datePickup);
+                order.setTimeDelivery(timeDelivery);
+                order.setFromAddress(fromAddress);
                 order.setHowMany(howMany);
-                order.setReceiver(receiver);
-                order.setSender(sender);
+                order.setToAddress(toAddress);
+                order.setCustomer(customer);
                 order.setRider(rider);
                 order.setState(state);
                 order.setProduct(product);
@@ -270,6 +283,26 @@ public class AddOrderActivity extends AppCompatActivity {
                 }
 
                 adapterProductsList.updateData(new ArrayList<>(productStrings));
+            }
+        });
+    }
+
+    private void fillUserList() {
+        UserListViewModel.Factory factory = new UserListViewModel.Factory(
+                getApplication());
+        riderListViewModel = ViewModelProviders.of(this, factory)
+                .get(UserListViewModel.class);
+
+        riderListViewModel.getUsers().observe(this, riders -> {
+            if (riders != null) {
+
+                ArrayList<String> userStrings = new ArrayList<String>();
+                for (User rider: riders
+                ) {
+                    userStrings.add(rider.toString());
+                }
+
+                adapterRidersList.updateData(new ArrayList<>(userStrings));
             }
         });
     }

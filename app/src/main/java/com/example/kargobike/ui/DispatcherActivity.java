@@ -1,56 +1,45 @@
 package com.example.kargobike.ui;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.kargobike.R;
-import com.example.kargobike.adapter.OrderAdapter;
 import com.example.kargobike.ui.checkpoint.AddCheckpointActivity;
 import com.example.kargobike.ui.checkpoint.CheckpointsActivity;
 import com.example.kargobike.ui.order.AddOrderActivity;
-import com.example.kargobike.ui.order.DetailsOrderActivity;
 import com.example.kargobike.ui.order.OrdersActivity;
-import com.example.kargobike.util.RecyclerViewItemClickListener;
-import com.example.kargobike.viewmodel.order.OrderListViewModel;
+import com.example.kargobike.ui.product.AddProductActivity;
+import com.example.kargobike.ui.product.ProductlistActivity;
+import com.example.kargobike.ui.user.AddUserActivity;
+import com.example.kargobike.ui.user.EditUserActivity;
+import com.example.kargobike.ui.user.UserlistActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.ArrayList;
-
-import static androidx.core.content.ContextCompat.startActivity;
-import static com.example.kargobike.R.id.DispatcherImageButton;
+import static com.example.kargobike.R.id.addProductImageButton;
+import static com.example.kargobike.R.id.addUserButton;
+import static com.example.kargobike.R.id.addUserImageButton;
 import static com.example.kargobike.R.id.checkpointAddImageButton;
 import static com.example.kargobike.R.id.checkpointListImageButton;
+import static com.example.kargobike.R.id.editProductImageButton;
+import static com.example.kargobike.R.id.editUserButton;
+import static com.example.kargobike.R.id.editUserImageButton;
 import static com.example.kargobike.R.id.orderAddImageButton;
 import static com.example.kargobike.R.id.orderListImageButton;
 
-/**
- * Author: Samuel Pinto Da Silva
- * Creation date:
- * Last update date: 03.12.2019
- */
+public class DispatcherActivity extends AppCompatActivity {
 
-
-
-public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TextView user;
 
@@ -83,15 +72,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Method for logout
-    private void logout() {
+    private void logout(){
         FirebaseAuth.getInstance().signOut();
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
-        ;
+        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);;
         mGoogleSignInClient.signOut();
     }
 
@@ -104,25 +92,24 @@ public class MainActivity extends AppCompatActivity {
 //            setTheme(R.style.AppTheme);
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+        setContentView(R.layout.activity_dispatcher);
 
         //Toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //Show user in toolbar
-        user = (TextView) findViewById(R.id.toolbarTextView);
+        user = (TextView)findViewById(R.id.toolbarTextView);
         user.setText(getIntent().getStringExtra("user_name"));
 
         //change title in toolbar and it's color
         setTitle("KargoBike");
         toolbar.setTitleTextColor(Color.WHITE);
 
-        //Create imageButton to display the list of orders
-        ImageButton oListButton = (ImageButton) findViewById(orderListImageButton);
-        oListButton.setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this, OrdersActivity.class);
+        //Create imageButton to edit users
+        ImageButton btnEditUser = (ImageButton)findViewById(editUserImageButton);
+        btnEditUser.setOnClickListener(view -> {
+            Intent intent = new Intent(this, UserlistActivity.class);
             intent.setFlags(
                     Intent.FLAG_ACTIVITY_NO_ANIMATION |
                             Intent.FLAG_ACTIVITY_NO_HISTORY
@@ -131,10 +118,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        //Create imageButton for adding new Orders
-        ImageButton oAdd = (ImageButton) findViewById(orderAddImageButton);
-        oAdd.setOnClickListener(view -> {
-            Intent intent = new Intent(this, AddOrderActivity.class);
+        //Create imageButton to add users
+        ImageButton btnAddUser = (ImageButton)findViewById(addUserImageButton);
+        btnAddUser.setOnClickListener(view -> {
+            Intent intent = new Intent(this, AddUserActivity.class);
             intent.setFlags(
                     Intent.FLAG_ACTIVITY_NO_ANIMATION |
                             Intent.FLAG_ACTIVITY_NO_HISTORY
@@ -142,10 +129,10 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        //Create imageButton for adding new Checkpoints
-        ImageButton cAdd = (ImageButton) findViewById(checkpointAddImageButton);
-        cAdd.setOnClickListener(view -> {
-            Intent intent = new Intent(this, AddCheckpointActivity.class);
+        //Create imageButton to edit products
+        ImageButton btnEditProduct = (ImageButton)findViewById(editProductImageButton);
+        btnEditProduct.setOnClickListener(view -> {
+            Intent intent = new Intent(this, ProductlistActivity.class);
             intent.setFlags(
                     Intent.FLAG_ACTIVITY_NO_ANIMATION |
                             Intent.FLAG_ACTIVITY_NO_HISTORY
@@ -153,27 +140,16 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        //Create imageButton to display the list of orders
-        ImageButton cListButton = (ImageButton) findViewById(checkpointListImageButton);
-        cListButton.setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this, CheckpointsActivity.class);
+        //Create imageButton to to edit products
+        ImageButton btnAddProduct = (ImageButton)findViewById(addProductImageButton);
+        btnAddProduct.setOnClickListener(view -> {
+            Intent intent = new Intent(this, AddProductActivity.class);
             intent.setFlags(
                     Intent.FLAG_ACTIVITY_NO_ANIMATION |
                             Intent.FLAG_ACTIVITY_NO_HISTORY
             );
             startActivity(intent);
         });
-
-        ImageButton btnDispatcherTools = (ImageButton) findViewById(DispatcherImageButton);
-        btnDispatcherTools.setOnClickListener(view -> {
-            Intent intent = new Intent(this, DispatcherActivity.class);
-            intent.setFlags(
-                    Intent.FLAG_ACTIVITY_NO_ANIMATION |
-                            Intent.FLAG_ACTIVITY_NO_HISTORY
-            );
-            startActivity(intent);
-        });
-
     }
 }
 
