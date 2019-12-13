@@ -85,7 +85,7 @@ public class EditCheckpointActivity extends AppCompatActivity {
                 type = spType.getSelectedItem().toString();
 
                 //call method for checking if required fields are filled
-                if(checkInputField(checkpointName, type)){
+                if(checkInputField(type)){
                     //call method for saving checkpoint
                     saveChanges(checkpointName, type);
                 }
@@ -114,8 +114,6 @@ public class EditCheckpointActivity extends AppCompatActivity {
         checkpoint.setCheckpointName(checkpointName);
         checkpoint.setType(type);
 
-        Log.d("Salute guat", "Zeig: " + checkpoint.toString());
-
         vmCheckpoint.updateCheckpoint(checkpoint, new OnAsyncEventListener() {
             @Override
             public void onSuccess() {
@@ -139,9 +137,9 @@ public class EditCheckpointActivity extends AppCompatActivity {
         });
     }
 
-    private boolean checkInputField(String checkpointName,String type){
+    private boolean checkInputField(String type){
         //Check if all filed are filled in
-        if(checkpointName.isEmpty() || type.isEmpty()){
+        if(type.isEmpty()){
             final AlertDialog alertDialog = new AlertDialog.Builder(EditCheckpointActivity.this).create();
             alertDialog.setTitle("Not all fields filled in");
             alertDialog.setCancelable(true);
