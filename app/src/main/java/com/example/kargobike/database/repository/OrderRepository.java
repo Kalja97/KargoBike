@@ -1,12 +1,14 @@
 package com.example.kargobike.database.repository;
 
 import com.example.kargobike.database.entity.Order;
+import com.example.kargobike.firebase.OrderListFilteredLiveData;
 import com.example.kargobike.firebase.OrderListLiveData;
 import com.example.kargobike.firebase.OrderLiveData;
 import com.example.kargobike.util.OnAsyncEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Date;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
@@ -31,7 +33,7 @@ public class OrderRepository {
         return instance;
     }
 
-    //Query: Get a Location
+    //Query: Get a order
     public LiveData<Order> getOrder(final String orderNr) {
         DatabaseReference reference = FirebaseDatabase.getInstance()
                 .getReference("orders")
@@ -45,6 +47,14 @@ public class OrderRepository {
                 .getReference("orders");
         return new OrderListLiveData(reference);
     }
+
+    //Query: Get all orders by date and user
+    public LiveData<List<Order>> getOrdersDateUser() {
+        DatabaseReference reference = FirebaseDatabase.getInstance()
+                .getReference("orders");
+        return new OrderListFilteredLiveData(reference);
+    }
+
 
     //Query: Insert an order
     public void insert(final Order order, final OnAsyncEventListener callback) {

@@ -3,40 +3,26 @@ package com.example.kargobike.ui;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.kargobike.R;
-import com.example.kargobike.adapter.OrderAdapter;
 import com.example.kargobike.ui.checkpoint.AddCheckpointActivity;
 import com.example.kargobike.ui.checkpoint.CheckpointsActivity;
 import com.example.kargobike.ui.order.AddOrderActivity;
-import com.example.kargobike.ui.order.DetailsOrderActivity;
 import com.example.kargobike.ui.order.OrdersActivity;
-import com.example.kargobike.util.RecyclerViewItemClickListener;
-import com.example.kargobike.viewmodel.order.OrderListViewModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.ArrayList;
-
-import static androidx.core.content.ContextCompat.startActivity;
-import static com.example.kargobike.R.id.DispatcherImageButton;
+import static com.example.kargobike.R.id.getAllOrdersImageButton;
 import static com.example.kargobike.R.id.checkpointAddImageButton;
 import static com.example.kargobike.R.id.checkpointListImageButton;
 import static com.example.kargobike.R.id.orderAddImageButton;
@@ -53,6 +39,7 @@ import static com.example.kargobike.R.id.orderListImageButton;
 public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TextView user;
+    private String username;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -111,6 +98,9 @@ public class MainActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //get username
+        username = getIntent().getStringExtra("user_name");
+
         //Show user in toolbar
         user = (TextView) findViewById(R.id.toolbarTextView);
         user.setText(getIntent().getStringExtra("user_name"));
@@ -123,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
         ImageButton oListButton = (ImageButton) findViewById(orderListImageButton);
         oListButton.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, OrdersActivity.class);
+            intent.putExtra("user_name", username);
             intent.setFlags(
                     Intent.FLAG_ACTIVITY_NO_ANIMATION |
                             Intent.FLAG_ACTIVITY_NO_HISTORY
@@ -164,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        ImageButton btnDispatcherTools = (ImageButton) findViewById(DispatcherImageButton);
+        ImageButton btnDispatcherTools = (ImageButton) findViewById(getAllOrdersImageButton);
         btnDispatcherTools.setOnClickListener(view -> {
             Intent intent = new Intent(this, DispatcherActivity.class);
             intent.setFlags(
