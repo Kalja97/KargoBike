@@ -1,28 +1,23 @@
-package com.example.kargobike.ui.order;
+package com.example.kargobike.ui;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.appcompat.widget.Toolbar;
-
 import android.util.Log;
-import android.view.*;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.kargobike.R;
 import com.example.kargobike.adapter.OrderAdapter;
 import com.example.kargobike.database.entity.Order;
-import com.example.kargobike.ui.LogActivity;
-import com.example.kargobike.ui.SettingsActivity;
+import com.example.kargobike.ui.order.AddOrderActivity;
+import com.example.kargobike.ui.order.DetailsOrderActivity;
+import com.example.kargobike.ui.order.OrdersActivity;
 import com.example.kargobike.util.RecyclerViewItemClickListener;
-import com.example.kargobike.viewmodel.order.OrderListFilteredViewModel;
+import com.example.kargobike.viewmodel.order.OrderListViewModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -32,11 +27,18 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrdersActivity extends AppCompatActivity {
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-    private static final String TAG = "OrdersList";
+public class AllOrdersActivity extends AppCompatActivity {
 
-    private OrderListFilteredViewModel orderListFilteredViewModel;
+    private static final String TAG = "AllOrdersActitivy";
+
+    private OrderListViewModel orderListViewModel;
     //private OrderMoveViewModel OrderMoveViewModel;
 
 //    private CheckpointEntity Checkpoint ;
@@ -85,7 +87,7 @@ public class OrdersActivity extends AppCompatActivity {
     }
 
     //Method for logout
-   private void logout(){
+    private void logout(){
         FirebaseAuth.getInstance().signOut();
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -112,7 +114,7 @@ public class OrdersActivity extends AppCompatActivity {
         user.setText(getIntent().getStringExtra("user_name"));
 
         //change title in toolbar and it's color
-        setTitle("KargoBike - Orders");
+        setTitle("KargoBike - All Orders");
         toolbar.setTitleTextColor(Color.WHITE);
 
         username = getIntent().getStringExtra("user_name");
@@ -141,7 +143,7 @@ public class OrdersActivity extends AppCompatActivity {
                     Log.d(TAG, "Clicked on: "+Orders.get(position).getOrderNr());
 
 
-                    Intent intent = new Intent(OrdersActivity.this, DetailsOrderActivity.class);
+                    Intent intent = new Intent(AllOrdersActivity.this, DetailsOrderActivity.class);
                     intent.setFlags(
                             Intent.FLAG_ACTIVITY_NO_ANIMATION |
                                     Intent.FLAG_ACTIVITY_NO_HISTORY
@@ -156,7 +158,7 @@ public class OrdersActivity extends AppCompatActivity {
                     Log.d(TAG, "longClicked position:" + position);
                     Log.d(TAG, "longClicked on: " + Orders.get(position).toString());
 
-                    Intent intent = new Intent(OrdersActivity.this, DetailsOrderActivity.class);
+                    Intent intent = new Intent(AllOrdersActivity.this, DetailsOrderActivity.class);
                     intent.setFlags(
                             Intent.FLAG_ACTIVITY_NO_ANIMATION |
                                     Intent.FLAG_ACTIVITY_NO_HISTORY
@@ -168,7 +170,7 @@ public class OrdersActivity extends AppCompatActivity {
             });
 
 
-            //Create floatingButton for adding new Orders
+            /*//Create floatingButton for adding new Orders
             FloatingActionButton fab = findViewById(R.id.floatingActionAddOrder);
             fab.setOnClickListener(view -> {
                 Intent intent = new Intent(OrdersActivity.this, AddOrderActivity.class);
@@ -177,13 +179,13 @@ public class OrdersActivity extends AppCompatActivity {
                                 Intent.FLAG_ACTIVITY_NO_HISTORY
                 );
                 startActivity(intent);
-            });
+            });*/
 
 
             //Get the Orders in the database by calling the ViewModel
-            OrderListFilteredViewModel.Factory factory = new OrderListFilteredViewModel.Factory(getApplication());
-            orderListFilteredViewModel = ViewModelProviders.of(this, factory).get(OrderListFilteredViewModel.class);
-            orderListFilteredViewModel.getOrders().observe(this, OrderEntities -> {
+            OrderListViewModel.Factory factory = new OrderListViewModel.Factory(getApplication());
+            orderListViewModel = ViewModelProviders.of(this, factory).get(OrderListViewModel.class);
+            orderListViewModel.getOrders().observe(this, OrderEntities -> {
                 if(OrderEntities != null) {
                     Orders = OrderEntities;
                     adapter.setData(Orders);

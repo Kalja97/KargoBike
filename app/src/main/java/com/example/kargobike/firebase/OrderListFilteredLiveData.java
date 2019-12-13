@@ -3,6 +3,7 @@ package com.example.kargobike.firebase;
 import android.util.Log;
 
 import com.example.kargobike.database.entity.Order;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -11,17 +12,16 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
-public class OrderListLiveData extends LiveData<List<Order>> {
+public class OrderListFilteredLiveData extends LiveData<List<Order>> {
 
-    private static final String TAG = "OrderListLiveData";
+    private static final String TAG = "OrderListFilterLiveData";
+
 
     //Attributes
     private final DatabaseReference reference;
@@ -29,7 +29,8 @@ public class OrderListLiveData extends LiveData<List<Order>> {
     //private FirebaseUser user;
 
     //Constructor
-    public OrderListLiveData(DatabaseReference ref) {
+    public OrderListFilteredLiveData(DatabaseReference ref) {
+
         reference = ref;
     }
 
@@ -58,17 +59,26 @@ public class OrderListLiveData extends LiveData<List<Order>> {
         }
     }
 
-    //fill the arraylist with the orders
+    //fill the arraylist with the orders on current day and logged in user
     private List<Order> toOrders(DataSnapshot snapshot) {
         List<Order> orders = new ArrayList<>();
+        String currentDate = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+
         for (DataSnapshot childSnapshot : snapshot.getChildren()) {
 
             Order entity = childSnapshot.getValue(Order.class);
             entity.setOrderNr(childSnapshot.getKey());
-            orders.add(entity);
+            if (entity.getDateDelivery().equals(currentDate)
+                && entity.getRider().equals(user.getDisplayName())) {
+                orders.add(entity);
+            }
         }
         return orders;
     }
 
 }
+
 

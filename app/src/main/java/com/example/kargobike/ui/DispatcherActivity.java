@@ -35,6 +35,7 @@ import static com.example.kargobike.R.id.checkpointListImageButton;
 import static com.example.kargobike.R.id.editProductImageButton;
 import static com.example.kargobike.R.id.editUserButton;
 import static com.example.kargobike.R.id.editUserImageButton;
+import static com.example.kargobike.R.id.getAllOrdersImageButton;
 import static com.example.kargobike.R.id.orderAddImageButton;
 import static com.example.kargobike.R.id.orderListImageButton;
 
@@ -144,6 +145,17 @@ public class DispatcherActivity extends AppCompatActivity {
         ImageButton btnAddProduct = (ImageButton)findViewById(addProductImageButton);
         btnAddProduct.setOnClickListener(view -> {
             Intent intent = new Intent(this, AddProductActivity.class);
+            intent.setFlags(
+                    Intent.FLAG_ACTIVITY_NO_ANIMATION |
+                            Intent.FLAG_ACTIVITY_NO_HISTORY
+            );
+            startActivity(intent);
+        });
+
+        //Create imageButton to to see all orders
+        ImageButton btnGetAllOrders = (ImageButton)findViewById(getAllOrdersImageButton);
+        btnGetAllOrders.setOnClickListener(view -> {
+            Intent intent = new Intent(this, AllOrdersActivity.class);
             intent.setFlags(
                     Intent.FLAG_ACTIVITY_NO_ANIMATION |
                             Intent.FLAG_ACTIVITY_NO_HISTORY

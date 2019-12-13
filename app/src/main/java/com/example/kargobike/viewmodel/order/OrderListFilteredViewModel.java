@@ -15,16 +15,16 @@ import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import static com.example.kargobike.database.repository.OrderRepository.*;
+import static com.example.kargobike.database.repository.OrderRepository.getInstance;
 
-public class OrderListViewModel extends AndroidViewModel {
+public class OrderListFilteredViewModel extends AndroidViewModel {
 
     private OrderRepository repository;
 
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
     private final MediatorLiveData<List<Order>> observableOrders;
 
-    public OrderListViewModel(@NonNull Application application, OrderRepository orderRepository) {
+    public OrderListFilteredViewModel(@NonNull Application application, OrderRepository orderRepository) {
         super(application);
 
         repository = orderRepository;
@@ -33,7 +33,7 @@ public class OrderListViewModel extends AndroidViewModel {
         // set by default null, until we get data from the database.
         observableOrders.setValue(null);
 
-        LiveData<List<Order>> orders = repository.getAllOrders();
+        LiveData<List<Order>> orders = repository.getOrdersDateUser();
 
         // observe the changes of the entities from the database and forward them
         observableOrders.addSource(orders, observableOrders::setValue);
@@ -49,6 +49,8 @@ public class OrderListViewModel extends AndroidViewModel {
 
         private final OrderRepository orderRepository;
 
+        private String username;
+
         public Factory(@NonNull Application application) {
             this.application = application;
             orderRepository = getInstance();
@@ -57,7 +59,7 @@ public class OrderListViewModel extends AndroidViewModel {
         @Override
         public <T extends ViewModel> T create(Class<T> modelClass) {
             //noinspection unchecked
-            return (T) new OrderListViewModel(application, orderRepository);
+            return (T) new OrderListFilteredViewModel(application, orderRepository);
         }
     }
 

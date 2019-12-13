@@ -76,4 +76,7 @@
     <string name="action_error_order">order not edited</string>
     <string name="action_error_checkpoint">checkpoint not edited</string>
     <string name="error_invalid_packages">Must be a number</string>
+    <string name="msg_token_fmt"></string>
+    <string name="fcm_message">Notification</string>
+    <string name="default_notification_channel_id">Channel</string>
 </resources>

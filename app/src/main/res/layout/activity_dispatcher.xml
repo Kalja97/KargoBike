@@ -218,7 +218,7 @@
         tools:ignore="MissingConstraints">>
 
         <ImageButton
-            android:id="@+id/DispatcherImageButton"
+            android:id="@+id/getAllOrdersImageButton"
             android:layout_width="170dp"
             android:layout_height="170dp"
             android:background="#FFFFFF"
@@ -230,12 +230,14 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="t.b.d."
+            android:text="All Orders"
             android:textAlignment="center"
             android:textColor="#F35C5C"
             android:textSize="20dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
