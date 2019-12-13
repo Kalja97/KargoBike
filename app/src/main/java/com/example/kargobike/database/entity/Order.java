@@ -3,6 +3,7 @@ package com.example.kargobike.database.entity;
 import com.google.firebase.database.Exclude;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,10 @@ public class Order implements Comparable{
     private String dateDelivery;
     private String timeDelivery;
     private String state;
+
+    // TEST ZONE
+    private List<Integer> checkpointsID;
+    // END OF TEST ZONE
 
     //Empty Constructor
     public Order(){
@@ -120,6 +125,14 @@ public class Order implements Comparable{
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public List<Integer> getCheckpointsID() {
+        return checkpointsID;
+    }
+
+    public void setCheckpointsID(List<Integer> checkpointsID) {
+        this.checkpointsID = checkpointsID;
     }
 
     @Override

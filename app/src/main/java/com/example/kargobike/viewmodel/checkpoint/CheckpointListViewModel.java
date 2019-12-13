@@ -39,15 +39,17 @@ public class CheckpointListViewModel extends AndroidViewModel {
 
         LiveData<List<Checkpoint>> checkpoints = new LiveData<List<Checkpoint>>() {
         };
-        LiveData<List<Checkpoint>> checkpointsByOrder = repository.getCheckpointsByOrder(orderNr);
-
-
-        checkpoints = repository.getCheckpoints();
+        LiveData<List<Checkpoint>> checkpointsByOrder = new LiveData<List<Checkpoint>>() {
+        };
 
         if(orderNr != null)
         {
             checkpointsByOrder = repository.getCheckpointsByOrder(orderNr);
         }
+
+
+        checkpoints = repository.getCheckpoints();
+
         // observe the changes of the entities from the database and forward them
         observableCheckpoints.addSource(checkpoints, observableCheckpoints::setValue);
         observableCheckpointsByOrder.addSource(checkpointsByOrder, observableCheckpointsByOrder::setValue);

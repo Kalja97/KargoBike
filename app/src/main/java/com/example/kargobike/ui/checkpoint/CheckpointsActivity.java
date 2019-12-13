@@ -25,13 +25,18 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.example.kargobike.adapter.CheckPointAdapter;
+import com.example.kargobike.adapter.OrderAdapter;
 import com.example.kargobike.database.entity.Checkpoint;
 import com.example.kargobike.R;
+import com.example.kargobike.database.entity.Order;
 import com.example.kargobike.database.repository.CheckpointRepository;
+import com.example.kargobike.database.repository.OrderRepository;
+import com.example.kargobike.firebase.OrderLiveData;
 import com.example.kargobike.ui.LogActivity;
 import com.example.kargobike.ui.SettingsActivity;
 import com.example.kargobike.util.RecyclerViewItemClickListener;
 import com.example.kargobike.viewmodel.checkpoint.CheckpointListViewModel;
+import com.example.kargobike.viewmodel.order.OrderViewModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -118,14 +123,7 @@ public class CheckpointsActivity extends AppCompatActivity {
         order = getIntent().getStringExtra("OrderNr");
         //CheckpointId = getIntent().getStringExtra("CheckpointId");
 
-        CheckpointListViewModel.Factory factory = new CheckpointListViewModel.Factory(getApplication(),order);
-        CheckpointListViewModel = ViewModelProviders.of(this, factory).get(CheckpointListViewModel.class);
-        CheckpointListViewModel.getCheckpointsByOrder().observe(this, CheckpointEntities -> {
-            if(CheckpointEntities != null) {
-                checkpointList = CheckpointEntities;
-                adapter.setData(checkpointList);
-            }
-        });
+
 
         // For dialog --> list creation
         if(order != null)
@@ -138,6 +136,18 @@ public class CheckpointsActivity extends AppCompatActivity {
                     checkpointListForSelect = CheckpointListViewModelForSelect.getCheckpoints().getValue();
                     //adapterForSelect.setData(checkpointListForSelect);
                     System.out.println("Size of checkpointListForSelect: " + checkpointListForSelect.size());
+                }
+            });
+        }
+        // For all checkPoints (Global)
+        else
+        {
+            CheckpointListViewModel.Factory factory = new CheckpointListViewModel.Factory(getApplication(),order);
+            CheckpointListViewModel = ViewModelProviders.of(this, factory).get(CheckpointListViewModel.class);
+            CheckpointListViewModel.getCheckpoints/*ByOrder*/().observe(this, CheckpointEntities -> {
+                if(CheckpointEntities != null) {
+                    checkpointList = CheckpointEntities;
+                    adapter.setData(checkpointList);
                 }
             });
         }
@@ -271,23 +281,23 @@ public class CheckpointsActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             // Do something when click positive button
                             //tv.setText("Your preferred colors..... \n");
-                            for (int i = 0; i<checkedCP.length; i++){
+                            for (int i = 0; i < checkedCP.length; i++) {
                                 boolean checked = checkedCP[i];
                                 if (checked) {
                                     //tv.setText(tv.getText() + colorsList.get(i) + "\n");
+
                                 }
                             }
                         }
-                    });
-
-
-                    // Set the neutral/cancel button click listener
-                    builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                    }).setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             // Do something when click the neutral button
                         }
                     });
+
+
+                    // Set the neutral/cancel button click listener
 
                     AlertDialog dialog = builder.create();
                     // Display the alert dialog on interface
