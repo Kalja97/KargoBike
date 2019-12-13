@@ -34,6 +34,7 @@ import com.example.kargobike.database.repository.OrderRepository;
 import com.example.kargobike.firebase.OrderLiveData;
 import com.example.kargobike.ui.LogActivity;
 import com.example.kargobike.ui.SettingsActivity;
+import com.example.kargobike.util.OnAsyncEventListener;
 import com.example.kargobike.util.RecyclerViewItemClickListener;
 import com.example.kargobike.viewmodel.checkpoint.CheckpointListViewModel;
 import com.example.kargobike.viewmodel.order.OrderViewModel;
@@ -121,6 +122,7 @@ public class CheckpointsActivity extends AppCompatActivity {
         toolbar.setTitleTextColor(Color.WHITE);
 
         order = getIntent().getStringExtra("OrderNr");
+
         //CheckpointId = getIntent().getStringExtra("CheckpointId");
 
 
@@ -151,6 +153,8 @@ public class CheckpointsActivity extends AppCompatActivity {
                 }
             });
         }
+
+
 
 
         if (CheckpointId == null) {
@@ -273,7 +277,9 @@ public class CheckpointsActivity extends AppCompatActivity {
                     builder.setCancelable(false);
 
                     // Set a title for alert dialog
-                    builder.setTitle("Size of arraylist: " + checkpointListForSelect.size());
+                    builder.setTitle("Checkpoints selector");
+
+                    List<String> selectedCP = new ArrayList<>();
 
                     // Set the positive/yes button click listener
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -283,11 +289,30 @@ public class CheckpointsActivity extends AppCompatActivity {
                             //tv.setText("Your preferred colors..... \n");
                             for (int i = 0; i < checkedCP.length; i++) {
                                 boolean checked = checkedCP[i];
-                                if (checked) {
-                                    //tv.setText(tv.getText() + colorsList.get(i) + "\n");
-
+                                if (checked)
+                                {
+                                    selectedCP.add(checkpointListForSelect.get(i).getId());
                                 }
                             }
+
+                            Order tempOrder;
+                            OrderRepository oRep = new OrderRepository();
+                            OrderViewModel.Factory factory = new OrderViewModel.Factory(getApplication(), order);
+                            OrderViewModel oVM = new OrderViewModel(getApplication(),order,oRep);
+                            oVM.getOrder().getValue().setCheckpointsID(selectedCP);
+                            oVM.updateOrder(oVM.getOrder().getValue(), new OnAsyncEventListener() {
+                                @Override
+                                public void onSuccess() {
+                                    Log.d(TAG, "updateOrder: Success");
+                                    onBackPressed();
+                                }
+
+                                @Override
+                                public void onFailure(Exception e) {
+                                    Log.d(TAG, "updateOrder: Failure", e);
+                                    onBackPressed();
+                                }
+                            });
                         }
                     }).setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override

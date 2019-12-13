@@ -22,7 +22,7 @@ public class Order implements Comparable{
     private String state;
 
     // TEST ZONE
-    private List<Integer> checkpointsID;
+    private List<String> checkpointsID;
     // END OF TEST ZONE
 
     //Empty Constructor
@@ -127,11 +127,11 @@ public class Order implements Comparable{
         this.state = state;
     }
 
-    public List<Integer> getCheckpointsID() {
+    public List<String> getCheckpointsID() {
         return checkpointsID;
     }
 
-    public void setCheckpointsID(List<Integer> checkpointsID) {
+    public void setCheckpointsID(List<String> checkpointsID) {
         this.checkpointsID = checkpointsID;
     }
 
