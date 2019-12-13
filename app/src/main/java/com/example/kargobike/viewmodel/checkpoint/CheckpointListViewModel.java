@@ -23,6 +23,7 @@ public class CheckpointListViewModel extends AndroidViewModel {
 
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
     private final MediatorLiveData<List<Checkpoint>> observableCheckpoints;
+    private final MediatorLiveData<List<Checkpoint>> observableCheckpointsByOrder;
 
     public CheckpointListViewModel(@NonNull Application application,
                              final String orderNr, CheckpointRepository checkpointRepository) {
@@ -31,21 +32,25 @@ public class CheckpointListViewModel extends AndroidViewModel {
         repository = checkpointRepository;
 
         observableCheckpoints = new MediatorLiveData<>();
+        observableCheckpointsByOrder = new MediatorLiveData<>();
         // set by default null, until we get data from the database.
         observableCheckpoints.setValue(null);
+        observableCheckpointsByOrder.setValue(null);
 
-        LiveData<List<Checkpoint>> checkpoints;
+        LiveData<List<Checkpoint>> checkpoints = new LiveData<List<Checkpoint>>() {
+        };
+        LiveData<List<Checkpoint>> checkpointsByOrder = repository.getCheckpointsByOrder(orderNr);
 
-        if(orderNr == null)
+
+        checkpoints = repository.getCheckpoints();
+
+        if(orderNr != null)
         {
-            checkpoints = repository.getCheckpoints();
-        }
-        else
-        {
-            checkpoints= repository.getCheckpointsByOrder(orderNr);
+            checkpointsByOrder = repository.getCheckpointsByOrder(orderNr);
         }
         // observe the changes of the entities from the database and forward them
         observableCheckpoints.addSource(checkpoints, observableCheckpoints::setValue);
+        observableCheckpointsByOrder.addSource(checkpointsByOrder, observableCheckpointsByOrder::setValue);
     }
 
     //Factory of the checkpoint list view model
@@ -72,6 +77,11 @@ public class CheckpointListViewModel extends AndroidViewModel {
     //Get all checkpoints
     public LiveData<List<Checkpoint>> getCheckpoints() {
         return observableCheckpoints;
+    }
+
+    //Get the checkpoints of an order
+    public LiveData<List<Checkpoint>> getCheckpointsByOrder() {
+        return observableCheckpointsByOrder;
     }
 
 }

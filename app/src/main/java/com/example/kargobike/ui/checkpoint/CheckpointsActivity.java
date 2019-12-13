@@ -3,6 +3,7 @@ package com.example.kargobike.ui.checkpoint;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,6 +27,7 @@ import android.widget.Spinner;
 import com.example.kargobike.adapter.CheckPointAdapter;
 import com.example.kargobike.database.entity.Checkpoint;
 import com.example.kargobike.R;
+import com.example.kargobike.database.repository.CheckpointRepository;
 import com.example.kargobike.ui.LogActivity;
 import com.example.kargobike.ui.SettingsActivity;
 import com.example.kargobike.util.RecyclerViewItemClickListener;
@@ -37,6 +39,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CheckpointsActivity extends AppCompatActivity {
@@ -48,9 +51,15 @@ public class CheckpointsActivity extends AppCompatActivity {
    // private ListView listview;
     private List<Checkpoint> checkpointList;
    // private CheckpointListViewModel viewModel;
+
     private String order;
     private String CheckpointId;
     private CheckPointAdapter<Checkpoint> adapter;
+
+    // for selection dialog
+    private List<Checkpoint> checkpointListForSelect;
+    private CheckpointListViewModel CheckpointListViewModelForSelect;
+    private CheckPointAdapter<Checkpoint> adapterForSelect;
 
     private Toolbar toolbar;
 
@@ -111,12 +120,28 @@ public class CheckpointsActivity extends AppCompatActivity {
 
         CheckpointListViewModel.Factory factory = new CheckpointListViewModel.Factory(getApplication(),order);
         CheckpointListViewModel = ViewModelProviders.of(this, factory).get(CheckpointListViewModel.class);
-        CheckpointListViewModel.getCheckpoints().observe(this, CheckpointEntities -> {
+        CheckpointListViewModel.getCheckpointsByOrder().observe(this, CheckpointEntities -> {
             if(CheckpointEntities != null) {
                 checkpointList = CheckpointEntities;
                 adapter.setData(checkpointList);
             }
         });
+
+        // For dialog --> list creation
+        if(order != null)
+        {
+            CheckpointListViewModel.Factory factory2 = new CheckpointListViewModel.Factory(getApplication(),null);
+            CheckpointListViewModelForSelect = ViewModelProviders.of(this, factory2).get(CheckpointListViewModel.class);
+            checkpointListForSelect = new ArrayList<>();
+            CheckpointListViewModelForSelect.getCheckpoints().observe(this, CheckpointEntities -> {
+                if(CheckpointEntities != null) {
+                    checkpointListForSelect = CheckpointListViewModelForSelect.getCheckpoints().getValue();
+                    //adapterForSelect.setData(checkpointListForSelect);
+                    System.out.println("Size of checkpointListForSelect: " + checkpointListForSelect.size());
+                }
+            });
+        }
+
 
         if (CheckpointId == null) {
             //Initialize Database and data
@@ -169,39 +194,105 @@ public class CheckpointsActivity extends AppCompatActivity {
 
             //Create floatingButton for adding new checkpoints in orders
             FloatingActionButton fab = findViewById(R.id.floatingActionAddCheckPoint);
-            fab.setOnClickListener(view -> {
-//                Intent intent = new Intent(CheckpointsActivity.this, AddCheckpointActivity.class);
-//                intent.setFlags(
-//                        Intent.FLAG_ACTIVITY_NO_ANIMATION |
-//                                Intent.FLAG_ACTIVITY_NO_HISTORY
-//                );
-//                intent.putExtra("OrderNr", order);
-//                startActivity(intent);
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Title");
+            fab.setOnClickListener(new View.OnClickListener() {
 
-                // Set up the input
-                final EditText input = new EditText(this);
-                // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-                input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                builder.setView(input);
+                // based on the code of AndiGeeky from https://stackoverflow.com/questions/32323605/how-do-i-control-on-multichoice-alertdialog/32324244#32324244
+                @Override
+                public void onClick(View v) {
+                    // Build an AlertDialog
+                    AlertDialog.Builder builder = new AlertDialog.Builder(CheckpointsActivity.this);
 
-                // Set up the buttons
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String m_Text = input.getText().toString();
+
+                    // Tab with the names checkpoints names
+                    String[] cpNamesTab = new String[checkpointListForSelect.size()];
+
+                    for(int i = 0; i < cpNamesTab.length ; i++)
+                    {
+                        cpNamesTab[i] = checkpointListForSelect.get(i).getCheckpointName();
                     }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
 
-                builder.show();
-            });
+                    // Tab with the names checked checkpoints
+                    final boolean[] checkedCP = new boolean[checkpointListForSelect.size()];
+
+                    for(int i = 0; i < checkedCP.length ; i++)
+                    {
+                        checkedCP[i] = false;
+                    }
+
+                    // Convert the checkpoints array to list
+                    final List<String> cpList = Arrays.asList(cpNamesTab);
+
+                    // Convert the color array to list
+                   // final List<String> colorsList = Arrays.asList(colors);
+
+                    // Set multiple choice items for alert dialog
+                /*
+                    AlertDialog.Builder setMultiChoiceItems(CharSequence[] items, boolean[]
+                    checkedItems, DialogInterface.OnMultiChoiceClickListener listener)
+                        Set a list of items to be displayed in the dialog as the content,
+                        you will be notified of the selected item via the supplied listener.
+                 */
+                /*
+                    DialogInterface.OnMultiChoiceClickListener
+                    public abstract void onClick (DialogInterface dialog, int which, boolean isChecked)
+
+                        This method will be invoked when an item in the dialog is clicked.
+
+                        Parameters
+                        dialog The dialog where the selection was made.
+                        which The position of the item in the list that was clicked.
+                        isChecked True if the click checked the item, else false.
+                 */
+                    builder.setMultiChoiceItems(cpNamesTab, checkedCP, new DialogInterface.OnMultiChoiceClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+
+                            // Update the current focused item's checked status
+                            checkedCP[which] = isChecked;
+
+                            // Get the current focused item
+                            String currentItem = cpList.get(which);
+
+                            // Notify the current action
+                           /* Toast.makeText(getApplicationContext(),
+                                    currentItem + " " + isChecked, Toast.LENGTH_SHORT).show();*/
+                        }
+                    });
+
+                    // Specify the dialog is not cancelable
+                    builder.setCancelable(false);
+
+                    // Set a title for alert dialog
+                    builder.setTitle("Size of arraylist: " + checkpointListForSelect.size());
+
+                    // Set the positive/yes button click listener
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Do something when click positive button
+                            //tv.setText("Your preferred colors..... \n");
+                            for (int i = 0; i<checkedCP.length; i++){
+                                boolean checked = checkedCP[i];
+                                if (checked) {
+                                    //tv.setText(tv.getText() + colorsList.get(i) + "\n");
+                                }
+                            }
+                        }
+                    });
+
+
+                    // Set the neutral/cancel button click listener
+                    builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Do something when click the neutral button
+                        }
+                    });
+
+                    AlertDialog dialog = builder.create();
+                    // Display the alert dialog on interface
+                    dialog.show();
+            }});
 
 
             recyclerView.setAdapter(adapter);
