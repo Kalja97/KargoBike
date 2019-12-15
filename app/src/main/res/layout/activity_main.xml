@@ -230,9 +230,9 @@
             android:layout_height="170dp"
             android:background="#FFFFFF"
             android:scaleType="fitStart"
+            app:srcCompat="@drawable/dispatcher_tools_logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/ic_edit_white"
             tools:ignore="MissingConstraints" />
 
         <TextView
