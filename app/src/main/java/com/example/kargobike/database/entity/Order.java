@@ -2,13 +2,14 @@ package com.example.kargobike.database.entity;
 
 import com.google.firebase.database.Exclude;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
 
-public class Order implements Comparable{
+public class Order implements Comparable, Serializable {
 
     private String orderNr;
     private String customer;

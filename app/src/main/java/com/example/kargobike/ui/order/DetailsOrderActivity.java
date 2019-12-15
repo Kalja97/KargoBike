@@ -38,6 +38,7 @@ import android.widget.EditText;
 
 import com.example.kargobike.viewmodel.order.OrderViewModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -111,6 +112,7 @@ public class DetailsOrderActivity extends AppCompatActivity {
                     Intent.FLAG_ACTIVITY_NO_ANIMATION
             );
             intent.putExtra("OrderNr", order.getOrderNr());
+            intent.putExtra("Order", (Serializable) order);
             startActivity(intent);
         });
 

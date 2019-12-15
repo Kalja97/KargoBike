@@ -79,4 +79,6 @@
     <string name="msg_token_fmt"></string>
     <string name="fcm_message">Notification</string>
     <string name="default_notification_channel_id">Channel</string>
+    <string name="action_add_checkpointsInOrder">Checkpoints added to the order with success!</string>
+    <string name="action_error_add_checkpointsInOrder">Adding checkpoint failed!</string>
 </resources>

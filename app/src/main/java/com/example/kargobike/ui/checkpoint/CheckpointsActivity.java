@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.kargobike.adapter.CheckPointAdapter;
 import com.example.kargobike.adapter.OrderAdapter;
@@ -34,6 +36,7 @@ import com.example.kargobike.database.repository.OrderRepository;
 import com.example.kargobike.firebase.OrderLiveData;
 import com.example.kargobike.ui.LogActivity;
 import com.example.kargobike.ui.SettingsActivity;
+import com.example.kargobike.ui.order.DetailsOrderActivity;
 import com.example.kargobike.util.OnAsyncEventListener;
 import com.example.kargobike.util.RecyclerViewItemClickListener;
 import com.example.kargobike.viewmodel.checkpoint.CheckpointListViewModel;
@@ -54,11 +57,12 @@ public class CheckpointsActivity extends AppCompatActivity {
     private CheckpointListViewModel CheckpointListViewModel;
 
     //Attributs
-   // private ListView listview;
+    // private ListView listview;
     private List<Checkpoint> checkpointList;
-   // private CheckpointListViewModel viewModel;
+    // private CheckpointListViewModel viewModel;
 
-    private String order;
+    private String orderNr;
+    private Order order;
     private String CheckpointId;
     private CheckPointAdapter<Checkpoint> adapter;
 
@@ -66,6 +70,7 @@ public class CheckpointsActivity extends AppCompatActivity {
     private List<Checkpoint> checkpointListForSelect;
     private CheckpointListViewModel CheckpointListViewModelForSelect;
     private CheckPointAdapter<Checkpoint> adapterForSelect;
+    private List<String> selectedCP = new ArrayList<>();
 
     private Toolbar toolbar;
 
@@ -121,40 +126,40 @@ public class CheckpointsActivity extends AppCompatActivity {
         setTitle("KargoBike - Checkpoints");
         toolbar.setTitleTextColor(Color.WHITE);
 
-        order = getIntent().getStringExtra("OrderNr");
+        orderNr = getIntent().getStringExtra("OrderNr");
 
-        //CheckpointId = getIntent().getStringExtra("CheckpointId");
-
-
+        // creation of the orderViewModel --> to be able to update the DB
+        OrderViewModel.Factory factoryO = new OrderViewModel.Factory(getApplication(), orderNr);
+        OrderViewModel oVM ;
+        oVM = ViewModelProviders.of(this, factoryO).get(OrderViewModel.class);
 
         // For dialog --> list creation
-        if(order != null)
+        if(orderNr != null)
         {
+            order = (Order)getIntent().getSerializableExtra("Order");
+            System.out.println("Order customer: " + order.getCustomer());
+
             CheckpointListViewModel.Factory factory2 = new CheckpointListViewModel.Factory(getApplication(),null);
             CheckpointListViewModelForSelect = ViewModelProviders.of(this, factory2).get(CheckpointListViewModel.class);
             checkpointListForSelect = new ArrayList<>();
             CheckpointListViewModelForSelect.getCheckpoints().observe(this, CheckpointEntities -> {
                 if(CheckpointEntities != null) {
                     checkpointListForSelect = CheckpointListViewModelForSelect.getCheckpoints().getValue();
-                    //adapterForSelect.setData(checkpointListForSelect);
-                    System.out.println("Size of checkpointListForSelect: " + checkpointListForSelect.size());
                 }
             });
         }
         // For all checkPoints (Global)
         else
         {
-            CheckpointListViewModel.Factory factory = new CheckpointListViewModel.Factory(getApplication(),order);
+            CheckpointListViewModel.Factory factory = new CheckpointListViewModel.Factory(getApplication(),orderNr);
             CheckpointListViewModel = ViewModelProviders.of(this, factory).get(CheckpointListViewModel.class);
-            CheckpointListViewModel.getCheckpoints/*ByOrder*/().observe(this, CheckpointEntities -> {
+            CheckpointListViewModel.getCheckpoints().observe(this, CheckpointEntities -> {
                 if(CheckpointEntities != null) {
                     checkpointList = CheckpointEntities;
                     adapter.setData(checkpointList);
                 }
             });
         }
-
-
 
 
         if (CheckpointId == null) {
@@ -173,8 +178,8 @@ public class CheckpointsActivity extends AppCompatActivity {
             adapter = new CheckPointAdapter<>(new RecyclerViewItemClickListener() {
                 @Override
                 public void onItemClick(View v, int position) {
-                    Log.d(TAG, "Clicked position: "+ position);
-                    Log.d(TAG, "Clicked on: "+checkpointList.get(position).getcheckPointID());
+                    Log.d(TAG, "Clicked position: " + position);
+                    Log.d(TAG, "Clicked on: " + checkpointList.get(position).getcheckPointID());
 
 
                     Intent intent = new Intent(CheckpointsActivity.this, EditCheckpointActivity.class);
@@ -189,8 +194,8 @@ public class CheckpointsActivity extends AppCompatActivity {
 
                 @Override
                 public void onItemLongClick(View v, int position) {
-                    Log.d(TAG, "Clicked position: "+ position);
-                    Log.d(TAG, "Clicked on: "+checkpointList.get(position).getcheckPointID());
+                    Log.d(TAG, "Clicked position: " + position);
+                    Log.d(TAG, "Clicked on: " + checkpointList.get(position).getcheckPointID());
 
 
                     Intent intent = new Intent(CheckpointsActivity.this, EditCheckpointActivity.class);
@@ -220,16 +225,14 @@ public class CheckpointsActivity extends AppCompatActivity {
                     // Tab with the names checkpoints names
                     String[] cpNamesTab = new String[checkpointListForSelect.size()];
 
-                    for(int i = 0; i < cpNamesTab.length ; i++)
-                    {
+                    for (int i = 0; i < cpNamesTab.length; i++) {
                         cpNamesTab[i] = checkpointListForSelect.get(i).getCheckpointName();
                     }
 
                     // Tab with the names checked checkpoints
                     final boolean[] checkedCP = new boolean[checkpointListForSelect.size()];
 
-                    for(int i = 0; i < checkedCP.length ; i++)
-                    {
+                    for (int i = 0; i < checkedCP.length; i++) {
                         checkedCP[i] = false;
                     }
 
@@ -237,7 +240,7 @@ public class CheckpointsActivity extends AppCompatActivity {
                     final List<String> cpList = Arrays.asList(cpNamesTab);
 
                     // Convert the color array to list
-                   // final List<String> colorsList = Arrays.asList(colors);
+                    // final List<String> colorsList = Arrays.asList(colors);
 
                     // Set multiple choice items for alert dialog
                 /*
@@ -279,7 +282,6 @@ public class CheckpointsActivity extends AppCompatActivity {
                     // Set a title for alert dialog
                     builder.setTitle("Checkpoints selector");
 
-                    List<String> selectedCP = new ArrayList<>();
 
                     // Set the positive/yes button click listener
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -289,27 +291,27 @@ public class CheckpointsActivity extends AppCompatActivity {
                             //tv.setText("Your preferred colors..... \n");
                             for (int i = 0; i < checkedCP.length; i++) {
                                 boolean checked = checkedCP[i];
-                                if (checked)
-                                {
-                                    selectedCP.add(checkpointListForSelect.get(i).getId());
+                                if (checked) {
+                                    selectedCP.add(checkpointListForSelect.get(i).getcheckPointID());
                                 }
                             }
 
-                            Order tempOrder;
-                            OrderRepository oRep = new OrderRepository();
-                            OrderViewModel.Factory factory = new OrderViewModel.Factory(getApplication(), order);
-                            OrderViewModel oVM = new OrderViewModel(getApplication(),order,oRep);
-                            oVM.getOrder().getValue().setCheckpointsID(selectedCP);
-                            oVM.updateOrder(oVM.getOrder().getValue(), new OnAsyncEventListener() {
+//                            System.out.println("Order customer: " + oVM.getOrder().getValue().getCustomer());
+                            order.setCheckpointsID(selectedCP);
+                            oVM.updateOrder(order, new OnAsyncEventListener() {
                                 @Override
                                 public void onSuccess() {
                                     Log.d(TAG, "updateOrder: Success");
-                                    onBackPressed();
+                                    //onBackPressed();
+                                    Toast.makeText(CheckpointsActivity.this,R.string.action_add_checkpointsInOrder,Toast.LENGTH_LONG);
+                                    finish();
+                                    startActivity(getIntent());
                                 }
 
                                 @Override
                                 public void onFailure(Exception e) {
                                     Log.d(TAG, "updateOrder: Failure", e);
+                                    Toast.makeText(CheckpointsActivity.this,R.string.action_error_add_checkpointsInOrder,Toast.LENGTH_LONG);
                                     onBackPressed();
                                 }
                             });
@@ -327,7 +329,8 @@ public class CheckpointsActivity extends AppCompatActivity {
                     AlertDialog dialog = builder.create();
                     // Display the alert dialog on interface
                     dialog.show();
-            }});
+                }
+            });
 
 
             recyclerView.setAdapter(adapter);
