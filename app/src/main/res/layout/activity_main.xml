@@ -57,7 +57,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/orderlist_logo"
+            app:srcCompat="@drawable/orderlist_by_user_logo"
             tools:ignore="MissingConstraints" />
 
         <TextView

@@ -54,6 +54,7 @@
             android:layout_height="170dp"
             android:background="#FFFFFF"
             android:scaleType="fitStart"
+            app:srcCompat="@drawable/edit_user_logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -90,6 +91,7 @@
             android:layout_height="170dp"
             android:background="#FFFFFF"
             android:scaleType="fitStart"
+            app:srcCompat="@drawable/add_user_logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="MissingConstraints" />
@@ -124,6 +126,7 @@
             android:layout_height="170dp"
             android:background="#FFFFFF"
             android:scaleType="fitStart"
+            app:srcCompat="@drawable/edit_product_logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="MissingConstraints" />
@@ -156,6 +159,7 @@
             android:layout_height="170dp"
             android:background="#FFFFFF"
             android:scaleType="fitStart"
+            app:srcCompat="@drawable/add_product_logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="MissingConstraints" />
@@ -223,6 +227,7 @@
             android:layout_height="170dp"
             android:background="#FFFFFF"
             android:scaleType="fitStart"
+            app:srcCompat="@drawable/orderlist_logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="MissingConstraints" />
