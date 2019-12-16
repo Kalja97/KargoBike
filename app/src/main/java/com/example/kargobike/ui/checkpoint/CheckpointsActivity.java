@@ -128,11 +128,6 @@ public class CheckpointsActivity extends AppCompatActivity {
 
         orderNr = getIntent().getStringExtra("OrderNr");
 
-        // creation of the orderViewModel --> to be able to update the DB
-        OrderViewModel.Factory factoryO = new OrderViewModel.Factory(getApplication(), orderNr);
-        OrderViewModel oVM ;
-       // oVM = ViewModelProviders.of(this, factoryO).get(OrderViewModel.class);
-
         // For dialog --> list creation
         if(orderNr != null)
         {
@@ -302,7 +297,12 @@ public class CheckpointsActivity extends AppCompatActivity {
 
                             order.setCheckpointsID(selectedCP);
                             System.out.println("Test: " + selectedCP.get(0));
-                            /*oVM.updateOrder(order, new OnAsyncEventListener() {
+
+                            // creation of the orderViewModel --> to be able to update the DB
+                            OrderViewModel.Factory factoryO = new OrderViewModel.Factory(getApplication(), orderNr);
+                            OrderViewModel oVM ;
+                            oVM = ViewModelProviders.of(CheckpointsActivity.this, factoryO).get(OrderViewModel.class);
+                            oVM.updateOrder(order, new OnAsyncEventListener() {
                                 @Override
                                 public void onSuccess() {
                                     Log.d(TAG, "updateOrder: Success");
@@ -318,7 +318,7 @@ public class CheckpointsActivity extends AppCompatActivity {
                                     Toast.makeText(CheckpointsActivity.this,R.string.action_error_add_checkpointsInOrder,Toast.LENGTH_LONG);
                                     onBackPressed();
                                 }
-                            });*/
+                            });
                         }
                     }).setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
