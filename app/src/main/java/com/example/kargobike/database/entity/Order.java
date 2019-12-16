@@ -3,6 +3,7 @@ package com.example.kargobike.database.entity;
 import com.google.firebase.database.Exclude;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,7 @@ public class Order implements Comparable, Serializable {
     private String state;
 
     // TEST ZONE
-    private List<String> checkpointsID;
+    private ArrayList<String> checkpointsID;
     // END OF TEST ZONE
 
     //Empty Constructor
@@ -128,11 +129,11 @@ public class Order implements Comparable, Serializable {
         this.state = state;
     }
 
-    public List<String> getCheckpointsID() {
+    public ArrayList<String> getCheckpointsID() {
         return checkpointsID;
     }
 
-    public void setCheckpointsID(List<String> checkpointsID) {
+    public void setCheckpointsID(ArrayList<String> checkpointsID) {
         this.checkpointsID = checkpointsID;
     }
 

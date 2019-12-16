@@ -70,7 +70,7 @@ public class CheckpointsActivity extends AppCompatActivity {
     private List<Checkpoint> checkpointListForSelect;
     private CheckpointListViewModel CheckpointListViewModelForSelect;
     private CheckPointAdapter<Checkpoint> adapterForSelect;
-    private List<String> selectedCP = new ArrayList<>();
+    private ArrayList<String> selectedCP = new ArrayList<>();
 
     private Toolbar toolbar;
 
@@ -131,7 +131,7 @@ public class CheckpointsActivity extends AppCompatActivity {
         // creation of the orderViewModel --> to be able to update the DB
         OrderViewModel.Factory factoryO = new OrderViewModel.Factory(getApplication(), orderNr);
         OrderViewModel oVM ;
-        oVM = ViewModelProviders.of(this, factoryO).get(OrderViewModel.class);
+       // oVM = ViewModelProviders.of(this, factoryO).get(OrderViewModel.class);
 
         // For dialog --> list creation
         if(orderNr != null)
@@ -237,8 +237,12 @@ public class CheckpointsActivity extends AppCompatActivity {
                     }
 
                     // Convert the checkpoints array to list
-                    final List<String> cpList = Arrays.asList(cpNamesTab);
+                    ArrayList<String> cpList = new ArrayList<>();
 
+                    for(int i = 0; i< cpNamesTab.length; i++)
+                    {
+                        cpList.add(cpNamesTab[i]);
+                    }
                     // Convert the color array to list
                     // final List<String> colorsList = Arrays.asList(colors);
 
@@ -296,9 +300,9 @@ public class CheckpointsActivity extends AppCompatActivity {
                                 }
                             }
 
-//                            System.out.println("Order customer: " + oVM.getOrder().getValue().getCustomer());
                             order.setCheckpointsID(selectedCP);
-                            oVM.updateOrder(order, new OnAsyncEventListener() {
+                            System.out.println("Test: " + selectedCP.get(0));
+                            /*oVM.updateOrder(order, new OnAsyncEventListener() {
                                 @Override
                                 public void onSuccess() {
                                     Log.d(TAG, "updateOrder: Success");
@@ -314,7 +318,7 @@ public class CheckpointsActivity extends AppCompatActivity {
                                     Toast.makeText(CheckpointsActivity.this,R.string.action_error_add_checkpointsInOrder,Toast.LENGTH_LONG);
                                     onBackPressed();
                                 }
-                            });
+                            });*/
                         }
                     }).setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override

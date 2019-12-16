@@ -41,6 +41,7 @@ import com.example.kargobike.viewmodel.order.OrderViewModel;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class DetailsOrderActivity extends AppCompatActivity {
 
@@ -415,6 +416,7 @@ public class DetailsOrderActivity extends AppCompatActivity {
             etToAddress.setEnabled(true);
 
         }else{
+            List<String> checkpointsIds = new ArrayList<>();
             saveChanges(
                     etCustomer.getText().toString(),
                     etFromAddress.getText().toString(),
@@ -495,7 +497,7 @@ public class DetailsOrderActivity extends AppCompatActivity {
 */
 
     public void saveChanges(String customer, String fromAddress, String toAddress, String timeDelivery,
-                            String dateDelivery, String state, String rider,String product, int howMany){
+                            String dateDelivery, String state, String rider, String product, int howMany){
 
         order.setDateDelivery(dateDelivery);
         order.setTimeDelivery(timeDelivery);
