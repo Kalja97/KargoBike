@@ -37,10 +37,6 @@ public class OrdersActivity extends AppCompatActivity {
     private static final String TAG = "OrdersList";
 
     private OrderListFilteredViewModel orderListFilteredViewModel;
-    //private OrderMoveViewModel OrderMoveViewModel;
-
-//    private CheckpointEntity Checkpoint ;
-//    private CheckpointViewModel CheckpointViewModel;
 
     private OrderAdapter<Order> adapter;
 
@@ -140,7 +136,6 @@ public class OrdersActivity extends AppCompatActivity {
                     Log.d(TAG, "Clicked position: "+ position);
                     Log.d(TAG, "Clicked on: "+Orders.get(position).getOrderNr());
 
-
                     Intent intent = new Intent(OrdersActivity.this, DetailsOrderActivity.class);
                     intent.setFlags(
                             Intent.FLAG_ACTIVITY_NO_ANIMATION |
@@ -165,6 +160,7 @@ public class OrdersActivity extends AppCompatActivity {
                     intent.putExtra("OrderNr", Orders.get(position).getOrderNr());
                     startActivity(intent);
                 }
+
             });
 
 

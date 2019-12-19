@@ -1,5 +1,7 @@
 package com.example.kargobike.ui.checkpoint;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -49,7 +51,10 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 public class CheckpointsActivity extends AppCompatActivity {
 
@@ -59,6 +64,7 @@ public class CheckpointsActivity extends AppCompatActivity {
     //Attributs
     // private ListView listview;
     private List<Checkpoint> checkpointList;
+    private List<Checkpoint> checkpointListOfOrder;
     // private CheckpointListViewModel viewModel;
 
     private String orderNr;
@@ -132,24 +138,28 @@ public class CheckpointsActivity extends AppCompatActivity {
         if(orderNr != null)
         {
             order = (Order)getIntent().getSerializableExtra("Order");
-            System.out.println("Order customer: " + order.getCustomer());
 
             CheckpointListViewModel.Factory factory2 = new CheckpointListViewModel.Factory(getApplication(),null);
             CheckpointListViewModelForSelect = ViewModelProviders.of(this, factory2).get(CheckpointListViewModel.class);
             checkpointListForSelect = new ArrayList<>();
             CheckpointListViewModelForSelect.getCheckpoints().observe(this, CheckpointEntities -> {
-                if(CheckpointEntities != null) {
+                if(CheckpointEntities != null)
+                {
                     checkpointListForSelect = CheckpointListViewModelForSelect.getCheckpoints().getValue();
+                    checkpointListOfOrder = setSelectedCPList(order.getCheckpointsID(), checkpointListForSelect);
+                    adapter.setData(checkpointListOfOrder);
                 }
             });
         }
+
         // For all checkPoints (Global)
         else
         {
             CheckpointListViewModel.Factory factory = new CheckpointListViewModel.Factory(getApplication(),orderNr);
             CheckpointListViewModel = ViewModelProviders.of(this, factory).get(CheckpointListViewModel.class);
             CheckpointListViewModel.getCheckpoints().observe(this, CheckpointEntities -> {
-                if(CheckpointEntities != null) {
+                if(CheckpointEntities != null)
+                {
                     checkpointList = CheckpointEntities;
                     adapter.setData(checkpointList);
                 }
@@ -336,9 +346,32 @@ public class CheckpointsActivity extends AppCompatActivity {
                 }
             });
 
-
             recyclerView.setAdapter(adapter);
 
         }
+    }
+
+    public List<Checkpoint> setSelectedCPList(ArrayList<String> cpStrings, List<Checkpoint> allCheckPoints)
+    {
+        ArrayList<Checkpoint> selectedCheckpoints = new ArrayList<>();
+
+        if(cpStrings.size() > 0 && allCheckPoints.size() > 0)
+        {
+            for(Checkpoint cp: allCheckPoints)
+            {
+                for(String cpString: cpStrings)
+                {
+                    if(cpString == cp.getcheckPointID())
+                    {
+                        selectedCheckpoints.add(cp);
+                    }
+                }
+            }
+        }
+
+
+        System.out.println("SIZE OF THE SELECTED CHECKPOINTS: " + selectedCheckpoints.size());
+
+        return selectedCheckpoints;
     }
 }

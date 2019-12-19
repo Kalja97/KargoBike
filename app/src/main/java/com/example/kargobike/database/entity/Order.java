@@ -22,10 +22,7 @@ public class Order implements Comparable, Serializable {
     private String dateDelivery;
     private String timeDelivery;
     private String state;
-
-    // TEST ZONE
     private ArrayList<String> checkpointsID;
-    // END OF TEST ZONE
 
     //Empty Constructor
     public Order(){
@@ -181,6 +178,7 @@ public class Order implements Comparable, Serializable {
         result.put("dateDelivery", dateDelivery);
         result.put("timeDelivery", timeDelivery);
         result.put("state", state);
+        result.put("checkPoints", checkpointsID);
         return result;
     }
 }
