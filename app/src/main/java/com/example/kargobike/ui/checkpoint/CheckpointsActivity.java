@@ -146,8 +146,6 @@ public class CheckpointsActivity extends AppCompatActivity {
                 if(CheckpointEntities != null)
                 {
                     checkpointListForSelect = CheckpointListViewModelForSelect.getCheckpoints().getValue();
-                    checkpointListOfOrder = setSelectedCPList(order.getCheckpointsID(), checkpointListForSelect);
-                    adapter.setData(checkpointListOfOrder);
                 }
             });
         }
@@ -351,27 +349,4 @@ public class CheckpointsActivity extends AppCompatActivity {
         }
     }
 
-    public List<Checkpoint> setSelectedCPList(ArrayList<String> cpStrings, List<Checkpoint> allCheckPoints)
-    {
-        ArrayList<Checkpoint> selectedCheckpoints = new ArrayList<>();
-
-        if(cpStrings.size() > 0 && allCheckPoints.size() > 0)
-        {
-            for(Checkpoint cp: allCheckPoints)
-            {
-                for(String cpString: cpStrings)
-                {
-                    if(cpString == cp.getcheckPointID())
-                    {
-                        selectedCheckpoints.add(cp);
-                    }
-                }
-            }
-        }
-
-
-        System.out.println("SIZE OF THE SELECTED CHECKPOINTS: " + selectedCheckpoints.size());
-
-        return selectedCheckpoints;
-    }
 }
