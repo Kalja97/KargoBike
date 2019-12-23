@@ -113,7 +113,7 @@ public class DetailsOrderActivity extends AppCompatActivity {
                     Intent.FLAG_ACTIVITY_NO_ANIMATION
             );
             intent.putExtra("OrderNr", order.getOrderNr());
-            intent.putExtra("Order", (Serializable) order);
+            intent.putExtra("Order", order);
             startActivity(intent);
         });
 

@@ -60,6 +60,7 @@ public class CheckpointsActivity extends AppCompatActivity {
 
     private static final String TAG = "CheckpointsList";
     private CheckpointListViewModel CheckpointListViewModel;
+    private CheckpointListViewModel CheckpointListByOrder;
 
     //Attributs
     // private ListView listview;
@@ -146,6 +147,18 @@ public class CheckpointsActivity extends AppCompatActivity {
                 if(CheckpointEntities != null)
                 {
                     checkpointListForSelect = CheckpointListViewModelForSelect.getCheckpoints().getValue();
+                }
+            });
+
+
+            CheckpointListViewModel.Factory factoryByOrder = new CheckpointListViewModel.Factory(getApplication(),orderNr);
+            CheckpointListByOrder = ViewModelProviders.of(this, factoryByOrder).get(CheckpointListViewModel.class);
+            CheckpointListByOrder.getCheckpointsByOrder().observe(this, CheckpointEntities -> {
+                if(CheckpointEntities != null)
+                {
+                    checkpointList = CheckpointEntities;
+                    //adapter.setData((ArrayList)CheckpointListViewModelForSelect.getCheckpointsByOrder().getValue());
+                    adapter.setData(checkpointList);
                 }
             });
         }

@@ -178,7 +178,7 @@ public class Order implements Comparable, Serializable {
         result.put("dateDelivery", dateDelivery);
         result.put("timeDelivery", timeDelivery);
         result.put("state", state);
-        result.put("checkPoints", checkpointsID);
+        result.put("checkpoints", checkpointsID);
         return result;
     }
 }
