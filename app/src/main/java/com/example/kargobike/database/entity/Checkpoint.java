@@ -95,7 +95,7 @@ public class Checkpoint {
         if (obj == this) return true;
         if (!(obj instanceof Checkpoint)) return false;
         Checkpoint o = (Checkpoint) obj;
-        return o.getId().equals(this.getId());
+        return o.getcheckPointID().equals(this.getcheckPointID());
     }
 
     @Override

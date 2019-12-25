@@ -2,7 +2,6 @@ package com.example.kargobike.viewmodel.checkpoint;
 
 import android.app.Application;
 
-import com.example.kargobike.BaseApp;
 import com.example.kargobike.database.entity.Checkpoint;
 import com.example.kargobike.database.repository.CheckpointRepository;
 
@@ -21,15 +20,18 @@ public class CheckpointListViewModel extends AndroidViewModel {
 
     private CheckpointRepository repository;
 
+    private final String orderNr;
+
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
     private final MediatorLiveData<List<Checkpoint>> observableCheckpoints;
     private final MediatorLiveData<List<Checkpoint>> observableCheckpointsByOrder;
 
     public CheckpointListViewModel(@NonNull Application application,
-                             final String orderNr, CheckpointRepository checkpointRepository) {
+                                   final String orderNr, CheckpointRepository checkpointRepository) {
         super(application);
 
         repository = checkpointRepository;
+        this.orderNr = orderNr; // <--- UTILISE UN GETTER POUR PASSER CA DANS LE FACTORY BOUGNOULE
 
         observableCheckpoints = new MediatorLiveData<>();
         observableCheckpointsByOrder = new MediatorLiveData<>();
@@ -42,7 +44,7 @@ public class CheckpointListViewModel extends AndroidViewModel {
         LiveData<List<Checkpoint>> checkpointsByOrder = new LiveData<List<Checkpoint>>() {
         };
 
-        if(orderNr != null)
+        if(this.orderNr != null)
         {
             checkpointsByOrder = repository.getCheckpointsByOrder(orderNr);
         }

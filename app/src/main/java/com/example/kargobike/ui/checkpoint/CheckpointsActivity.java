@@ -49,6 +49,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -68,13 +69,13 @@ public class CheckpointsActivity extends AppCompatActivity {
     private List<Checkpoint> checkpointListOfOrder;
     // private CheckpointListViewModel viewModel;
 
-    private String orderNr;
+
     private Order order;
     private String CheckpointId;
     private CheckPointAdapter<Checkpoint> adapter;
 
     // for selection dialog
-    private List<Checkpoint> checkpointListForSelect;
+    private List<Checkpoint> allCheckpoints;
     private CheckpointListViewModel CheckpointListViewModelForSelect;
     private CheckPointAdapter<Checkpoint> adapterForSelect;
     private ArrayList<String> selectedCP = new ArrayList<>();
@@ -133,23 +134,51 @@ public class CheckpointsActivity extends AppCompatActivity {
         setTitle("KargoBike - Checkpoints");
         toolbar.setTitleTextColor(Color.WHITE);
 
-        orderNr = getIntent().getStringExtra("OrderNr");
+        String orderNr = getIntent().getStringExtra("OrderNr");
+        Order order = (Order) getIntent().getSerializableExtra("Order");
 
-        // For dialog --> list creation
+
+        CheckpointListViewModel.Factory factory = new CheckpointListViewModel.Factory(getApplication(),orderNr);
+        CheckpointListViewModel = ViewModelProviders.of(this, factory).get(CheckpointListViewModel.class);
+        checkpointList = new ArrayList<>();
+        allCheckpoints = new ArrayList<>();
+        //allCheckpoints = CheckpointListViewModel.getCheckpoints().getValue();
+
+
+        CheckpointListViewModel.getCheckpoints().observe(this, CheckpointEntities -> {
+            if(CheckpointEntities != null)
+            {
+                // If we are in an order (to manage the multiplechoice list)
+                if(orderNr != null)
+                {
+                    //allCheckpoints = CheckpointListViewModel.getCheckpoints().getValue();
+                    allCheckpoints = CheckpointEntities;
+
+                    CheckpointListViewModel.getCheckpointsByOrder().observe(this, CheckpointEntities2 -> {
+                        if(CheckpointEntities2 != null)
+                        {
+                            checkpointList = CheckpointEntities2;
+
+                            System.out.println("RATIO:" + checkpointList.size() + "/" + allCheckpoints.size());
+
+                            adapter.setData(setSelectedCPList(checkpointList, allCheckpoints));
+                        }
+                    });
+                }
+                // If we are on the main checkpointlist activity
+                else
+                {
+                    allCheckpoints = CheckpointEntities;
+                    adapter.setData(allCheckpoints);
+                }
+            }
+        });
+
+
+       /* // For dialog --> list creation
         if(orderNr != null)
         {
-            order = (Order)getIntent().getSerializableExtra("Order");
-
-            CheckpointListViewModel.Factory factory2 = new CheckpointListViewModel.Factory(getApplication(),null);
-            CheckpointListViewModelForSelect = ViewModelProviders.of(this, factory2).get(CheckpointListViewModel.class);
-            checkpointListForSelect = new ArrayList<>();
-            CheckpointListViewModelForSelect.getCheckpoints().observe(this, CheckpointEntities -> {
-                if(CheckpointEntities != null)
-                {
-                    checkpointListForSelect = CheckpointListViewModelForSelect.getCheckpoints().getValue();
-                }
-            });
-
+           // order = (Order)getIntent().getSerializableExtra("Order");
 
             CheckpointListViewModel.Factory factoryByOrder = new CheckpointListViewModel.Factory(getApplication(),orderNr);
             CheckpointListByOrder = ViewModelProviders.of(this, factoryByOrder).get(CheckpointListViewModel.class);
@@ -157,25 +186,17 @@ public class CheckpointsActivity extends AppCompatActivity {
                 if(CheckpointEntities != null)
                 {
                     checkpointList = CheckpointEntities;
+                    System.out.println("ALLEZ CA MAAAAAAAAAAAAAAAARCHE:  \n" +
+                            checkpointList.get(0).getcheckPointID() + ", \n" +
+                            checkpointList.get(1).getcheckPointID() + ", \n" +
+                            checkpointList.get(2).getcheckPointID());
                     //adapter.setData((ArrayList)CheckpointListViewModelForSelect.getCheckpointsByOrder().getValue());
-                    adapter.setData(checkpointList);
+                    adapter.setData(setSelectedCPList(checkpointList, allCheckpoints));
                 }
             });
-        }
+        }*/
 
-        // For all checkPoints (Global)
-        else
-        {
-            CheckpointListViewModel.Factory factory = new CheckpointListViewModel.Factory(getApplication(),orderNr);
-            CheckpointListViewModel = ViewModelProviders.of(this, factory).get(CheckpointListViewModel.class);
-            CheckpointListViewModel.getCheckpoints().observe(this, CheckpointEntities -> {
-                if(CheckpointEntities != null)
-                {
-                    checkpointList = CheckpointEntities;
-                    adapter.setData(checkpointList);
-                }
-            });
-        }
+
 
 
         if (CheckpointId == null) {
@@ -239,14 +260,14 @@ public class CheckpointsActivity extends AppCompatActivity {
 
 
                     // Tab with the names checkpoints names
-                    String[] cpNamesTab = new String[checkpointListForSelect.size()];
+                    String[] cpNamesTab = new String[allCheckpoints.size()];
 
                     for (int i = 0; i < cpNamesTab.length; i++) {
-                        cpNamesTab[i] = checkpointListForSelect.get(i).getCheckpointName();
+                        cpNamesTab[i] = allCheckpoints.get(i).getCheckpointName();
                     }
 
                     // Tab with the names checked checkpoints
-                    final boolean[] checkedCP = new boolean[checkpointListForSelect.size()];
+                    final boolean[] checkedCP = new boolean[allCheckpoints.size()];
 
                     for (int i = 0; i < checkedCP.length; i++) {
                         checkedCP[i] = false;
@@ -312,7 +333,7 @@ public class CheckpointsActivity extends AppCompatActivity {
                             for (int i = 0; i < checkedCP.length; i++) {
                                 boolean checked = checkedCP[i];
                                 if (checked) {
-                                    selectedCP.add(checkpointListForSelect.get(i).getcheckPointID());
+                                    selectedCP.add(allCheckpoints.get(i).getcheckPointID());
                                 }
                             }
 
@@ -360,6 +381,35 @@ public class CheckpointsActivity extends AppCompatActivity {
             recyclerView.setAdapter(adapter);
 
         }
+    }
+
+    public List<Checkpoint> setSelectedCPList(List<Checkpoint> orderCPs, List<Checkpoint> allCheckPoints)
+    {
+        ArrayList<Checkpoint> selectedCheckpoints = new ArrayList<>();
+
+        System.out.println("RATIO IN METHOD: " +  orderCPs.size() + "/" + allCheckPoints.size() );
+        if(orderCPs.size() > 0 && allCheckPoints.size() > 0) {
+
+            Checkpoint temp = new Checkpoint();
+            for (Checkpoint orderCP : orderCPs) {
+                for (Checkpoint cp : allCheckPoints) {
+                    temp = cp;
+                    if (orderCP.getcheckPointID().equals(cp.getcheckPointID()))
+                        if(!selectedCheckpoints.contains(temp)|| selectedCheckpoints.isEmpty())
+                            selectedCheckpoints.add(temp);
+                        else
+                            {
+                            System.out.println("Prout");
+                        }
+                }
+            }
+
+        }
+
+
+        System.out.println("SIZE OF THE SELECTED CHECKPOINTS: " + selectedCheckpoints.size());
+
+        return selectedCheckpoints;
     }
 
 }

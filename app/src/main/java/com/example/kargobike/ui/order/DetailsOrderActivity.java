@@ -93,9 +93,9 @@ public class DetailsOrderActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        String OrderNr = getIntent().getStringExtra("OrderNr");
+        String orderNr = getIntent().getStringExtra("OrderNr");
 
-        OrderViewModel.Factory factory = new OrderViewModel.Factory(getApplication(), OrderNr);
+        OrderViewModel.Factory factory = new OrderViewModel.Factory(getApplication(), orderNr);
         viewModel = ViewModelProviders.of(this, factory).get(OrderViewModel.class);
         viewModel.getOrder().observe(this, Order -> {
             if(Order != null){
@@ -112,12 +112,12 @@ public class DetailsOrderActivity extends AppCompatActivity {
             intent.setFlags(
                     Intent.FLAG_ACTIVITY_NO_ANIMATION
             );
-            intent.putExtra("OrderNr", order.getOrderNr());
+            intent.putExtra("OrderNr", orderNr);
             intent.putExtra("Order", order);
             startActivity(intent);
         });
 
-        if(OrderNr != null){
+        if(orderNr != null){
             setTitle(R.string.title_order_details);
         }else {
             setTitle(R.string.title_order_create);
