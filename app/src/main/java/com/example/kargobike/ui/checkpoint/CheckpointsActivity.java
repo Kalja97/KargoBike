@@ -258,7 +258,7 @@ public class CheckpointsActivity extends AppCompatActivity {
                     // Build an AlertDialog
                     AlertDialog.Builder builder = new AlertDialog.Builder(CheckpointsActivity.this);
 
-
+                    ArrayList<Integer> checkedIndexes = new ArrayList<>();
                     // Tab with the names checkpoints names
                     String[] cpNamesTab = new String[allCheckpoints.size()];
 
@@ -266,11 +266,24 @@ public class CheckpointsActivity extends AppCompatActivity {
                         cpNamesTab[i] = allCheckpoints.get(i).getCheckpointName();
                     }
 
+                    System.out.println("HOPE THIS IS THE LAST TEST: " + checkpointList.size());
+                    for(int j = 0; j < checkpointList.size(); j++)
+                        for (int k = 0; k < allCheckpoints.size(); k++) {
+                        {
+                            if(allCheckpoints.get(k).getcheckPointID().equals(checkpointList.get(j).getcheckPointID()))
+                                checkedIndexes.add(k);
+                        }
+                    }
+
                     // Tab with the names checked checkpoints
                     final boolean[] checkedCP = new boolean[allCheckpoints.size()];
 
                     for (int i = 0; i < checkedCP.length; i++) {
-                        checkedCP[i] = false;
+
+                        if(checkedIndexes.contains(i))
+                            checkedCP[i] = true;
+                        else
+                            checkedCP[i] = false;
                     }
 
                     // Convert the checkpoints array to list
@@ -334,6 +347,10 @@ public class CheckpointsActivity extends AppCompatActivity {
                                 boolean checked = checkedCP[i];
                                 if (checked) {
                                     selectedCP.add(allCheckpoints.get(i).getcheckPointID());
+                                }
+                                else
+                                {
+                                    selectedCP.remove(allCheckpoints.get(i).getcheckPointID());
                                 }
                             }
 
