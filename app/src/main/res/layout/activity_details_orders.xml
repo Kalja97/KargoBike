@@ -23,21 +23,21 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="596dp">
+        android:layout_height="match_parent">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/checkpointsButton"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:layout_marginStart="324dp"
-            android:layout_marginTop="508dp"
+            android:layout_marginEnd="23dp"
+            android:layout_marginBottom="35dp"
             android:background="#009688"
             android:clickable="true"
             app:backgroundTint="#FF002B"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/checkpoint_logo"
-            tools:ignore="NotSibling" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_add_white" />
+
 
         <TextView
             android:id="@+id/titel"
@@ -236,10 +236,10 @@
             android:layout_height="50dp"
             android:layout_marginStart="25dp"
             android:layout_marginTop="20dp"
+            android:inputType="number"
             android:paddingLeft="20dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:inputType="number"
             android:textColor="#000"
             android:textColorHint="#000"
             app:layout_constraintStart_toEndOf="@+id/tvHowManyPackages"

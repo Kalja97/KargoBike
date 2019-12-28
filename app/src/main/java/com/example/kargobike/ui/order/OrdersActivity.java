@@ -3,19 +3,21 @@ package com.example.kargobike.ui.order;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.appcompat.widget.Toolbar;
-
 import android.util.Log;
-import android.view.*;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.kargobike.R;
 import com.example.kargobike.adapter.OrderAdapter;
 import com.example.kargobike.database.entity.Order;
@@ -28,9 +30,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.r0adkll.slidr.model.SlidrConfig;
+
+import com.r0adkll.slidr.Slidr;
+import com.r0adkll.slidr.model.SlidrInterface;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.ButterKnife;
+import butterknife.internal.Utils;
 
 public class OrdersActivity extends AppCompatActivity {
 
@@ -50,7 +59,7 @@ public class OrdersActivity extends AppCompatActivity {
 
     private String username;
 
-
+    private SlidrInterface slidr;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -98,6 +107,10 @@ public class OrdersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orders);
 
+        //==========================================================================================
+        slidr = Slidr.attach(this);
+
+        //==========================================================================================
 
         //Toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -290,5 +303,14 @@ public class OrdersActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    public void lockSlide(View v) {
+        slidr.lock();
+
+    }
+
+    public void unlockSlide(View v) {
+        slidr.unlock();
     }
 }

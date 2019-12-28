@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F35C5C"
-    tools:context=".ui.DispatcherActivity">
+    tools:context=".ui.MainActivity">
 
 
     <androidx.appcompat.widget.Toolbar
@@ -20,7 +21,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:titleTextColor="@android:color/white"
-        tools:ignore="MissingConstraints">
+        tools:ignore="MissingConstraints"
+        android:onClick="unlockSlide">
 
         <TextView
             android:id="@+id/toolbarTextView"
@@ -34,18 +36,19 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/editUserButton"
-        android:layout_width="190dp"
-        android:layout_height="190dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="10dp"
-        android:layout_marginEnd="106dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:background="#FFFFFF"
-        android:text="Edit User"
+        android:orientation="horizontal"
+        android:text="Current orders"
         app:layout_constraintBottom_toTopOf="@+id/editProductButton"
         app:layout_constraintEnd_toStartOf="@+id/addUserButton"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         tools:ignore="MissingConstraints">
 
         <ImageButton
@@ -54,10 +57,10 @@
             android:layout_height="170dp"
             android:background="#FFFFFF"
             android:scaleType="fitStart"
-            app:srcCompat="@drawable/edit_user_logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/edit_user_logo"
             tools:ignore="MissingConstraints" />
 
         <TextView
@@ -66,6 +69,7 @@
             android:text="Edit user"
             android:textAlignment="center"
             android:textColor="#F35C5C"
+            android:background="#FFFFFF"
             android:textSize="20dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent" />
@@ -74,15 +78,17 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/addUserButton"
-        android:layout_width="190dp"
-        android:layout_height="190dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:background="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/addProductButton"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/editUserButton"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="1.0"
         tools:ignore="MissingConstraints">
 
         <ImageButton
@@ -91,16 +97,57 @@
             android:layout_height="170dp"
             android:background="#FFFFFF"
             android:scaleType="fitStart"
-            app:srcCompat="@drawable/add_user_logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/add_user_logo"
             tools:ignore="MissingConstraints" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="New User"
             android:textAlignment="center"
             android:textColor="#F35C5C"
+            android:background="#FFFFFF"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/addProductButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/getAllOrdersButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/editProductButton"
+        app:layout_constraintTop_toBottomOf="@+id/addUserButton"
+        tools:ignore="MissingConstraints">
+
+        <ImageButton
+            android:id="@+id/addProductImageButton"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
+            android:background="#FFFFFF"
+            android:scaleType="fitStart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/add_product_logo"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="1dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="New product"
+            android:textAlignment="center"
+            android:textColor="#F35C5C"
+            android:background="#FFFFFF"
             android:textSize="20dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent" />
@@ -108,16 +155,18 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/editProductButton"
-        android:layout_width="190dp"
-        android:layout_height="190dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="10dp"
-        android:layout_marginEnd="106dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:background="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/ReportsButton"
         app:layout_constraintEnd_toStartOf="@+id/addProductButton"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editUserButton"
         tools:ignore="MissingConstraints">
 
         <ImageButton
@@ -126,50 +175,56 @@
             android:layout_height="170dp"
             android:background="#FFFFFF"
             android:scaleType="fitStart"
-            app:srcCompat="@drawable/edit_product_logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/edit_product_logo"
             tools:ignore="MissingConstraints" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Edit Product"
+            android:text="Edit product"
             android:textAlignment="center"
             android:textColor="#F35C5C"
+            android:background="#FFFFFF"
             android:textSize="20dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/addProductButton"
-        android:layout_width="190dp"
-        android:layout_height="190dp"
+        android:id="@+id/getAllOrdersButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:background="#FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/DispatcherButton"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ReportsButton"
+        app:layout_constraintTop_toBottomOf="@+id/addProductButton"
         tools:ignore="MissingConstraints">>
 
         <ImageButton
-            android:id="@+id/addProductImageButton"
+            android:id="@+id/getAllOrdersImageButton"
             android:layout_width="170dp"
             android:layout_height="170dp"
             android:background="#FFFFFF"
             android:scaleType="fitStart"
-            app:srcCompat="@drawable/add_product_logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/orderlist_logo"
             tools:ignore="MissingConstraints" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="New Product"
+            android:text="getAllOrders's tools"
             android:textAlignment="center"
             android:textColor="#F35C5C"
+            android:background="#FFFFFF"
             android:textSize="20dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent" />
@@ -177,16 +232,18 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/ReportsButton"
-        android:layout_width="190dp"
-        android:layout_height="190dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="10dp"
-        android:layout_marginEnd="106dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:background="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/DispatcherButton"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toStartOf="@+id/getAllOrdersButton"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editProductButton"
+        app:srcCompat="@drawable/reports_logo"
         tools:ignore="MissingConstraints">>
 
         <ImageButton
@@ -205,44 +262,10 @@
             android:text="t.b.d."
             android:textAlignment="center"
             android:textColor="#F35C5C"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/DispatcherButton"
-        android:layout_width="190dp"
-        android:layout_height="190dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="MissingConstraints">>
-
-        <ImageButton
-            android:id="@+id/getAllOrdersImageButton"
-            android:layout_width="170dp"
-            android:layout_height="170dp"
             android:background="#FFFFFF"
-            android:scaleType="fitStart"
-            app:srcCompat="@drawable/orderlist_logo"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="All Orders"
-            android:textAlignment="center"
-            android:textColor="#F35C5C"
             android:textSize="20dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

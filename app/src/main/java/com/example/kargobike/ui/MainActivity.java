@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -21,6 +22,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.r0adkll.slidr.Slidr;
+import com.r0adkll.slidr.model.SlidrInterface;
 
 import static com.example.kargobike.R.id.getAllOrdersImageButton;
 import static com.example.kargobike.R.id.checkpointAddImageButton;
@@ -36,10 +39,12 @@ import static com.example.kargobike.R.id.orderListImageButton;
 
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
     private Toolbar toolbar;
     private TextView user;
     private String username;
+
+    private SlidrInterface slidr;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -92,6 +97,8 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        slidr = Slidr.attach(this);
 
 
         //Toolbar
@@ -166,6 +173,43 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+    public void unlockSlide(View v) {
+
+        slidr.unlock();
+
+        ImageButton oListButton = (ImageButton) findViewById(orderListImageButton);
+        oListButton.setOnClickListener(view -> {
+            Intent intent = new Intent(this, OrdersActivity.class);
+            intent.putExtra("user_name", username);
+            intent.setFlags(
+                    Intent.FLAG_ACTIVITY_NO_ANIMATION |
+                            Intent.FLAG_ACTIVITY_NO_HISTORY
+            );
+            startActivity(intent);
+        });
+
+        oListButton.performClick();
+    }
+
+    public void lockSlide(View v) {
+        slidr.lock();
+
+        ImageButton oListButton = (ImageButton) findViewById(orderListImageButton);
+        oListButton.setOnClickListener(view -> {
+            Intent intent = new Intent(this, OrdersActivity.class);
+            intent.putExtra("user_name", username);
+            intent.setFlags(
+                    Intent.FLAG_ACTIVITY_NO_ANIMATION |
+                            Intent.FLAG_ACTIVITY_NO_HISTORY
+            );
+            startActivity(intent);
+        });
+
+        oListButton.performClick();
+    }
+
+
 }
 
 

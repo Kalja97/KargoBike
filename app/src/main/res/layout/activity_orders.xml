@@ -7,7 +7,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.order.OrdersActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:onClick="lockSlide">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -17,7 +18,8 @@
         android:minHeight="?attr/actionBarSize"
         android:titleTextColor="@android:color/white"
         app:titleTextColor="@android:color/white"
-        tools:ignore="MissingConstraints">
+        tools:ignore="MissingConstraints"
+        android:onClick="unlockSlide">
 
         <TextView
             android:id="@+id/toolbarTextView"
@@ -34,22 +36,20 @@
         android:id="@+id/floatingActionAddOrder"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_marginStart="324dp"
-        android:layout_marginTop="508dp"
+        android:layout_marginEnd="23dp"
+        android:layout_marginBottom="23dp"
         android:background="#009688"
         android:clickable="true"
         app:backgroundTint="#FF002B"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_add_white" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerviewitem_orders"
-        android:layout_width="0dp"
-        android:layout_height="729dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="52dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

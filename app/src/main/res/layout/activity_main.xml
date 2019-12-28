@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F35C5C"
-    tools:context=".ui.MainActivity">
+    tools:context=".ui.MainActivity"
+    android:onClick="lockSlide">
 
 
     <androidx.appcompat.widget.Toolbar
@@ -20,7 +21,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:titleTextColor="@android:color/white"
-        tools:ignore="MissingConstraints">
+        tools:ignore="MissingConstraints"
+        android:onClick="unlockSlide">
 
         <TextView
             android:id="@+id/toolbarTextView"
@@ -34,18 +36,19 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/orderListButton"
-        android:layout_width="190dp"
-        android:layout_height="190dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="10dp"
-        android:layout_marginEnd="106dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:background="#FFFFFF"
+        android:orientation="horizontal"
         android:text="Current orders"
         app:layout_constraintBottom_toTopOf="@+id/checkpointListButton"
         app:layout_constraintEnd_toStartOf="@+id/orderAddButton"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         tools:ignore="MissingConstraints">
 
         <ImageButton
@@ -66,6 +69,7 @@
             android:text="Current orders"
             android:textAlignment="center"
             android:textColor="#F35C5C"
+            android:background="#FFFFFF"
             android:textSize="20dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent" />
@@ -74,15 +78,17 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/orderAddButton"
-        android:layout_width="190dp"
-        android:layout_height="190dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:background="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/checkpointAddButton"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/orderListButton"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="1.0"
         tools:ignore="MissingConstraints">
 
         <ImageButton
@@ -95,12 +101,53 @@
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/orderadd_logo"
             tools:ignore="MissingConstraints" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="New Order"
             android:textAlignment="center"
             android:textColor="#F35C5C"
+            android:background="#FFFFFF"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/checkpointAddButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/DispatcherButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/checkpointListButton"
+        app:layout_constraintTop_toBottomOf="@+id/orderAddButton"
+        tools:ignore="MissingConstraints">
+
+        <ImageButton
+            android:id="@+id/checkpointAddImageButton"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
+            android:background="#FFFFFF"
+            android:scaleType="fitStart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/checkpointadd_logo"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="1dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="New checkpoint"
+            android:textAlignment="center"
+            android:textColor="#F35C5C"
+            android:background="#FFFFFF"
             android:textSize="20dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent" />
@@ -108,16 +155,18 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/checkpointListButton"
-        android:layout_width="190dp"
-        android:layout_height="190dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="10dp"
-        android:layout_marginEnd="106dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:background="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/ReportsButton"
         app:layout_constraintEnd_toStartOf="@+id/checkpointAddButton"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/orderListButton"
         tools:ignore="MissingConstraints">
 
         <ImageButton
@@ -137,40 +186,45 @@
             android:text="checkpoints list"
             android:textAlignment="center"
             android:textColor="#F35C5C"
+            android:background="#FFFFFF"
             android:textSize="20dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/checkpointAddButton"
-        android:layout_width="190dp"
-        android:layout_height="190dp"
+        android:id="@+id/DispatcherButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:background="#FFFFFF"
-        app:srcCompat="@drawable/checkpointadd_logo"
-        app:layout_constraintBottom_toTopOf="@+id/DispatcherButton"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ReportsButton"
+        app:layout_constraintTop_toBottomOf="@+id/checkpointAddButton"
         tools:ignore="MissingConstraints">>
 
         <ImageButton
-            android:id="@+id/checkpointAddImageButton"
+            android:id="@+id/getAllOrdersImageButton"
             android:layout_width="170dp"
             android:layout_height="170dp"
             android:background="#FFFFFF"
             android:scaleType="fitStart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/checkpointadd_logo"
+            app:srcCompat="@drawable/dispatcher_tools_logo"
             tools:ignore="MissingConstraints" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="New checkpoint"
+            android:text="Dispatcher's tools"
             android:textAlignment="center"
             android:textColor="#F35C5C"
+            android:background="#FFFFFF"
             android:textSize="20dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent" />
@@ -178,17 +232,18 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/ReportsButton"
-        android:layout_width="190dp"
-        android:layout_height="190dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="10dp"
-        android:layout_marginEnd="106dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:background="#FFFFFF"
-        app:srcCompat="@drawable/reports_logo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/DispatcherButton"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkpointListButton"
+        app:srcCompat="@drawable/reports_logo"
         tools:ignore="MissingConstraints">>
 
         <ImageButton
@@ -208,39 +263,7 @@
             android:text="Reports"
             android:textAlignment="center"
             android:textColor="#F35C5C"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/DispatcherButton"
-        android:layout_width="190dp"
-        android:layout_height="190dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="MissingConstraints">>
-
-        <ImageButton
-            android:id="@+id/getAllOrdersImageButton"
-            android:layout_width="170dp"
-            android:layout_height="170dp"
             android:background="#FFFFFF"
-            android:scaleType="fitStart"
-            app:srcCompat="@drawable/dispatcher_tools_logo"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Dispatcher's tools"
-            android:textAlignment="center"
-            android:textColor="#F35C5C"
             android:textSize="20dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent" />

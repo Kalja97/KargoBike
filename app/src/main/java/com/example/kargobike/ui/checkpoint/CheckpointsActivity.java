@@ -137,13 +137,10 @@ public class CheckpointsActivity extends AppCompatActivity {
         String orderNr = getIntent().getStringExtra("OrderNr");
         Order order = (Order) getIntent().getSerializableExtra("Order");
 
-
         CheckpointListViewModel.Factory factory = new CheckpointListViewModel.Factory(getApplication(),orderNr);
         CheckpointListViewModel = ViewModelProviders.of(this, factory).get(CheckpointListViewModel.class);
         checkpointList = new ArrayList<>();
         allCheckpoints = new ArrayList<>();
-        //allCheckpoints = CheckpointListViewModel.getCheckpoints().getValue();
-
 
         CheckpointListViewModel.getCheckpoints().observe(this, CheckpointEntities -> {
             if(CheckpointEntities != null)
@@ -173,30 +170,6 @@ public class CheckpointsActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-       /* // For dialog --> list creation
-        if(orderNr != null)
-        {
-           // order = (Order)getIntent().getSerializableExtra("Order");
-
-            CheckpointListViewModel.Factory factoryByOrder = new CheckpointListViewModel.Factory(getApplication(),orderNr);
-            CheckpointListByOrder = ViewModelProviders.of(this, factoryByOrder).get(CheckpointListViewModel.class);
-            CheckpointListByOrder.getCheckpointsByOrder().observe(this, CheckpointEntities -> {
-                if(CheckpointEntities != null)
-                {
-                    checkpointList = CheckpointEntities;
-                    System.out.println("ALLEZ CA MAAAAAAAAAAAAAAAARCHE:  \n" +
-                            checkpointList.get(0).getcheckPointID() + ", \n" +
-                            checkpointList.get(1).getcheckPointID() + ", \n" +
-                            checkpointList.get(2).getcheckPointID());
-                    //adapter.setData((ArrayList)CheckpointListViewModelForSelect.getCheckpointsByOrder().getValue());
-                    adapter.setData(setSelectedCPList(checkpointList, allCheckpoints));
-                }
-            });
-        }*/
-
-
 
 
         if (CheckpointId == null) {
@@ -293,8 +266,6 @@ public class CheckpointsActivity extends AppCompatActivity {
                     {
                         cpList.add(cpNamesTab[i]);
                     }
-                    // Convert the color array to list
-                    // final List<String> colorsList = Arrays.asList(colors);
 
                     // Set multiple choice items for alert dialog
                 /*
@@ -417,14 +388,11 @@ public class CheckpointsActivity extends AppCompatActivity {
                         else
                             {
                             System.out.println("Prout");
-                        }
+                            }
                 }
             }
-
         }
 
-
-        System.out.println("SIZE OF THE SELECTED CHECKPOINTS: " + selectedCheckpoints.size());
 
         return selectedCheckpoints;
     }
