@@ -2,8 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.kargobike">
-
-
+    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
     <application
         android:name=".BaseApp"
         android:allowBackup="true"
@@ -13,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
+        <activity android:name=".ui.order.ExportActivity"></activity>
 
         <service
             android:name=".MyFirebaseMessagingService"
@@ -54,14 +53,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.DispatcherActivity"></activity>
+        <activity android:name=".ui.DispatcherActivity" />
         <activity android:name=".ui.user.UserlistActivity" />
         <activity android:name=".ui.user.EditUserActivity" />
         <activity android:name=".ui.user.AddUserActivity" />
         <activity android:name=".ui.product.ProductlistActivity" />
         <activity android:name=".ui.product.EditProductActivity" />
         <activity android:name=".ui.product.AddProductActivity" />
-        <activity android:name=".ui.AllOrdersActivity"></activity>
+        <activity android:name=".ui.AllOrdersActivity" />
+
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.kargobike.fileprovider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
     </application>
 
 </manifest>

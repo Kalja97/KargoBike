@@ -17,6 +17,7 @@ import com.example.kargobike.R;
 import com.example.kargobike.ui.checkpoint.AddCheckpointActivity;
 import com.example.kargobike.ui.checkpoint.CheckpointsActivity;
 import com.example.kargobike.ui.order.AddOrderActivity;
+import com.example.kargobike.ui.order.ExportActivity;
 import com.example.kargobike.ui.order.OrdersActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -25,6 +26,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrInterface;
 
+import static com.example.kargobike.R.id.ReportsImageButton;
 import static com.example.kargobike.R.id.getAllOrdersImageButton;
 import static com.example.kargobike.R.id.checkpointAddImageButton;
 import static com.example.kargobike.R.id.checkpointListImageButton;
@@ -165,6 +167,16 @@ public class MainActivity extends AppCompatActivity{
         ImageButton btnDispatcherTools = (ImageButton) findViewById(getAllOrdersImageButton);
         btnDispatcherTools.setOnClickListener(view -> {
             Intent intent = new Intent(this, DispatcherActivity.class);
+            intent.setFlags(
+                    Intent.FLAG_ACTIVITY_NO_ANIMATION |
+                            Intent.FLAG_ACTIVITY_NO_HISTORY
+            );
+            startActivity(intent);
+        });
+
+        ImageButton btnExportOrders = (ImageButton) findViewById(ReportsImageButton);
+        btnExportOrders.setOnClickListener(view -> {
+            Intent intent = new Intent(this, ExportActivity.class);
             intent.setFlags(
                     Intent.FLAG_ACTIVITY_NO_ANIMATION |
                             Intent.FLAG_ACTIVITY_NO_HISTORY

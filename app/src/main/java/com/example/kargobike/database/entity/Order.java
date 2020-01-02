@@ -5,7 +5,6 @@ import com.google.firebase.database.Exclude;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
@@ -147,6 +146,10 @@ public class Order implements Comparable, Serializable {
     @Override
     public int compareTo(@NonNull Object o) {
         return toString().compareTo(o.toString());
+    }
+
+    public String getExportString(){
+        return dateDelivery + "; " + customer + "; " + rider + "; " + product + "; " + howMany;
     }
 
     @Override
