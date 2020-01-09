@@ -16,13 +16,11 @@ public class CheckpointLiveData extends LiveData<Checkpoint> {
 
     //Attributes
     private final DatabaseReference reference;
-    //private final String orderNr;
     private final CheckpointLiveData.MyValueEventListener listener = new CheckpointLiveData.MyValueEventListener();
 
     //Constructor
     public CheckpointLiveData(DatabaseReference ref) {
         reference = ref;
-        //orderNr = ref.getParent().getParent().getKey();
     }
 
     //on active method
@@ -44,7 +42,6 @@ public class CheckpointLiveData extends LiveData<Checkpoint> {
             Checkpoint entity = dataSnapshot.getValue(Checkpoint.class);
             if (entity != null) {
                 entity.setId(dataSnapshot.getKey());
-                //entity.setOrderNr(orderNr);
                 setValue(entity);
             }
         }

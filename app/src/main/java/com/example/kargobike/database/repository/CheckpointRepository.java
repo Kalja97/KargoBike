@@ -51,14 +51,6 @@ public class CheckpointRepository {
         return new CheckpointListLiveData(reference, orderID);
     }
 
-    //Query: get all checkpoints
-//    public LiveData<List<Checkpoint>> getCheckpoints(final String checkPointID) {
-//        DatabaseReference reference = FirebaseDatabase.getInstance()
-//                .getReference("checkpoints")
-//                .child(checkPointID)
-//                .child("checkpoints");
-//        return new CheckpointListLiveData(reference, checkPointID);
-//    }
 
     //Query: get all checkpoints
     public LiveData<List<Checkpoint>> getCheckpoints() {

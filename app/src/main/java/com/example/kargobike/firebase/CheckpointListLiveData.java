@@ -91,20 +91,5 @@ public class CheckpointListLiveData extends LiveData<List<Checkpoint>> {
     }
 
 
-/*
-    //fill the arraylist with the checkpoints
-    private List<Checkpoint> toCheckpoints(DataSnapshot snapshot) {
-        List<Checkpoint> checkpoints = new ArrayList<>();
-        for (DataSnapshot childSnapshot : snapshot.getChildren()) {
 
-            String id = childSnapshot.getKey();
-            Checkpoint entity = new Checkpoint();
-            entity.setcheckPointID(id);
-
-            //entity.setOrderNr(orderNr);
-            checkpoints.add(entity);
-        }
-        return checkpoints;
-    }
-*/
 }

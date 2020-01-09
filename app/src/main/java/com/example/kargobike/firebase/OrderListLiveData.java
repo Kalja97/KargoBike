@@ -26,7 +26,6 @@ public class OrderListLiveData extends LiveData<List<Order>> {
     //Attributes
     private final DatabaseReference reference;
     private final MyValueEventListener listener = new MyValueEventListener();
-    //private FirebaseUser user;
 
     //Constructor
     public OrderListLiveData(DatabaseReference ref) {

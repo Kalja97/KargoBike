@@ -28,7 +28,6 @@ public class OrderAdapter<T> extends RecyclerView.Adapter<OrderAdapter.OrderView
         private final TextView customer;
         private final TextView fromAddress;
         private final TextView toAdress;
-        //private final TextView product;
         private final TextView productQty;
         private final TextView dateDeliv;
         private final TextView timeDeliv;
@@ -41,7 +40,6 @@ public class OrderAdapter<T> extends RecyclerView.Adapter<OrderAdapter.OrderView
             this.customer = customer;
             this.fromAddress = fromAddress;
             this.toAdress = toAdress;
-            //this.product = product;
             this.productQty = productQty;
             this.status = status;
             this.dateDeliv = dateDeliv;
@@ -62,13 +60,12 @@ public class OrderAdapter<T> extends RecyclerView.Adapter<OrderAdapter.OrderView
         final TextView twCustomer = v.findViewById(R.id.oCustomer);
         final TextView twFromAdress = v.findViewById(R.id.fromAddress);
         final TextView twToAdress = v.findViewById(R.id.toAddress);
-        //final TextView twProduct = v.findViewById(R.id.oProduct);
         final TextView twQty =  v.findViewById(R.id.oQty);
         final TextView twDateDelivery = v.findViewById(R.id.oDateDelivery);
         final TextView twTimeDelivery = v.findViewById(R.id.oTimeDelivery);
         final TextView twStatus = v.findViewById(R.id.oStatus);
 
-        final OrderViewHolder OrderViewHolder = new OrderViewHolder(v, twCustomer, twFromAdress, /*twProduct*/ twQty, twToAdress,twDateDelivery, twTimeDelivery, twStatus);
+        final OrderViewHolder OrderViewHolder = new OrderViewHolder(v, twCustomer, twFromAdress, twQty, twToAdress,twDateDelivery, twTimeDelivery, twStatus);
         v.setOnClickListener(view -> mylistener.onItemClick(view, OrderViewHolder.getAdapterPosition()));
         v.setOnClickListener(view -> {
             mylistener.onItemLongClick(view, OrderViewHolder.getAdapterPosition());
@@ -82,7 +79,6 @@ public class OrderAdapter<T> extends RecyclerView.Adapter<OrderAdapter.OrderView
         holder.customer.setText(((Order) item).getCustomer());
         holder.fromAddress.setText(((Order) item).getFromAddress());
         holder.toAdress.setText(((Order) item).getToAddress());
-        //holder.product.setText(((Order) item).getProduct());
         holder.productQty.setText(""+((Order) item).getHowMany());
         holder.dateDeliv.setText(((Order) item).getDateDelivery());
         holder.timeDeliv.setText(((Order) item).getTimeDelivery());

@@ -64,13 +64,8 @@ public class CheckpointsActivity extends AppCompatActivity {
     private CheckpointListViewModel CheckpointListByOrder;
 
     //Attributs
-    // private ListView listview;
     private List<Checkpoint> checkpointList;
-    private List<Checkpoint> checkpointListOfOrder;
-    // private CheckpointListViewModel viewModel;
 
-
-    private Order order;
     private String CheckpointId;
     private CheckPointAdapter<Checkpoint> adapter;
 
@@ -295,9 +290,7 @@ public class CheckpointsActivity extends AppCompatActivity {
                             // Get the current focused item
                             String currentItem = cpList.get(which);
 
-                            // Notify the current action
-                           /* Toast.makeText(getApplicationContext(),
-                                    currentItem + " " + isChecked, Toast.LENGTH_SHORT).show();*/
+
                         }
                     });
 
@@ -313,7 +306,6 @@ public class CheckpointsActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             // Do something when click positive button
-                            //tv.setText("Your preferred colors..... \n");
                             for (int i = 0; i < checkedCP.length; i++) {
                                 boolean checked = checkedCP[i];
                                 if (checked) {

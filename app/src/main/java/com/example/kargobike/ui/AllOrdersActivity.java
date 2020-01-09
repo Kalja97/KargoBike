@@ -39,10 +39,6 @@ public class AllOrdersActivity extends AppCompatActivity {
     private static final String TAG = "AllOrdersActitivy";
 
     private OrderListViewModel orderListViewModel;
-    //private OrderMoveViewModel OrderMoveViewModel;
-
-//    private CheckpointEntity Checkpoint ;
-//    private CheckpointViewModel CheckpointViewModel;
 
     private OrderAdapter<Order> adapter;
 
@@ -170,16 +166,6 @@ public class AllOrdersActivity extends AppCompatActivity {
             });
 
 
-            /*//Create floatingButton for adding new Orders
-            FloatingActionButton fab = findViewById(R.id.floatingActionAddOrder);
-            fab.setOnClickListener(view -> {
-                Intent intent = new Intent(OrdersActivity.this, AddOrderActivity.class);
-                intent.setFlags(
-                        Intent.FLAG_ACTIVITY_NO_ANIMATION |
-                                Intent.FLAG_ACTIVITY_NO_HISTORY
-                );
-                startActivity(intent);
-            });*/
 
 
             //Get the Orders in the database by calling the ViewModel
@@ -207,91 +193,7 @@ public class AllOrdersActivity extends AppCompatActivity {
                     LinearLayoutManager.VERTICAL);
             recyclerView.addItemDecoration(dividerItemDecoration);
 
-            //Get the Checkpoint we want to move
-//            CheckpointViewModel.Factory wfactory = new CheckpointViewModel.Factory(getApplication(), CheckpointId, OrderNr);
-//            CheckpointViewModel = ViewModelProviders.of(this, wfactory).get(CheckpointViewModel.class);
-//            CheckpointViewModel.getCheckpoint().observe(this, CheckpointEntity -> {
-//                if(CheckpointEntity != null){
-//                    Checkpoint = CheckpointEntity;
-//                }
-//            });
 
-//            //Handle ItemClick and update the Checkpoint
-//            Orders = new ArrayList<>();
-//            adapter = new OrderAdapter<>(new RecyclerViewItemClickListener() {
-//                @Override
-//                public void onItemClick(View v, int position) {
-//                    Log.d(TAG, "Clicked position: "+ position);
-//                    Log.d(TAG, "Clicked on: "+Orders.get(position).getBuilding());
-//
-//                    Checkpoint.setOrderNr(Orders.get(position).getId());
-//
-//                    //Update the OrderNr Checkpoint for moving
-//                    CheckpointViewModel.updateCheckpoint(Checkpoint, new OnAsyncEventListener() {
-//                        @Override
-//                        public void onSuccess() {
-//                            Log.d(TAG, "UpdateCheckpoint: Success");
-//                        }
-//
-//                        @Override
-//                        public void onFailure(Exception e) {
-//                            Log.d(TAG, "UpdateCheckpoint: Failure", e);
-//                        }
-//                    });
-//
-//                    Intent intent = new Intent(OrdersActivity.this, CheckpointsActivity.class);
-//                    intent.setFlags(
-//                            Intent.FLAG_ACTIVITY_NO_ANIMATION |
-//                                    Intent.FLAG_ACTIVITY_NO_HISTORY
-//                    );
-//
-//                    intent.putExtra("OrderNr", Orders.get(position).getId());
-//                    intent.putExtra("CheckpointId", CheckpointId);
-//                    startActivity(intent);
-//                }
-//
-//                @Override
-//                public void onItemLongClick(View v, int position) {
-//                    Log.d(TAG, "longClicked position:" + position);
-//                    Log.d(TAG, "longClicked on: " + Orders.get(position).toString());
-//
-//                    Checkpoint.setOrderNr(Orders.get(position).getId());
-//
-//                    CheckpointViewModel.updateCheckpoint(Checkpoint, new OnAsyncEventListener() {
-//                        @Override
-//                        public void onSuccess() {
-//                            Log.d(TAG, "UpdateCheckpoint: Success");
-//                        }
-//
-//                        @Override
-//                        public void onFailure(Exception e) {
-//                            Log.d(TAG, "UpdateCheckpoint: Failure", e);
-//                        }
-//                    });
-//
-//
-//                    Intent intent = new Intent(OrdersActivity.this, CheckpointsActivity.class);
-//                    intent.setFlags(
-//                            Intent.FLAG_ACTIVITY_NO_ANIMATION |
-//                                    Intent.FLAG_ACTIVITY_NO_HISTORY
-//                    );
-//
-//                    intent.putExtra("OrderNr", Orders.get(position).getOrderNr());
-//                    intent.putExtra("CheckpointId", CheckpointId);
-//                     startActivity(intent);
-//
-//                }
-//            });
-//
-            //Display the Order list whithout the Order where the Checkpoint is already in
-//            OrderMoveViewModel.Factory factory = new OrderMoveViewModel.Factory(getApplication(), OrderNr);
-//            OrderMoveViewModel = ViewModelProviders.of(this, factory).get(OrderMoveViewModel.class);
-//            OrderMoveViewModel.getOrderMoveable().observe(this, OrderEntities -> {
-//                if(OrderEntities != null) {
-//                    Orders = OrderEntities;
-//                    adapter.setData(Orders);
-//                }
-//            });
             recyclerView.setAdapter(adapter);
 
         }

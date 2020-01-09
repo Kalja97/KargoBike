@@ -21,6 +21,7 @@
         tools:ignore="MissingConstraints"
         android:onClick="unlockSlide">
 
+
         <TextView
             android:id="@+id/toolbarTextView"
             android:layout_width="wrap_content"
@@ -54,5 +55,10 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        tools:listitem="@layout/recyclerviewitem_order" />
+        tools:listitem="@layout/recyclerviewitem_order"
+        >
+
+
+    </androidx.recyclerview.widget.RecyclerView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
