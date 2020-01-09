@@ -16,7 +16,6 @@
         android:titleTextColor="@android:color/white"
         android:background="?attr/colorPrimary"
         tools:ignore="MissingConstraints">
-
     </androidx.appcompat.widget.Toolbar>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

@@ -19,6 +19,7 @@ import com.example.kargobike.R;
 import com.example.kargobike.database.entity.Product;
 import com.example.kargobike.database.entity.Product;
 import com.example.kargobike.ui.MainActivity;
+import com.example.kargobike.ui.order.OrdersActivity;
 import com.example.kargobike.ui.product.AddProductActivity;
 import com.example.kargobike.util.OnAsyncEventListener;
 import com.example.kargobike.viewmodel.product.ProductViewModel;
@@ -57,6 +58,20 @@ public class AddProductActivity extends AppCompatActivity {
         //change title in toolbar and it's color
         setTitle("KargoBike - Products");
         toolbar.setTitleTextColor(Color.WHITE);
+
+        // Set toolbar clickable to go to the orderLsit quickly
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AddProductActivity.this, OrdersActivity.class);
+                intent.putExtra("user_name", getIntent().getStringExtra("user_name"));
+                intent.setFlags(
+                        Intent.FLAG_ACTIVITY_NO_ANIMATION |
+                                Intent.FLAG_ACTIVITY_NO_HISTORY
+                );
+                startActivity(intent);
+            }
+        });
 
         etProductName = (EditText) findViewById(R.id.productName);
         etPrice = (EditText) findViewById(R.id.productPrice);

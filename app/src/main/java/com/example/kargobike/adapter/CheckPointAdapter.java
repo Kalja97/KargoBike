@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.kargobike.R;
 import com.example.kargobike.database.entity.Checkpoint;
 import com.example.kargobike.util.RecyclerViewItemClickListener;
+import com.r0adkll.slidr.model.SlidrInterface;
 
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class CheckPointAdapter<T> extends RecyclerView.Adapter<CheckPointAdapter
         private final TextView gps;
         private final TextView type;
 
+        private SlidrInterface slidr;
 
         private CheckPointViewHolder(View view, TextView name, TextView DateTime, TextView gps,
                                      TextView type, TextView rider) {

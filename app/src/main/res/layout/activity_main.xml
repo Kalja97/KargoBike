@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F35C5C"
-    tools:context=".ui.MainActivity"
-    android:onClick="lockSlide">
+    tools:context=".ui.MainActivity">
 
 
     <androidx.appcompat.widget.Toolbar
@@ -21,8 +20,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:titleTextColor="@android:color/white"
-        tools:ignore="MissingConstraints"
-        android:onClick="unlockSlide">
+        tools:ignore="MissingConstraints">
 
         <TextView
             android:id="@+id/toolbarTextView"
@@ -55,6 +53,7 @@
             android:id="@+id/orderListImageButton"
             android:layout_width="170dp"
             android:layout_height="170dp"
+            android:minHeight="145dp"
             android:background="#FFFFFF"
             android:scaleType="fitStart"
             app:layout_constraintEnd_toEndOf="parent"

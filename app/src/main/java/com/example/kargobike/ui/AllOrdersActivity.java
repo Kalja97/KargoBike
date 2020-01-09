@@ -113,6 +113,21 @@ public class AllOrdersActivity extends AppCompatActivity {
         setTitle("KargoBike - All Orders");
         toolbar.setTitleTextColor(Color.WHITE);
 
+        // Set toolbar clickable to go to the orderLsit quickly
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AllOrdersActivity.this, OrdersActivity.class);
+                intent.putExtra("user_name", username);
+                intent.setFlags(
+                        Intent.FLAG_ACTIVITY_NO_ANIMATION |
+                                Intent.FLAG_ACTIVITY_NO_HISTORY
+                );
+                startActivity(intent);
+            }
+        });
+
+
         username = getIntent().getStringExtra("user_name");
 
         OrderNr = getIntent().getStringExtra("OrderNr");

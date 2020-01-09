@@ -39,7 +39,14 @@
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
 
-        <activity android:name=".ui.LogActivity" />
+        <activity android:name=".ui.LogActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
         <activity android:name=".ui.order.OrdersActivity" />
         <activity android:name=".ui.checkpoint.CheckpointsActivity" />
         <activity android:name=".ui.order.AddOrderActivity" />
@@ -47,11 +54,7 @@
         <activity android:name=".ui.checkpoint.AddCheckpointActivity" />
         <activity android:name=".ui.checkpoint.EditCheckpointActivity" />
         <activity android:name=".ui.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".ui.DispatcherActivity" />
         <activity android:name=".ui.user.UserlistActivity" />

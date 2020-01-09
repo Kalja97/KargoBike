@@ -126,6 +126,20 @@ public class OrdersActivity extends AppCompatActivity {
 
         username = getIntent().getStringExtra("user_name");
 
+        // Set toolbar clickable to go to the orderLsit quickly
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(OrdersActivity.this, OrdersActivity.class);
+                intent.putExtra("user_name", username);
+                intent.setFlags(
+                        Intent.FLAG_ACTIVITY_NO_ANIMATION |
+                                Intent.FLAG_ACTIVITY_NO_HISTORY
+                );
+                startActivity(intent);
+            }
+        });
+
         OrderNr = getIntent().getStringExtra("OrderNr");
         //CheckpointId = getIntent().getStringExtra("CheckpointId");
 

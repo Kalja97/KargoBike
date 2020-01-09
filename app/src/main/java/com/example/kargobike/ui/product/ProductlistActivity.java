@@ -22,6 +22,7 @@ import com.example.kargobike.R;
 import com.example.kargobike.database.entity.Product;
 import com.example.kargobike.ui.LogActivity;
 import com.example.kargobike.ui.SettingsActivity;
+import com.example.kargobike.ui.order.OrdersActivity;
 import com.example.kargobike.viewmodel.product.ProductListViewModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -40,6 +41,8 @@ public class ProductlistActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
 
+    private String username;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +55,22 @@ public class ProductlistActivity extends AppCompatActivity {
         //change title in toolbar and it's color
         setTitle("KargoBike - Products");
         toolbar.setTitleTextColor(Color.WHITE);
+
+        username = getIntent().getStringExtra("user_name");
+
+        // Set toolbar clickable to go to the orderLsit quickly
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProductlistActivity.this, OrdersActivity.class);
+                intent.putExtra("user_name", username);
+                intent.setFlags(
+                        Intent.FLAG_ACTIVITY_NO_ANIMATION |
+                                Intent.FLAG_ACTIVITY_NO_HISTORY
+                );
+                startActivity(intent);
+            }
+        });
 
         // Create List by ViewModel
         listview = findViewById(R.id.listview);
@@ -79,6 +98,7 @@ public class ProductlistActivity extends AppCompatActivity {
                 intent.setFlags(
                         Intent.FLAG_ACTIVITY_NO_ANIMATION
                 );
+                intent.putExtra("user_name", username);
                 intent.putExtra("productId", productList.get(position).getProductNumber());
                 startActivity(intent);
             }

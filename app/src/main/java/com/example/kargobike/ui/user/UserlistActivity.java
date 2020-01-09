@@ -21,6 +21,7 @@ import com.example.kargobike.R;
 import com.example.kargobike.database.entity.User;
 import com.example.kargobike.ui.LogActivity;
 import com.example.kargobike.ui.SettingsActivity;
+import com.example.kargobike.ui.order.OrdersActivity;
 import com.example.kargobike.ui.user.EditUserActivity;
 import com.example.kargobike.viewmodel.user.UserListViewModel;
 import com.example.kargobike.viewmodel.user.UserListViewModel;
@@ -41,6 +42,8 @@ public class UserlistActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
 
+    private String currentUsername;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +56,22 @@ public class UserlistActivity extends AppCompatActivity {
         //change title in toolbar and it's color
         setTitle("KargoBike - Users");
         toolbar.setTitleTextColor(Color.WHITE);
+
+        currentUsername = getIntent().getStringExtra("user_name");
+
+        // Set toolbar clickable to go to the orderLsit quickly
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserlistActivity.this, OrdersActivity.class);
+                intent.putExtra("user_name", currentUsername);
+                intent.setFlags(
+                        Intent.FLAG_ACTIVITY_NO_ANIMATION |
+                                Intent.FLAG_ACTIVITY_NO_HISTORY
+                );
+                startActivity(intent);
+            }
+        });
 
         // Create List by ViewModel
         listview = findViewById(R.id.listview);

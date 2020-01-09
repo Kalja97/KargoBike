@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -106,6 +107,21 @@ public class DispatcherActivity extends AppCompatActivity {
         //change title in toolbar and it's color
         setTitle("KargoBike");
         toolbar.setTitleTextColor(Color.WHITE);
+
+        // Set toolbar clickable to go to the orderLsit quickly
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DispatcherActivity.this, OrdersActivity.class);
+                intent.putExtra("user_name", user.getText());
+                intent.setFlags(
+                        Intent.FLAG_ACTIVITY_NO_ANIMATION |
+                                Intent.FLAG_ACTIVITY_NO_HISTORY
+                );
+                startActivity(intent);
+            }
+        });
+
 
         //Create imageButton to edit users
         ImageButton btnEditUser = (ImageButton)findViewById(editUserImageButton);

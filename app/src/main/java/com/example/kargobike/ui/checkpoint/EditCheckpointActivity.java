@@ -17,6 +17,7 @@ import com.example.kargobike.R;
 
 import com.example.kargobike.database.entity.Checkpoint;
 import com.example.kargobike.ui.SettingsActivity;
+import com.example.kargobike.ui.order.OrdersActivity;
 import com.example.kargobike.util.OnAsyncEventListener;
 import com.example.kargobike.viewmodel.checkpoint.CheckpointViewModel;
 
@@ -65,6 +66,20 @@ public class EditCheckpointActivity extends AppCompatActivity {
         //change title in toolbar and it's color
         setTitle("KargoBike - Checkpoints");
         toolbar.setTitleTextColor(Color.WHITE);
+
+        // Set toolbar clickable to go to the orderLsit quickly
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EditCheckpointActivity.this, OrdersActivity.class);
+                intent.putExtra("user_name", getIntent().getStringExtra("user_name"));
+                intent.setFlags(
+                        Intent.FLAG_ACTIVITY_NO_ANIMATION |
+                                Intent.FLAG_ACTIVITY_NO_HISTORY
+                );
+                startActivity(intent);
+            }
+        });
 
         initiateView();
 

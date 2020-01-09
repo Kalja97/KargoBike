@@ -25,6 +25,7 @@ import com.example.kargobike.R;
 
 import com.example.kargobike.database.entity.Order;
 import com.example.kargobike.database.entity.Product;
+import com.example.kargobike.ui.user.AddUserActivity;
 import com.example.kargobike.viewmodel.order.OrderListViewModel;
 import com.example.kargobike.viewmodel.product.ProductListViewModel;
 
@@ -75,6 +76,20 @@ public class ExportActivity extends AppCompatActivity {
         //change title in toolbar and it's color
         setTitle("KargoBike - Orders");
         toolbar.setTitleTextColor(Color.WHITE);
+
+        // Set toolbar clickable to go to the orderLsit quickly
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ExportActivity.this, OrdersActivity.class);
+                intent.putExtra("user_name", getIntent().getStringExtra("user_name"));
+                intent.setFlags(
+                        Intent.FLAG_ACTIVITY_NO_ANIMATION |
+                                Intent.FLAG_ACTIVITY_NO_HISTORY
+                );
+                startActivity(intent);
+            }
+        });
 
         initializeForm();
 

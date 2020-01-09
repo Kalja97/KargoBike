@@ -25,6 +25,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -37,8 +38,10 @@ import com.example.kargobike.database.repository.CheckpointRepository;
 import com.example.kargobike.database.repository.OrderRepository;
 import com.example.kargobike.firebase.OrderLiveData;
 import com.example.kargobike.ui.LogActivity;
+import com.example.kargobike.ui.MainActivity;
 import com.example.kargobike.ui.SettingsActivity;
 import com.example.kargobike.ui.order.DetailsOrderActivity;
+import com.example.kargobike.ui.order.OrdersActivity;
 import com.example.kargobike.util.OnAsyncEventListener;
 import com.example.kargobike.util.RecyclerViewItemClickListener;
 import com.example.kargobike.viewmodel.checkpoint.CheckpointListViewModel;
@@ -56,6 +59,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+
+import static com.example.kargobike.R.id.orderListImageButton;
 
 public class CheckpointsActivity extends AppCompatActivity {
 
@@ -75,7 +80,10 @@ public class CheckpointsActivity extends AppCompatActivity {
     private CheckPointAdapter<Checkpoint> adapterForSelect;
     private ArrayList<String> selectedCP = new ArrayList<>();
 
+    private String username;
+
     private Toolbar toolbar;
+
 
     //create options menu
     @Override
@@ -125,9 +133,25 @@ public class CheckpointsActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        username = getIntent().getStringExtra("user_name");
+
         //change title in toolbar and it's color
         setTitle("KargoBike - Checkpoints");
         toolbar.setTitleTextColor(Color.WHITE);
+
+        // Set toolbar clickable to go to the orderLsit quickly
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CheckpointsActivity.this, OrdersActivity.class);
+                intent.putExtra("user_name", username);
+                intent.setFlags(
+                        Intent.FLAG_ACTIVITY_NO_ANIMATION |
+                                Intent.FLAG_ACTIVITY_NO_HISTORY
+                );
+                startActivity(intent);
+            }
+        });
 
         String orderNr = getIntent().getStringExtra("OrderNr");
         Order order = (Order) getIntent().getSerializableExtra("Order");
