@@ -61,7 +61,7 @@ public class AddCheckpointActivity extends AppCompatActivity {
 
         String ord = "";
         String ord2 = " ";
-        CheckpointViewModel.Factory factory = new CheckpointViewModel.Factory(getApplication(), ord, ord2);
+        CheckpointViewModel.Factory factory = new CheckpointViewModel.Factory(getApplication(), ord/* ord2*/);
         viewModel = ViewModelProviders.of(this, factory).get(CheckpointViewModel.class);
 
         //change title in toolbar and it's color

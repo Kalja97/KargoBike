@@ -57,7 +57,7 @@ public class EditCheckpointActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_checkpoint);
 
         id = getIntent().getStringExtra("CheckpointId");
-        orderNr = getIntent().getStringExtra("OrderNr");
+      //  orderNr = getIntent().getStringExtra("OrderNr");
 
         //Toolbar
         toolbar = findViewById(R.id.toolbar);
@@ -83,7 +83,7 @@ public class EditCheckpointActivity extends AppCompatActivity {
 
         initiateView();
 
-        CheckpointViewModel.Factory factory = new CheckpointViewModel.Factory(getApplication(), orderNr, id);
+        CheckpointViewModel.Factory factory = new CheckpointViewModel.Factory(getApplication(),/* orderNr,*/ id);
 
         vmCheckpoint = ViewModelProviders.of(this, factory).get(CheckpointViewModel.class);
         vmCheckpoint.getCheckpoint().observe(this, checkpointEntity -> {
@@ -134,7 +134,7 @@ public class EditCheckpointActivity extends AppCompatActivity {
             public void onSuccess() {
                 Log.d(TAG, "updateCheckpoint: success");
                 Intent intent = new Intent(EditCheckpointActivity.this, CheckpointsActivity.class);
-                intent.putExtra("OrderNr", orderNr);
+                //intent.putExtra("OrderNr", orderNr);
                 intent.putExtra("CheckpointId", id);
                 startActivity(intent);
             }

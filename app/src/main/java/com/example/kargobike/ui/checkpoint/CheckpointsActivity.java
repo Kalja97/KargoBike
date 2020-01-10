@@ -203,12 +203,12 @@ public class CheckpointsActivity extends AppCompatActivity {
             recyclerView.addItemDecoration(dividerItemDecoration);
 
             //Handle itemClick and start a new activity
-            checkpointList = new ArrayList<>();
+            //checkpointList = new ArrayList<>();
             adapter = new CheckPointAdapter<>(new RecyclerViewItemClickListener() {
                 @Override
                 public void onItemClick(View v, int position) {
                     Log.d(TAG, "Clicked position: " + position);
-                    Log.d(TAG, "Clicked on: " + checkpointList.get(position).getcheckPointID());
+                    Log.d(TAG, "Clicked on: " + allCheckpoints.get(position).getcheckPointID());
 
 
                     Intent intent = new Intent(CheckpointsActivity.this, EditCheckpointActivity.class);
@@ -216,7 +216,7 @@ public class CheckpointsActivity extends AppCompatActivity {
                             Intent.FLAG_ACTIVITY_NO_ANIMATION |
                                     Intent.FLAG_ACTIVITY_NO_HISTORY
                     );
-                    intent.putExtra("CheckpointID", checkpointList.get(position).getId());
+                    intent.putExtra("CheckpointID", allCheckpoints.get(position).getcheckPointID());
                     //intent.putExtra("OrderNr", order);
                     startActivity(intent);
                 }
@@ -224,7 +224,7 @@ public class CheckpointsActivity extends AppCompatActivity {
                 @Override
                 public void onItemLongClick(View v, int position) {
                     Log.d(TAG, "Clicked position: " + position);
-                    Log.d(TAG, "Clicked on: " + checkpointList.get(position).getcheckPointID());
+                    Log.d(TAG, "Clicked on: " + allCheckpoints.get(position).getcheckPointID());
 
 
                     Intent intent = new Intent(CheckpointsActivity.this, EditCheckpointActivity.class);
@@ -232,9 +232,9 @@ public class CheckpointsActivity extends AppCompatActivity {
                             Intent.FLAG_ACTIVITY_NO_ANIMATION |
                                     Intent.FLAG_ACTIVITY_NO_HISTORY
                     );
-                    intent.putExtra("CheckpointId", checkpointList.get(position).getId());
+                    intent.putExtra("CheckpointId", allCheckpoints.get(position).getcheckPointID());
                     //intent.putExtra("OrderNr", checkpointList.get(position).getcheckPointID());
-                    intent.putExtra("checkpointName", checkpointList.get(position).getCheckpointName());
+                    intent.putExtra("checkpointName", allCheckpoints.get(position).getCheckpointName());
                     startActivity(intent);
                 }
 
