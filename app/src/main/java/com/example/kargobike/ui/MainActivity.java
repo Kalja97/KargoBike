@@ -60,8 +60,6 @@ public class MainActivity extends AppCompatActivity{
     private List<User> users;
     private UserListViewModel userListViewModel;
 
-    private SlidrInterface slidr;
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -124,7 +122,6 @@ public class MainActivity extends AppCompatActivity{
 
     private void initializeView() {
         setContentView(R.layout.activity_main);
-        slidr = Slidr.attach(this);
 
         //Toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -198,6 +195,7 @@ public class MainActivity extends AppCompatActivity{
 
         ImageButton btnDispatcherTools = (ImageButton) findViewById(getAllOrdersImageButton);
         btnDispatcherTools.setOnClickListener(view -> {
+
             if (isDispatcher) {
                 Intent intent = new Intent(this, DispatcherActivity.class);
                 intent.setFlags(
@@ -216,17 +214,6 @@ public class MainActivity extends AppCompatActivity{
                 return;
             }
         });
-
-
-        ImageButton btnExportOrders = (ImageButton) findViewById(ReportsImageButton);
-        btnExportOrders.setOnClickListener(view -> {
-            Intent intent = new Intent(this, ExportActivity.class);
-            intent.setFlags(
-                    Intent.FLAG_ACTIVITY_NO_ANIMATION |
-                            Intent.FLAG_ACTIVITY_NO_HISTORY
-            );
-            startActivity(intent);
-        });
     }
 
     private void getUser() {
@@ -240,43 +227,6 @@ public class MainActivity extends AppCompatActivity{
             }
         });
     }
-
-    public void unlockSlide(View v) {
-
-        slidr.unlock();
-
-        ImageButton oListButton = (ImageButton) findViewById(orderListImageButton);
-        oListButton.setOnClickListener(view -> {
-            Intent intent = new Intent(this, OrdersActivity.class);
-            intent.putExtra("user_name", username);
-            intent.setFlags(
-                    Intent.FLAG_ACTIVITY_NO_ANIMATION |
-                            Intent.FLAG_ACTIVITY_NO_HISTORY
-            );
-            startActivity(intent);
-        });
-
-        oListButton.performClick();
-    }
-
-    public void lockSlide(View v) {
-        slidr.lock();
-
-        ImageButton oListButton = (ImageButton) findViewById(orderListImageButton);
-        oListButton.setOnClickListener(view -> {
-            Intent intent = new Intent(this, OrdersActivity.class);
-            intent.putExtra("user_name", username);
-            intent.setFlags(
-                    Intent.FLAG_ACTIVITY_NO_ANIMATION |
-                            Intent.FLAG_ACTIVITY_NO_HISTORY
-            );
-            startActivity(intent);
-        });
-
-        oListButton.performClick();
-    }
-
-
 }
 
 

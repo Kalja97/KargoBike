@@ -253,13 +253,11 @@
             android:scaleType="fitStart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/reports_logo"
             tools:ignore="MissingConstraints" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Reports"
             android:textAlignment="center"
             android:textColor="#F35C5C"
             android:background="#FFFFFF"

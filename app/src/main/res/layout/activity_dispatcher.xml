@@ -21,9 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:titleTextColor="@android:color/white"
-        tools:ignore="MissingConstraints"
-        android:onClick="unlockSlide">
-
+        tools:ignore="MissingConstraints">
         <TextView
             android:id="@+id/toolbarTextView"
             android:layout_width="wrap_content"
@@ -254,12 +252,13 @@
             android:scaleType="fitStart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/reports_logo"
             tools:ignore="MissingConstraints" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="t.b.d."
+            android:text="Reports"
             android:textAlignment="center"
             android:textColor="#F35C5C"
             android:background="#FFFFFF"

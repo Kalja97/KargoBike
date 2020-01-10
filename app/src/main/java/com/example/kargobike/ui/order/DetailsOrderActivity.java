@@ -222,6 +222,7 @@ public class DetailsOrderActivity extends AppCompatActivity {
                     .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
             if (user_restriction.equals("true")) {
+
                 menu.add(0, DELETE_ORDER, Menu.NONE, getString(R.string.action_delete))
                         .setIcon(R.drawable.ic_delete_white)
                         .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);

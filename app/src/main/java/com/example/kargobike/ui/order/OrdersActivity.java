@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.kargobike.R;
 import com.example.kargobike.adapter.OrderAdapter;
 import com.example.kargobike.database.entity.Order;
@@ -30,10 +29,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.r0adkll.slidr.model.SlidrConfig;
-
-import com.r0adkll.slidr.Slidr;
-import com.r0adkll.slidr.model.SlidrInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,8 +54,6 @@ public class OrdersActivity extends AppCompatActivity {
 
     private String username;
     private String user_restriction;
-
-    private SlidrInterface slidr;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -108,10 +101,6 @@ public class OrdersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orders);
 
-        //==========================================================================================
-        slidr = Slidr.attach(this);
-
-        //==========================================================================================
 
         //Toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -166,6 +155,7 @@ public class OrdersActivity extends AppCompatActivity {
                     Log.d(TAG, "Clicked on: "+Orders.get(position).getOrderNr());
 
                     Intent intent = new Intent(OrdersActivity.this, DetailsOrderActivity.class);
+
                     intent.putExtra("user_restriction", user_restriction);
                     intent.setFlags(
                             Intent.FLAG_ACTIVITY_NO_ANIMATION |
@@ -323,12 +313,4 @@ public class OrdersActivity extends AppCompatActivity {
 
     }
 
-    public void lockSlide(View v) {
-        slidr.lock();
-
-    }
-
-    public void unlockSlide(View v) {
-        slidr.unlock();
-    }
 }

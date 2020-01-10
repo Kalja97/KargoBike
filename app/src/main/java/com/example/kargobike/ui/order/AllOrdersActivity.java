@@ -169,6 +169,7 @@ public class AllOrdersActivity extends AppCompatActivity {
                     Log.d(TAG, "longClicked on: " + Orders.get(position).toString());
 
                     Intent intent = new Intent(AllOrdersActivity.this, DetailsOrderActivity.class);
+
                     intent.putExtra("user_restriction", "true");
                     intent.setFlags(
                             Intent.FLAG_ACTIVITY_NO_ANIMATION |

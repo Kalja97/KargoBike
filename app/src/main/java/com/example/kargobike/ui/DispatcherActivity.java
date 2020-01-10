@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.example.kargobike.R;
 import com.example.kargobike.ui.order.AllOrdersActivity;
+import com.example.kargobike.ui.order.ExportActivity;
+import com.example.kargobike.ui.order.OrdersActivity;
 import com.example.kargobike.ui.product.AddProductActivity;
 import com.example.kargobike.ui.product.ProductlistActivity;
 import com.example.kargobike.ui.user.AddUserActivity;
@@ -24,6 +26,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
 
+import static com.example.kargobike.R.id.ReportsImageButton;
 import static com.example.kargobike.R.id.addProductImageButton;
 import static com.example.kargobike.R.id.addUserImageButton;
 import static com.example.kargobike.R.id.editProductImageButton;
@@ -151,6 +154,16 @@ public class DispatcherActivity extends AppCompatActivity {
         ImageButton btnAddProduct = (ImageButton)findViewById(addProductImageButton);
         btnAddProduct.setOnClickListener(view -> {
             Intent intent = new Intent(this, AddProductActivity.class);
+            intent.setFlags(
+                    Intent.FLAG_ACTIVITY_NO_ANIMATION |
+                            Intent.FLAG_ACTIVITY_NO_HISTORY
+            );
+            startActivity(intent);
+        });
+
+        ImageButton btnExportOrders = (ImageButton) findViewById(ReportsImageButton);
+        btnExportOrders.setOnClickListener(view -> {
+            Intent intent = new Intent(this, ExportActivity.class);
             intent.setFlags(
                     Intent.FLAG_ACTIVITY_NO_ANIMATION |
                             Intent.FLAG_ACTIVITY_NO_HISTORY
