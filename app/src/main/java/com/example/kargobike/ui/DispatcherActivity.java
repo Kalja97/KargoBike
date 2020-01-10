@@ -14,14 +14,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.kargobike.R;
-import com.example.kargobike.ui.checkpoint.AddCheckpointActivity;
-import com.example.kargobike.ui.checkpoint.CheckpointsActivity;
-import com.example.kargobike.ui.order.AddOrderActivity;
-import com.example.kargobike.ui.order.OrdersActivity;
+import com.example.kargobike.ui.order.AllOrdersActivity;
 import com.example.kargobike.ui.product.AddProductActivity;
 import com.example.kargobike.ui.product.ProductlistActivity;
 import com.example.kargobike.ui.user.AddUserActivity;
-import com.example.kargobike.ui.user.EditUserActivity;
 import com.example.kargobike.ui.user.UserlistActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -29,16 +25,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
 
 import static com.example.kargobike.R.id.addProductImageButton;
-import static com.example.kargobike.R.id.addUserButton;
 import static com.example.kargobike.R.id.addUserImageButton;
-import static com.example.kargobike.R.id.checkpointAddImageButton;
-import static com.example.kargobike.R.id.checkpointListImageButton;
 import static com.example.kargobike.R.id.editProductImageButton;
-import static com.example.kargobike.R.id.editUserButton;
 import static com.example.kargobike.R.id.editUserImageButton;
 import static com.example.kargobike.R.id.getAllOrdersImageButton;
-import static com.example.kargobike.R.id.orderAddImageButton;
-import static com.example.kargobike.R.id.orderListImageButton;
 
 public class DispatcherActivity extends AppCompatActivity {
 

@@ -70,6 +70,8 @@ public class DetailsOrderActivity extends AppCompatActivity {
 
     private Order order ;
 
+    private String user_restriction;
+
     FloatingActionButton fab ;
     private Toolbar toolbar;
 
@@ -94,6 +96,7 @@ public class DetailsOrderActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         String orderNr = getIntent().getStringExtra("OrderNr");
+        user_restriction = getIntent().getStringExtra("user_restriction");
 
         OrderViewModel.Factory factory = new OrderViewModel.Factory(getApplication(), orderNr);
         viewModel = ViewModelProviders.of(this, factory).get(OrderViewModel.class);
@@ -217,9 +220,12 @@ public class DetailsOrderActivity extends AppCompatActivity {
             menu.add(0, EDIT_ORDER, Menu.NONE, getString(R.string.action_edit))
                     .setIcon(R.drawable.ic_edit_white)
                     .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-            menu.add(0, DELETE_ORDER, Menu.NONE, getString(R.string.action_delete))
-                    .setIcon(R.drawable.ic_delete_white)
-                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+            if (user_restriction.equals("true")) {
+                menu.add(0, DELETE_ORDER, Menu.NONE, getString(R.string.action_delete))
+                        .setIcon(R.drawable.ic_delete_white)
+                        .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            }
         }else{
             menu.add(0, CREATE_ORDER, Menu.NONE, getString(R.string.action_create_order))
                     .setIcon(R.drawable.ic_add_white)

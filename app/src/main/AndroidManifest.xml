@@ -63,7 +63,7 @@
         <activity android:name=".ui.product.ProductlistActivity" />
         <activity android:name=".ui.product.EditProductActivity" />
         <activity android:name=".ui.product.AddProductActivity" />
-        <activity android:name=".ui.AllOrdersActivity" />
+        <activity android:name=".ui.order.AllOrdersActivity" />
 
 
         <provider

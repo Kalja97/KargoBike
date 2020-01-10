@@ -58,6 +58,7 @@ public class OrdersActivity extends AppCompatActivity {
     private TextView user;
 
     private String username;
+    private String user_restriction;
 
     private SlidrInterface slidr;
 
@@ -125,6 +126,7 @@ public class OrdersActivity extends AppCompatActivity {
         toolbar.setTitleTextColor(Color.WHITE);
 
         username = getIntent().getStringExtra("user_name");
+        user_restriction = getIntent().getStringExtra("user_restriction");
 
         // Set toolbar clickable to go to the orderLsit quickly
         toolbar.setOnClickListener(new View.OnClickListener() {
@@ -164,6 +166,7 @@ public class OrdersActivity extends AppCompatActivity {
                     Log.d(TAG, "Clicked on: "+Orders.get(position).getOrderNr());
 
                     Intent intent = new Intent(OrdersActivity.this, DetailsOrderActivity.class);
+                    intent.putExtra("user_restriction", user_restriction);
                     intent.setFlags(
                             Intent.FLAG_ACTIVITY_NO_ANIMATION |
                                     Intent.FLAG_ACTIVITY_NO_HISTORY
@@ -179,6 +182,7 @@ public class OrdersActivity extends AppCompatActivity {
                     Log.d(TAG, "longClicked on: " + Orders.get(position).toString());
 
                     Intent intent = new Intent(OrdersActivity.this, DetailsOrderActivity.class);
+                    intent.putExtra("user_restriction", user_restriction);
                     intent.setFlags(
                             Intent.FLAG_ACTIVITY_NO_ANIMATION |
                                     Intent.FLAG_ACTIVITY_NO_HISTORY

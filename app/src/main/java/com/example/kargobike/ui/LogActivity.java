@@ -150,6 +150,7 @@ public class LogActivity extends AppCompatActivity {
 
             Intent orderA = new Intent(this, MainActivity.class);
             orderA.putExtra("user_name", name);
+            orderA.putExtra("user_email", email);
             startActivity(orderA);
         }
 

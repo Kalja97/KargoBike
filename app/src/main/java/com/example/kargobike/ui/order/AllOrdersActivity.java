@@ -1,4 +1,4 @@
-package com.example.kargobike.ui;
+package com.example.kargobike.ui.order;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -13,15 +13,13 @@ import android.widget.TextView;
 import com.example.kargobike.R;
 import com.example.kargobike.adapter.OrderAdapter;
 import com.example.kargobike.database.entity.Order;
-import com.example.kargobike.ui.order.AddOrderActivity;
-import com.example.kargobike.ui.order.DetailsOrderActivity;
-import com.example.kargobike.ui.order.OrdersActivity;
+import com.example.kargobike.ui.LogActivity;
+import com.example.kargobike.ui.SettingsActivity;
 import com.example.kargobike.util.RecyclerViewItemClickListener;
 import com.example.kargobike.viewmodel.order.OrderListViewModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -155,6 +153,7 @@ public class AllOrdersActivity extends AppCompatActivity {
 
 
                     Intent intent = new Intent(AllOrdersActivity.this, DetailsOrderActivity.class);
+                    intent.putExtra("user_restriction", "true");
                     intent.setFlags(
                             Intent.FLAG_ACTIVITY_NO_ANIMATION |
                                     Intent.FLAG_ACTIVITY_NO_HISTORY
@@ -170,6 +169,7 @@ public class AllOrdersActivity extends AppCompatActivity {
                     Log.d(TAG, "longClicked on: " + Orders.get(position).toString());
 
                     Intent intent = new Intent(AllOrdersActivity.this, DetailsOrderActivity.class);
+                    intent.putExtra("user_restriction", "true");
                     intent.setFlags(
                             Intent.FLAG_ACTIVITY_NO_ANIMATION |
                                     Intent.FLAG_ACTIVITY_NO_HISTORY
