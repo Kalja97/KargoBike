@@ -22,7 +22,6 @@ public class OrderListFilteredLiveData extends LiveData<List<Order>> {
 
     private static final String TAG = "OrderListFilterLiveData";
 
-
     //Attributes
     private final DatabaseReference reference;
     private final MyValueEventListener listener = new MyValueEventListener();
@@ -61,7 +60,7 @@ public class OrderListFilteredLiveData extends LiveData<List<Order>> {
     //fill the arraylist with the orders on current day and logged in user
     private List<Order> toOrders(DataSnapshot snapshot) {
         List<Order> orders = new ArrayList<>();
-        String currentDate = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+        String currentDate = new SimpleDateFormat("dd/M/yyyy").format(new Date());
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
@@ -77,7 +76,6 @@ public class OrderListFilteredLiveData extends LiveData<List<Order>> {
         }
         return orders;
     }
-
 }
 
 
