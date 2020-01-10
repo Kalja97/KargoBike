@@ -23,7 +23,7 @@ public class CheckpointViewModel extends AndroidViewModel {
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
     private final MediatorLiveData<Checkpoint> mObservableCheckpoint;
 
-    public CheckpointViewModel(@NonNull Application application, final String orderNr, final String id,
+    public CheckpointViewModel(@NonNull Application application,/* final String orderNr,*/ final String id,
                          CheckpointRepository checkpointRepository) {
         super(application);
 
@@ -33,7 +33,7 @@ public class CheckpointViewModel extends AndroidViewModel {
         // set by default null, until we get data from the database.
         mObservableCheckpoint.setValue(null);
 
-        LiveData<Checkpoint> checkpoint = repository.getCheckpoint(orderNr, id);
+        LiveData<Checkpoint> checkpoint = repository.getCheckpoint(/*orderNr,*/ id);
 
         // observe the changes of the client entity from the database and forward them
         mObservableCheckpoint.addSource(checkpoint, mObservableCheckpoint::setValue);
@@ -44,13 +44,13 @@ public class CheckpointViewModel extends AndroidViewModel {
 
         @NonNull
         private final Application application;
-        private final String orderNr;
+        //private final String orderNr;
         private final String id;
         private final CheckpointRepository repository;
 
-        public Factory(@NonNull Application application, String orderNr, String id) {
+        public Factory(@NonNull Application application, /*String orderNr,*/ String id) {
             this.application = application;
-            this.orderNr = orderNr;
+            //this.orderNr = orderNr;
             this.id = id;
             repository = CheckpointRepository.getInstance();;
         }
@@ -58,7 +58,7 @@ public class CheckpointViewModel extends AndroidViewModel {
         @Override
         public <T extends ViewModel> T create(Class<T> modelClass) {
             //noinspection unchecked
-            return (T) new CheckpointViewModel(application, orderNr, id, repository);
+            return (T) new CheckpointViewModel(application,/* orderNr,*/ id, repository);
         }
     }
 

@@ -33,11 +33,11 @@ public class CheckpointRepository {
     }
 
     //Query: get a checkpoint
-    public LiveData<Checkpoint> getCheckpoint(final String checkPointID, final String id) {
+    public LiveData<Checkpoint> getCheckpoint(/*final String checkPointID,*/ final String id) {
         DatabaseReference reference = FirebaseDatabase.getInstance()
                 .getReference("checkpoints")
-                .child(checkPointID)
-                .child("checkpoints")
+               // .child(checkPointID)
+               // .child("checkpoints")
                 .child(id);
         return new CheckpointLiveData(reference);
     }
@@ -79,7 +79,7 @@ public class CheckpointRepository {
     public void update(final Checkpoint checkpoint, final OnAsyncEventListener callback) {
         FirebaseDatabase.getInstance()
                 .getReference("checkpoints")
-                .child(checkpoint.getcheckPointID())
+                .child(checkpoint.getId())
                 .updateChildren(checkpoint.toMap(), (databaseError, databaseReference) -> {
                     if (databaseError != null) {
                         callback.onFailure(databaseError.toException());
