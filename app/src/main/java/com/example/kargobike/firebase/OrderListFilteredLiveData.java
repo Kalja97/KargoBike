@@ -45,18 +45,6 @@ public class OrderListFilteredLiveData extends LiveData<List<Order>> {
         Log.d(TAG, "onInactive");
     }
 
-    private class MyValueEventListener implements ValueEventListener {
-        @Override
-        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            setValue(toOrders(dataSnapshot));
-        }
-
-        @Override
-        public void onCancelled(@NonNull DatabaseError databaseError) {
-            Log.e(TAG, "Can't listen to query " + reference, databaseError.toException());
-        }
-    }
-
     //fill the arraylist with the orders on current day and logged in user
     private List<Order> toOrders(DataSnapshot snapshot) {
         List<Order> orders = new ArrayList<>();
@@ -70,11 +58,23 @@ public class OrderListFilteredLiveData extends LiveData<List<Order>> {
             Order entity = childSnapshot.getValue(Order.class);
             entity.setOrderNr(childSnapshot.getKey());
             if (entity.getDateDelivery().equals(currentDate)
-                && entity.getRider().equals(user.getDisplayName())) {
+                    && entity.getRider().equals(user.getDisplayName())) {
                 orders.add(entity);
             }
         }
         return orders;
+    }
+
+    private class MyValueEventListener implements ValueEventListener {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            setValue(toOrders(dataSnapshot));
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+            Log.e(TAG, "Can't listen to query " + reference, databaseError.toException());
+        }
     }
 }
 

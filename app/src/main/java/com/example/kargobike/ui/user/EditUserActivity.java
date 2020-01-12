@@ -1,9 +1,5 @@
 package com.example.kargobike.ui.user;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -21,6 +17,10 @@ import com.example.kargobike.database.entity.User;
 import com.example.kargobike.ui.order.OrdersActivity;
 import com.example.kargobike.util.OnAsyncEventListener;
 import com.example.kargobike.viewmodel.user.UserViewModel;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProviders;
 
 public class EditUserActivity extends AppCompatActivity {
 
@@ -154,9 +154,9 @@ public class EditUserActivity extends AppCompatActivity {
     }
 
 
-    private boolean checkInputField(){
+    private boolean checkInputField() {
         //Check if all filed are filled in
-        if(firstName.isEmpty() || lastName.isEmpty() || email.isEmpty()){
+        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty()) {
             final AlertDialog alertDialog = new AlertDialog.Builder(EditUserActivity.this).create();
             alertDialog.setTitle("Not all fields filled in");
             alertDialog.setCancelable(true);
@@ -169,7 +169,7 @@ public class EditUserActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
 
         //String orderNr = getIntent().getStringExtra("OrderNr");
 
@@ -182,8 +182,8 @@ public class EditUserActivity extends AppCompatActivity {
 
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        if(item.getItemId() == 2){
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == 2) {
             final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.setTitle(getString(R.string.action_delete));
             alertDialog.setCancelable(false);

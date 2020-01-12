@@ -52,6 +52,5 @@ public class OrderLiveData extends LiveData<Order> {
             Log.e(TAG, "Can't listen to query " + reference, databaseError.toException());
         }
     }
-
 }
 

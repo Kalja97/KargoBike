@@ -16,13 +16,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 public class ProductViewModel extends AndroidViewModel {
 
-    private ProductRepository repository;
-
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
     private final MediatorLiveData<Product> observableProduct;
+    private ProductRepository repository;
 
     public ProductViewModel(@NonNull Application application,
-                          final String productname, ProductRepository productRepository) {
+                            final String productname, ProductRepository productRepository) {
 
         super(application);
 
@@ -32,13 +31,26 @@ public class ProductViewModel extends AndroidViewModel {
         // set by default null, until we get data from the database.
         observableProduct.setValue(null);
 
-
         LiveData<Product> product = repository.getProduct(productname);
-
 
         //observe the changes of the client entity from the database and forward them
         observableProduct.addSource(product, observableProduct::setValue);
 
+    }
+
+    //get a product
+    public LiveData<Product> getProduct() {
+        return observableProduct;
+    }
+
+    //create product
+    public void createProduct(Product product, OnAsyncEventListener callback) {
+        ProductRepository.getInstance().insert(product, callback);
+    }
+
+    //update product
+    public void updateProduct(Product product, OnAsyncEventListener callback) {
+        ProductRepository.getInstance().update(product, callback);
     }
 
     /**
@@ -63,27 +75,4 @@ public class ProductViewModel extends AndroidViewModel {
             return (T) new ProductViewModel(application, productname, repository);
         }
     }
-
-    //get a product
-    public LiveData<Product> getProduct() {
-        return observableProduct;
-    }
-
-    //create product
-    public void createProduct(Product product, OnAsyncEventListener callback) {
-        ProductRepository.getInstance().insert(product, callback);
-    }
-
-    //update product
-    public void updateProduct(Product product, OnAsyncEventListener callback) {
-        ProductRepository.getInstance().update(product, callback);
-    }
-
-    /*
-    //delete product
-    public void deleteProduct(Product product, OnAsyncEventListener callback) {
-        ProductRepository.getInstance().delete(product, callback);
-    }
-    */
-
 }

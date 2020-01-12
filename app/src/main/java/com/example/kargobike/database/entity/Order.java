@@ -24,12 +24,12 @@ public class Order implements Comparable, Serializable {
     private ArrayList<String> checkpointsID;
 
     //Empty Constructor
-    public Order(){
+    public Order() {
 
     }
 
     //Constructor with attributes
-    public Order(@NonNull String orderNr, String customer, String fromAddress, String toAddress, String product, int howMany, String rider, String dateDelivery,String timeDelivery, String state) {
+    public Order(@NonNull String orderNr, String customer, String fromAddress, String toAddress, String product, int howMany, String rider, String dateDelivery, String timeDelivery, String state) {
         this.orderNr = orderNr;
         this.customer = customer;
         this.fromAddress = fromAddress;
@@ -37,7 +37,7 @@ public class Order implements Comparable, Serializable {
         this.product = product;
         this.howMany = howMany;
         this.rider = rider;
-        this.dateDelivery =  dateDelivery;
+        this.dateDelivery = dateDelivery;
         this.timeDelivery = timeDelivery;
         this.state = state;
     }
@@ -125,10 +125,6 @@ public class Order implements Comparable, Serializable {
         this.state = state;
     }
 
-    public ArrayList<String> getCheckpointsID() {
-        return checkpointsID;
-    }
-
     public void setCheckpointsID(ArrayList<String> checkpointsID) {
         this.checkpointsID = checkpointsID;
     }
@@ -148,7 +144,7 @@ public class Order implements Comparable, Serializable {
         return toString().compareTo(o.toString());
     }
 
-    public String getExportString(){
+    public String getExportString() {
         return dateDelivery + "; " + customer + "; " + rider + "; " + product + "; " + howMany;
     }
 

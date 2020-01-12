@@ -1,8 +1,5 @@
 package com.example.kargobike.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -25,6 +22,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import static com.example.kargobike.R.id.ReportsImageButton;
 import static com.example.kargobike.R.id.addProductImageButton;
@@ -49,17 +49,10 @@ public class DispatcherActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_logout:
-
                 logout();
                 Intent intentHome = new Intent(this, LogActivity.class);
                 startActivity(intentHome);
                 return true;
-
-            case R.id.action_settings:
-
-                Intent intentSettings = new Intent(this, SettingsActivity.class);
-                startActivity(intentSettings);
-
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -67,34 +60,29 @@ public class DispatcherActivity extends AppCompatActivity {
     }
 
     //Method for logout
-    private void logout(){
+    private void logout() {
         FirebaseAuth.getInstance().signOut();
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);;
+        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
         mGoogleSignInClient.signOut();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        //DarkTheme
-//        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
-//            setTheme(R.style.DarkTheme);
-//        else
-//            setTheme(R.style.AppTheme);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dispatcher);
 
         //Toolbar
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //Show user in toolbar
-        user = (TextView)findViewById(R.id.toolbarTextView);
+        user = findViewById(R.id.toolbarTextView);
         user.setText(getIntent().getStringExtra("user_name"));
 
         //change title in toolbar and it's color
@@ -115,9 +103,8 @@ public class DispatcherActivity extends AppCompatActivity {
             }
         });
 
-
         //Create imageButton to edit users
-        ImageButton btnEditUser = (ImageButton)findViewById(editUserImageButton);
+        ImageButton btnEditUser = findViewById(editUserImageButton);
         btnEditUser.setOnClickListener(view -> {
             Intent intent = new Intent(this, UserlistActivity.class);
             intent.setFlags(
@@ -127,9 +114,8 @@ public class DispatcherActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-
         //Create imageButton to add users
-        ImageButton btnAddUser = (ImageButton)findViewById(addUserImageButton);
+        ImageButton btnAddUser = findViewById(addUserImageButton);
         btnAddUser.setOnClickListener(view -> {
             Intent intent = new Intent(this, AddUserActivity.class);
             intent.setFlags(
@@ -140,7 +126,7 @@ public class DispatcherActivity extends AppCompatActivity {
         });
 
         //Create imageButton to edit products
-        ImageButton btnEditProduct = (ImageButton)findViewById(editProductImageButton);
+        ImageButton btnEditProduct = findViewById(editProductImageButton);
         btnEditProduct.setOnClickListener(view -> {
             Intent intent = new Intent(this, ProductlistActivity.class);
             intent.setFlags(
@@ -151,7 +137,7 @@ public class DispatcherActivity extends AppCompatActivity {
         });
 
         //Create imageButton to to edit products
-        ImageButton btnAddProduct = (ImageButton)findViewById(addProductImageButton);
+        ImageButton btnAddProduct = findViewById(addProductImageButton);
         btnAddProduct.setOnClickListener(view -> {
             Intent intent = new Intent(this, AddProductActivity.class);
             intent.setFlags(
@@ -161,7 +147,7 @@ public class DispatcherActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        ImageButton btnExportOrders = (ImageButton) findViewById(ReportsImageButton);
+        ImageButton btnExportOrders = findViewById(ReportsImageButton);
         btnExportOrders.setOnClickListener(view -> {
             Intent intent = new Intent(this, ExportActivity.class);
             intent.setFlags(
@@ -172,7 +158,7 @@ public class DispatcherActivity extends AppCompatActivity {
         });
 
         //Create imageButton to to see all orders
-        ImageButton btnGetAllOrders = (ImageButton)findViewById(getAllOrdersImageButton);
+        ImageButton btnGetAllOrders = findViewById(getAllOrdersImageButton);
         btnGetAllOrders.setOnClickListener(view -> {
             Intent intent = new Intent(this, AllOrdersActivity.class);
             intent.setFlags(

@@ -17,10 +17,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 public class UserListViewModel extends AndroidViewModel {
 
-    private UserRepository repository;
-
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
     private final MediatorLiveData<List<User>> observableUsers;
+    private UserRepository repository;
 
     public UserListViewModel(@NonNull Application application, UserRepository userRepository) {
         super(application);
@@ -35,6 +34,25 @@ public class UserListViewModel extends AndroidViewModel {
 
         // observe the changes of the entities from the database and forward them
         observableUsers.addSource(users, observableUsers::setValue);
+    }
+
+    /**
+     * Expose the LiveData ClientEntities query so the UI can observe it.
+     */
+    public LiveData<List<User>> getUsers() {
+        return observableUsers;
+    }
+
+    public void deleteUser(User user) {
+        repository.delete(user, new OnAsyncEventListener() {
+            @Override
+            public void onSuccess() {
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+            }
+        });
     }
 
     /**
@@ -56,22 +74,5 @@ public class UserListViewModel extends AndroidViewModel {
             //noinspection unchecked
             return (T) new UserListViewModel(application, userRepository);
         }
-    }
-
-    /**
-     * Expose the LiveData ClientEntities query so the UI can observe it.
-     */
-    public LiveData<List<User>> getUsers() {
-        return observableUsers;
-    }
-
-    public void deleteUser(User user) {
-        repository.delete(user, new OnAsyncEventListener() {
-            @Override
-            public void onSuccess() {}
-
-            @Override
-            public void onFailure(Exception e) {}
-        });
     }
 }

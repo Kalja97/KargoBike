@@ -19,10 +19,9 @@ import static com.example.kargobike.database.repository.OrderRepository.getInsta
 
 public class OrderListFilteredViewModel extends AndroidViewModel {
 
-    private OrderRepository repository;
-
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
     private final MediatorLiveData<List<Order>> observableOrders;
+    private OrderRepository repository;
 
     public OrderListFilteredViewModel(@NonNull Application application, OrderRepository orderRepository) {
         super(application);
@@ -37,6 +36,25 @@ public class OrderListFilteredViewModel extends AndroidViewModel {
 
         // observe the changes of the entities from the database and forward them
         observableOrders.addSource(orders, observableOrders::setValue);
+    }
+
+    /**
+     * Expose the LiveData ClientEntities query so the UI can observe it.
+     */
+    public LiveData<List<Order>> getOrders() {
+        return observableOrders;
+    }
+
+    public void deleteOrder(Order order) {
+        repository.delete(order, new OnAsyncEventListener() {
+            @Override
+            public void onSuccess() {
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+            }
+        });
     }
 
     /**
@@ -61,22 +79,5 @@ public class OrderListFilteredViewModel extends AndroidViewModel {
             //noinspection unchecked
             return (T) new OrderListFilteredViewModel(application, orderRepository);
         }
-    }
-
-    /**
-     * Expose the LiveData ClientEntities query so the UI can observe it.
-     */
-    public LiveData<List<Order>> getOrders() {
-        return observableOrders;
-    }
-
-    public void deleteOrder(Order order) {
-        repository.delete(order, new OnAsyncEventListener() {
-            @Override
-            public void onSuccess() {}
-
-            @Override
-            public void onFailure(Exception e) {}
-        });
     }
 }

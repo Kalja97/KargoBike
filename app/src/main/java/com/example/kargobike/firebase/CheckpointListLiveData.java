@@ -46,6 +46,30 @@ public class CheckpointListLiveData extends LiveData<List<Checkpoint>> {
         Log.d(TAG, "onInactive");
     }
 
+    //fill the arraylist with the checkpoints
+    private List<Checkpoint> toCheckpoints(DataSnapshot snapshot) {
+        List<Checkpoint> checkpoints = new ArrayList<>();
+
+        for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+
+            if (childSnapshot.child("type").exists()) {
+                System.out.println("THIS IS A CHECKPOINT! type: " + childSnapshot.child("type"));
+                Checkpoint entity = childSnapshot.getValue(Checkpoint.class);
+                entity.setcheckPointID(childSnapshot.getKey());
+                checkpoints.add(entity);
+            } else {
+                System.out.println("THIS IS A STRING! type: " + childSnapshot.child("type"));
+                String id = childSnapshot.getValue().toString();
+                System.out.println("ID OF CHECKPOINTS (IN STRING): " + id);
+                Checkpoint entity = new Checkpoint();
+                entity.setcheckPointID(id);
+                checkpoints.add(entity);
+            }
+
+        }
+        return checkpoints;
+    }
+
     private class MyValueEventListener implements ValueEventListener {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -57,39 +81,4 @@ public class CheckpointListLiveData extends LiveData<List<Checkpoint>> {
             Log.e(TAG, "Can't listen to query " + reference, databaseError.toException());
         }
     }
-
-    //fill the arraylist with the checkpoints
-    private List<Checkpoint> toCheckpoints(DataSnapshot snapshot) {
-        List<Checkpoint> checkpoints = new ArrayList<>();
-
-        for (DataSnapshot childSnapshot : snapshot.getChildren()) {
-
-            // FAIRE UN TEST SUR CA:
-
-            //if(childSnapshot.child("type").getValue() != null)
-            if(childSnapshot.child("type").exists())
-            {
-                System.out.println("THIS IS A CHECKPOINT! type: " + childSnapshot.child("type"));
-                Checkpoint entity = childSnapshot.getValue(Checkpoint.class);
-                entity.setcheckPointID(childSnapshot.getKey());
-                checkpoints.add(entity);
-            }
-            else
-            {
-                System.out.println("THIS IS A STRING! type: " + childSnapshot.child("type"));
-                String id = childSnapshot.getValue().toString();
-                System.out.println("ID OF CHECKPOINTS (IN STRING): " + id);
-                Checkpoint entity = new Checkpoint();
-                entity.setcheckPointID(id);
-                checkpoints.add(entity);
-            }
-
-            //entity.setOrderNr(orderNr);
-
-        }
-        return checkpoints;
-    }
-
-
-
 }

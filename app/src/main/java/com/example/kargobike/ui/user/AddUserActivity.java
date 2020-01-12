@@ -1,10 +1,5 @@
 package com.example.kargobike.ui.user;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -21,24 +16,26 @@ import com.example.kargobike.ui.order.OrdersActivity;
 import com.example.kargobike.util.OnAsyncEventListener;
 import com.example.kargobike.viewmodel.user.UserViewModel;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProviders;
+
 public class AddUserActivity extends AppCompatActivity {
 
     private static final String TAG = "AddUser";
-
-    //Attributes
-    private String firstName;
-    private String lastName;
-    private String email;
-    private Boolean isDispatcher;
-
-    private UserViewModel viewModel;
-    private Toolbar toolbar;
-
     EditText etFirstName;
     EditText etLastName;
     EditText etEmail;
     Switch swDispatcher;
     Button btnAdd;
+    //Attributes
+    private String firstName;
+    private String lastName;
+    private String email;
+    private Boolean isDispatcher;
+    private UserViewModel viewModel;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +43,7 @@ public class AddUserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_user);
 
         //Toolbar
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         String usr = "";
@@ -74,10 +71,10 @@ public class AddUserActivity extends AppCompatActivity {
         });
 
 
-        etFirstName = (EditText) findViewById(R.id.firstName);
-        etLastName = (EditText) findViewById(R.id.lastName);
-        etEmail = (EditText) findViewById(R.id.email);
-        swDispatcher = (Switch) findViewById(R.id.switchDispatcher);
+        etFirstName = findViewById(R.id.firstName);
+        etLastName = findViewById(R.id.lastName);
+        etEmail = findViewById(R.id.email);
+        swDispatcher = findViewById(R.id.switchDispatcher);
 
         //Buttons
         btnAdd = findViewById(R.id.btnadduser);
@@ -92,7 +89,7 @@ public class AddUserActivity extends AppCompatActivity {
                 isDispatcher = swDispatcher.isChecked();
 
                 //Check if all filed are filled in
-                if(firstName.isEmpty() || lastName.isEmpty() || email.isEmpty()){
+                if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty()) {
                     final AlertDialog alertDialog = new AlertDialog.Builder(AddUserActivity.this).create();
                     alertDialog.setTitle("Not all fields filled in");
                     alertDialog.setCancelable(true);

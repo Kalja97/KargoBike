@@ -40,6 +40,19 @@ public class ProductListLiveData extends LiveData<List<Product>> {
         Log.d(TAG, "onInactive");
     }
 
+    //fill the arraylist with the products
+    private List<Product> toProducts(DataSnapshot snapshot) {
+        List<Product> products = new ArrayList<>();
+        for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+            Product entity = childSnapshot.getValue(Product.class);
+            entity.setProductNumber(childSnapshot.getKey());
+            if (entity.getActive() == true) {
+                products.add(entity);
+            }
+        }
+        return products;
+    }
+
     private class MyValueEventListener implements ValueEventListener {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -50,18 +63,5 @@ public class ProductListLiveData extends LiveData<List<Product>> {
         public void onCancelled(@NonNull DatabaseError databaseError) {
             Log.e(TAG, "Can't listen to query " + reference, databaseError.toException());
         }
-    }
-
-    //fill the arraylist with the products
-    private List<Product> toProducts(DataSnapshot snapshot) {
-        List<Product> products = new ArrayList<>();
-        for (DataSnapshot childSnapshot : snapshot.getChildren()) {
-            Product entity = childSnapshot.getValue(Product.class);
-            entity.setProductNumber(childSnapshot.getKey());
-            if (entity.getActive()==true) {
-                products.add(entity);
-            }
-        }
-        return products;
     }
 }

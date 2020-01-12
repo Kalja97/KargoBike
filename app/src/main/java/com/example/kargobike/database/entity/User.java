@@ -7,7 +7,7 @@ import java.util.Map;
 
 import androidx.annotation.NonNull;
 
-public class User implements Comparable{
+public class User implements Comparable {
 
     private String idNumber;
     private String firstname;
@@ -18,12 +18,12 @@ public class User implements Comparable{
     private Boolean isActive;
 
     //Empty Constructor
-    public User(){
+    public User() {
         this.isActive = true;
     }
 
     //Constructor with attributes
-    public User(@NonNull String idNumber, String firstname, String lastname, String email, Boolean isDispatcher){
+    public User(@NonNull String idNumber, String firstname, String lastname, String email, Boolean isDispatcher) {
 
         this.firstname = firstname;
         this.lastname = lastname;
@@ -104,7 +104,6 @@ public class User implements Comparable{
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        //result.put("productNumber", number);
         result.put("firstname", firstname);
         result.put("lastname", lastname);
         result.put("email", email);

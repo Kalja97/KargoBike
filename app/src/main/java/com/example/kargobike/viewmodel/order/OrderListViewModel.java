@@ -15,14 +15,13 @@ import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import static com.example.kargobike.database.repository.OrderRepository.*;
+import static com.example.kargobike.database.repository.OrderRepository.getInstance;
 
 public class OrderListViewModel extends AndroidViewModel {
 
-    private OrderRepository repository;
-
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
     private final MediatorLiveData<List<Order>> observableOrders;
+    private OrderRepository repository;
 
     public OrderListViewModel(@NonNull Application application, OrderRepository orderRepository) {
         super(application);
@@ -37,6 +36,25 @@ public class OrderListViewModel extends AndroidViewModel {
 
         // observe the changes of the entities from the database and forward them
         observableOrders.addSource(orders, observableOrders::setValue);
+    }
+
+    /**
+     * Expose the LiveData ClientEntities query so the UI can observe it.
+     */
+    public LiveData<List<Order>> getOrders() {
+        return observableOrders;
+    }
+
+    public void deleteOrder(Order order) {
+        repository.delete(order, new OnAsyncEventListener() {
+            @Override
+            public void onSuccess() {
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+            }
+        });
     }
 
     /**
@@ -59,22 +77,5 @@ public class OrderListViewModel extends AndroidViewModel {
             //noinspection unchecked
             return (T) new OrderListViewModel(application, orderRepository);
         }
-    }
-
-    /**
-     * Expose the LiveData ClientEntities query so the UI can observe it.
-     */
-    public LiveData<List<Order>> getOrders() {
-        return observableOrders;
-    }
-
-    public void deleteOrder(Order order) {
-        repository.delete(order, new OnAsyncEventListener() {
-            @Override
-            public void onSuccess() {}
-
-            @Override
-            public void onFailure(Exception e) {}
-        });
     }
 }

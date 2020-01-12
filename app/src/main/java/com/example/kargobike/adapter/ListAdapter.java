@@ -1,12 +1,13 @@
 package com.example.kargobike.adapter;
 
-import com.example.kargobike.R;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.example.kargobike.R;
 
 import java.util.List;
 
@@ -22,8 +23,8 @@ public class ListAdapter<T> extends ArrayAdapter<T> {
 
     public ListAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<T> data) {
         super(context, resource, data);
-        this.resource=resource;
-        this.data=data;
+        this.resource = resource;
+        this.data = data;
     }
 
     @NonNull
@@ -33,7 +34,7 @@ public class ListAdapter<T> extends ArrayAdapter<T> {
     }
 
     @Override
-    public View getDropDownView(int position, View convertView, ViewGroup parent){
+    public View getDropDownView(int position, View convertView, ViewGroup parent) {
         return getCustomView(position, convertView, parent);
     }
 
@@ -61,13 +62,13 @@ public class ListAdapter<T> extends ArrayAdapter<T> {
         return convertView;
     }
 
-    private static class ViewHolder {
-        TextView itemView;
-    }
-
     public void updateData(List<T> data) {
         this.data.clear();
         this.data.addAll(data);
         notifyDataSetChanged();
+    }
+
+    private static class ViewHolder {
+        TextView itemView;
     }
 }

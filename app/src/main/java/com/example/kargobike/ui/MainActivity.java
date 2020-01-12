@@ -4,53 +4,39 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.example.kargobike.R;
 import com.example.kargobike.database.entity.User;
 import com.example.kargobike.ui.checkpoint.AddCheckpointActivity;
 import com.example.kargobike.ui.checkpoint.CheckpointsActivity;
 import com.example.kargobike.ui.order.AddOrderActivity;
-import com.example.kargobike.ui.order.ExportActivity;
 import com.example.kargobike.ui.order.OrdersActivity;
 import com.example.kargobike.viewmodel.user.UserListViewModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
-import com.r0adkll.slidr.Slidr;
-import com.r0adkll.slidr.model.SlidrInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.kargobike.R.id.ReportsImageButton;
-import static com.example.kargobike.R.id.getAllOrdersImageButton;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProviders;
+
 import static com.example.kargobike.R.id.checkpointAddImageButton;
 import static com.example.kargobike.R.id.checkpointListImageButton;
+import static com.example.kargobike.R.id.getAllOrdersImageButton;
 import static com.example.kargobike.R.id.orderAddImageButton;
 import static com.example.kargobike.R.id.orderListImageButton;
 
-/**
- * Author: Samuel Pinto Da Silva
- * Creation date:
- * Last update date: 03.12.2019
- */
-
-
-
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TextView user;
     private String username;
@@ -71,17 +57,10 @@ public class MainActivity extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_logout:
-
                 logout();
                 Intent intentHome = new Intent(this, LogActivity.class);
                 startActivity(intentHome);
                 return true;
-
-            case R.id.action_settings:
-
-                Intent intentSettings = new Intent(this, SettingsActivity.class);
-                startActivity(intentSettings);
-
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -97,17 +76,18 @@ public class MainActivity extends AppCompatActivity{
                 .requestEmail()
                 .build();
         GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
-        ;
         mGoogleSignInClient.signOut();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        // Get data of logged user
         getUser();
 
         super.onCreate(savedInstanceState);
 
+        // Wait for fetching user data before continue
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
@@ -124,7 +104,7 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
 
         //Toolbar
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //get user
@@ -132,11 +112,11 @@ public class MainActivity extends AppCompatActivity{
         user_email = getIntent().getStringExtra("user_email");
 
         //Show user in toolbar
-        user = (TextView) findViewById(R.id.toolbarTextView);
+        user = findViewById(R.id.toolbarTextView);
         user.setText(getIntent().getStringExtra("user_name"));
 
         for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getEmail().equals(user_email)){
+            if (users.get(i).getEmail().equals(user_email)) {
                 isDispatcher = users.get(i).getDispatcher();
             }
         }
@@ -146,7 +126,7 @@ public class MainActivity extends AppCompatActivity{
         toolbar.setTitleTextColor(Color.WHITE);
 
         //Create imageButton to display the list of orders
-        ImageButton oListButton = (ImageButton) findViewById(orderListImageButton);
+        ImageButton oListButton = findViewById(orderListImageButton);
         oListButton.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, OrdersActivity.class);
             intent.putExtra("user_name", username);
@@ -160,7 +140,7 @@ public class MainActivity extends AppCompatActivity{
 
 
         //Create imageButton for adding new Orders
-        ImageButton oAdd = (ImageButton) findViewById(orderAddImageButton);
+        ImageButton oAdd = findViewById(orderAddImageButton);
         oAdd.setOnClickListener(view -> {
             Intent intent = new Intent(this, AddOrderActivity.class);
             intent.setFlags(
@@ -171,7 +151,7 @@ public class MainActivity extends AppCompatActivity{
         });
 
         //Create imageButton for adding new Checkpoints
-        ImageButton cAdd = (ImageButton) findViewById(checkpointAddImageButton);
+        ImageButton cAdd = findViewById(checkpointAddImageButton);
         cAdd.setOnClickListener(view -> {
             Intent intent = new Intent(this, AddCheckpointActivity.class);
             intent.setFlags(
@@ -182,7 +162,7 @@ public class MainActivity extends AppCompatActivity{
         });
 
         //Create imageButton to display the list of checkpoints
-        ImageButton cListButton = (ImageButton) findViewById(checkpointListImageButton);
+        ImageButton cListButton = findViewById(checkpointListImageButton);
         cListButton.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, CheckpointsActivity.class);
             intent.putExtra("user_restriction", isDispatcher.toString());
@@ -193,7 +173,7 @@ public class MainActivity extends AppCompatActivity{
             startActivity(intent);
         });
 
-        ImageButton btnDispatcherTools = (ImageButton) findViewById(getAllOrdersImageButton);
+        ImageButton btnDispatcherTools = findViewById(getAllOrdersImageButton);
         btnDispatcherTools.setOnClickListener(view -> {
 
             if (isDispatcher) {
@@ -203,8 +183,7 @@ public class MainActivity extends AppCompatActivity{
                                 Intent.FLAG_ACTIVITY_NO_HISTORY
                 );
                 startActivity(intent);
-            }
-            else {
+            } else {
                 final AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
                 alertDialog.setTitle("No permission");
                 alertDialog.setCancelable(true);

@@ -5,43 +5,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.kargobike.R;
 import com.example.kargobike.database.entity.Checkpoint;
 import com.example.kargobike.util.RecyclerViewItemClickListener;
 
 import java.util.List;
 
-/**
- * Author: Samuel Pinto Da Silva
- * Creation date:
- * Last update date: 25.11.2019
- */
-public class CheckPointAdapter<T> extends RecyclerView.Adapter<CheckPointAdapter.CheckPointViewHolder>
-{
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.RecyclerView;
+
+public class CheckPointAdapter<T> extends RecyclerView.Adapter<CheckPointAdapter.CheckPointViewHolder> {
     private RecyclerViewItemClickListener mylistener;
     private List<T> data;
-
-    static class CheckPointViewHolder extends RecyclerView.ViewHolder {
-        private final TextView name;
-        private final TextView rider;
-        private final TextView DateTime;
-        private final TextView gps;
-        private final TextView type;
-
-        private CheckPointViewHolder(View view, TextView name, TextView DateTime, TextView gps,
-                                     TextView type, TextView rider) {
-            super(view);
-            this.name = name;
-            this.rider = rider;
-            this.DateTime = DateTime;
-            this.gps = gps;
-            this.type = type;
-        }
-    }
 
     public CheckPointAdapter(RecyclerViewItemClickListener listener) {
         mylistener = listener;
@@ -63,7 +39,8 @@ public class CheckPointAdapter<T> extends RecyclerView.Adapter<CheckPointAdapter
         v.setOnClickListener(view -> {
             mylistener.onItemLongClick(view, CheckPointViewHolder.getAdapterPosition());
         });
-        return CheckPointViewHolder;    }
+        return CheckPointViewHolder;
+    }
 
     @Override
     public void onBindViewHolder(@NonNull CheckPointAdapter.CheckPointViewHolder holder, int position) {
@@ -76,7 +53,6 @@ public class CheckPointAdapter<T> extends RecyclerView.Adapter<CheckPointAdapter
 
     }
 
-
     @Override
     public int getItemCount() {
         if (data != null) {
@@ -86,11 +62,11 @@ public class CheckPointAdapter<T> extends RecyclerView.Adapter<CheckPointAdapter
         }
     }
 
-    public void setData(final List<T> checkpoints){
-        if(this.data == null){
-            this.data = checkpoints ;
+    public void setData(final List<T> checkpoints) {
+        if (this.data == null) {
+            this.data = checkpoints;
             notifyItemRangeInserted(0, checkpoints.size());
-        }else{
+        } else {
             DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffUtil.Callback() {
                 @Override
                 public int getOldListSize() {
@@ -112,8 +88,26 @@ public class CheckPointAdapter<T> extends RecyclerView.Adapter<CheckPointAdapter
                     return false;
                 }
             });
-            data = checkpoints ;
+            data = checkpoints;
             result.dispatchUpdatesTo(this);
+        }
+    }
+
+    static class CheckPointViewHolder extends RecyclerView.ViewHolder {
+        private final TextView name;
+        private final TextView rider;
+        private final TextView DateTime;
+        private final TextView gps;
+        private final TextView type;
+
+        private CheckPointViewHolder(View view, TextView name, TextView DateTime, TextView gps,
+                                     TextView type, TextView rider) {
+            super(view);
+            this.name = name;
+            this.rider = rider;
+            this.DateTime = DateTime;
+            this.gps = gps;
+            this.type = type;
         }
     }
 }

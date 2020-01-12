@@ -5,9 +5,4 @@
         android:icon="@drawable/ic_menu"
         android:title="Logout"
         app:showAsAction="never"/>
-
-    <item android:id="@+id/action_settings"
-        android:icon="@drawable/ic_menu"
-        android:title="Settings"
-        app:showAsAction="never"/>
 </menu>

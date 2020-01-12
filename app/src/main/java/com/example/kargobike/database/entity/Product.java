@@ -7,7 +7,7 @@ import java.util.Map;
 
 import androidx.annotation.NonNull;
 
-public class Product implements Comparable{
+public class Product implements Comparable {
 
     private String number;
     private String name;
@@ -15,12 +15,12 @@ public class Product implements Comparable{
     private Boolean active;
 
     //Empty Constructor
-    public Product(){
+    public Product() {
         this.active = true;
     }
 
     //Constructor with attributes
-    public Product(@NonNull String productNr, String name, Double price){
+    public Product(@NonNull String productNr, String name, Double price) {
 
         this.name = name;
         this.price = price;
@@ -84,7 +84,6 @@ public class Product implements Comparable{
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        //result.put("productNumber", number);
         result.put("name", name);
         result.put("price", price);
         result.put("active", active);

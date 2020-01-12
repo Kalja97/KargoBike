@@ -40,6 +40,19 @@ public class UserListLiveData extends LiveData<List<User>> {
         Log.d(TAG, "onInactive");
     }
 
+    //fill the arraylist with the users
+    private List<User> toUsers(DataSnapshot snapshot) {
+        List<User> users = new ArrayList<>();
+        for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+            User entity = childSnapshot.getValue(User.class);
+            entity.setIdNumber(childSnapshot.getKey());
+            if (entity.getActive() == true) {
+                users.add(entity);
+            }
+        }
+        return users;
+    }
+
     private class MyValueEventListener implements ValueEventListener {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -50,18 +63,5 @@ public class UserListLiveData extends LiveData<List<User>> {
         public void onCancelled(@NonNull DatabaseError databaseError) {
             Log.e(TAG, "Can't listen to query " + reference, databaseError.toException());
         }
-    }
-
-    //fill the arraylist with the users
-    private List<User> toUsers(DataSnapshot snapshot) {
-        List<User> users = new ArrayList<>();
-        for (DataSnapshot childSnapshot : snapshot.getChildren()) {
-            User entity = childSnapshot.getValue(User.class);
-            entity.setIdNumber(childSnapshot.getKey());
-            if (entity.getActive()==true) {
-                users.add(entity);
-            }
-        }
-        return users;
     }
 }

@@ -1,9 +1,5 @@
 package com.example.kargobike.ui.product;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -19,9 +15,12 @@ import com.example.kargobike.R;
 import com.example.kargobike.database.entity.Product;
 import com.example.kargobike.ui.MainActivity;
 import com.example.kargobike.ui.order.OrdersActivity;
-import com.example.kargobike.ui.user.EditUserActivity;
 import com.example.kargobike.util.OnAsyncEventListener;
 import com.example.kargobike.viewmodel.product.ProductViewModel;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProviders;
 
 public class EditProductActivity extends AppCompatActivity {
 
@@ -144,10 +143,9 @@ public class EditProductActivity extends AppCompatActivity {
         });
     }
 
-    private boolean checkInputField(String price){
+    private boolean checkInputField(String price) {
         //Check if all filed are filled in
-
-        if(productName.isEmpty() || price.isEmpty()){
+        if (productName.isEmpty() || price.isEmpty()) {
             final AlertDialog alertDialog = new AlertDialog.Builder(EditProductActivity.this).create();
             alertDialog.setTitle("Not all fields filled in");
             alertDialog.setCancelable(true);
@@ -160,27 +158,25 @@ public class EditProductActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-
-        //String orderNr = getIntent().getStringExtra("OrderNr");
+    public boolean onCreateOptionsMenu(Menu menu) {
 
         menu.add(0, 2, Menu.NONE, getString(R.string.action_delete))
-                    .setIcon(R.drawable.ic_delete_white)
-                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+                .setIcon(R.drawable.ic_delete_white)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
         return true;
     }
 
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        if(item.getItemId() == 2){
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == 2) {
             final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.setTitle(getString(R.string.action_delete));
             alertDialog.setCancelable(false);
             alertDialog.setMessage(getString(R.string.message_DELETE_PRODUCT));
             alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.action_delete), (dialog, which) -> {
-                        deleteProduct();
+                deleteProduct();
             });
             alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.action_cancel), (dialog, which) -> alertDialog.dismiss());
             alertDialog.show();

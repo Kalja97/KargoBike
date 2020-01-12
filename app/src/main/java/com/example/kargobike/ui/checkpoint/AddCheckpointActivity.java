@@ -60,8 +60,8 @@ public class AddCheckpointActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         String ord = "";
-        String ord2 = " ";
-        CheckpointViewModel.Factory factory = new CheckpointViewModel.Factory(getApplication(), ord/* ord2*/);
+
+        CheckpointViewModel.Factory factory = new CheckpointViewModel.Factory(getApplication(), ord);
         viewModel = ViewModelProviders.of(this, factory).get(CheckpointViewModel.class);
 
         //change title in toolbar and it's color
@@ -101,7 +101,7 @@ public class AddCheckpointActivity extends AppCompatActivity {
                 gps = tvGps.getText().toString().trim();
 
                 //call method for checking if required fields are filled
-                if(checkInputField(type)){
+                if (checkInputField(type)) {
                     //call method for saving checkpoint
                     saveChanges(checkpointName, type, gps, datetime, rider);
                 }
@@ -120,15 +120,15 @@ public class AddCheckpointActivity extends AppCompatActivity {
         tvGps = findViewById(R.id.gps);
     }
 
-    private String getCurrentDateTime(){
+    private String getCurrentDateTime() {
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy / HH:mm");
         Date date = new Date();
         return formatter.format(date);
     }
 
-    private boolean checkInputField(String type){
+    private boolean checkInputField(String type) {
         //Check if all filed are filled in
-        if(type.isEmpty()){
+        if (type.isEmpty()) {
             final AlertDialog alertDialog = new AlertDialog.Builder(AddCheckpointActivity.this).create();
             alertDialog.setTitle("Not all fields filled in");
             alertDialog.setCancelable(true);
@@ -143,7 +143,7 @@ public class AddCheckpointActivity extends AppCompatActivity {
     //Method for saving
     private void saveChanges(String checkpointname, String type, String gps, String datetime, String rider) {
 
-        if (checkpointName.isEmpty()){
+        if (checkpointName.isEmpty()) {
             checkpointName = "";
         }
 
@@ -170,7 +170,6 @@ public class AddCheckpointActivity extends AppCompatActivity {
                 alertDialog.show();
             }
         });
-
     }
 }
 

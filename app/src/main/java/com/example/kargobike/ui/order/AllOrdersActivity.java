@@ -14,7 +14,6 @@ import com.example.kargobike.R;
 import com.example.kargobike.adapter.OrderAdapter;
 import com.example.kargobike.database.entity.Order;
 import com.example.kargobike.ui.LogActivity;
-import com.example.kargobike.ui.SettingsActivity;
 import com.example.kargobike.util.RecyclerViewItemClickListener;
 import com.example.kargobike.viewmodel.order.OrderListViewModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -37,19 +36,15 @@ public class AllOrdersActivity extends AppCompatActivity {
     private static final String TAG = "AllOrdersActitivy";
 
     private OrderListViewModel orderListViewModel;
-
     private OrderAdapter<Order> adapter;
-
     private List<Order> Orders;
 
-    private String OrderNr, CheckpointId;
+    private String OrderNr;
 
     private Toolbar toolbar;
-
     private TextView user;
 
     private String username;
-
 
 
     @Override
@@ -69,26 +64,20 @@ public class AllOrdersActivity extends AppCompatActivity {
                 startActivity(intentHome);
                 return true;
 
-            case R.id.action_settings:
-
-                Intent intentSettings = new Intent(this, SettingsActivity.class);
-                startActivity(intentSettings);
-
-
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
     //Method for logout
-    private void logout(){
+    private void logout() {
         FirebaseAuth.getInstance().signOut();
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);;
+        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
         mGoogleSignInClient.signOut();
     }
 
@@ -98,13 +87,12 @@ public class AllOrdersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orders);
 
-
         //Toolbar
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //Show user in toolbar
-        user = (TextView)findViewById(R.id.toolbarTextView);
+        user = findViewById(R.id.toolbarTextView);
         user.setText(getIntent().getStringExtra("user_name"));
 
         //change title in toolbar and it's color
@@ -125,14 +113,11 @@ public class AllOrdersActivity extends AppCompatActivity {
             }
         });
 
-
         username = getIntent().getStringExtra("user_name");
-
         OrderNr = getIntent().getStringExtra("OrderNr");
-        //CheckpointId = getIntent().getStringExtra("CheckpointId");
 
         //Create the OrdersActivity with all the Orders
-        if(OrderNr == null){
+        if (OrderNr == null) {
             //Initialize Database and data
             RecyclerView recyclerView = findViewById(R.id.recyclerviewitem_orders);
 
@@ -148,8 +133,8 @@ public class AllOrdersActivity extends AppCompatActivity {
             adapter = new OrderAdapter<>(new RecyclerViewItemClickListener() {
                 @Override
                 public void onItemClick(View v, int position) {
-                    Log.d(TAG, "Clicked position: "+ position);
-                    Log.d(TAG, "Clicked on: "+Orders.get(position).getOrderNr());
+                    Log.d(TAG, "Clicked position: " + position);
+                    Log.d(TAG, "Clicked on: " + Orders.get(position).getOrderNr());
 
 
                     Intent intent = new Intent(AllOrdersActivity.this, DetailsOrderActivity.class);
@@ -158,7 +143,6 @@ public class AllOrdersActivity extends AppCompatActivity {
                             Intent.FLAG_ACTIVITY_NO_ANIMATION |
                                     Intent.FLAG_ACTIVITY_NO_HISTORY
                     );
-
                     intent.putExtra("OrderNr", Orders.get(position).getOrderNr());
                     startActivity(intent);
                 }
@@ -169,7 +153,6 @@ public class AllOrdersActivity extends AppCompatActivity {
                     Log.d(TAG, "longClicked on: " + Orders.get(position).toString());
 
                     Intent intent = new Intent(AllOrdersActivity.this, DetailsOrderActivity.class);
-
                     intent.putExtra("user_restriction", "true");
                     intent.setFlags(
                             Intent.FLAG_ACTIVITY_NO_ANIMATION |
@@ -181,24 +164,19 @@ public class AllOrdersActivity extends AppCompatActivity {
                 }
             });
 
-
-
-
             //Get the Orders in the database by calling the ViewModel
             OrderListViewModel.Factory factory = new OrderListViewModel.Factory(getApplication());
             orderListViewModel = ViewModelProviders.of(this, factory).get(OrderListViewModel.class);
             orderListViewModel.getOrders().observe(this, OrderEntities -> {
-                if(OrderEntities != null) {
+                if (OrderEntities != null) {
                     Orders = OrderEntities;
                     adapter.setData(Orders);
                 }
             });
-
-
             recyclerView.setAdapter(adapter);
 
             //display the Order list for moving the Checkpoints if OrderNr != 0
-        }else{
+        } else {
 
             RecyclerView recyclerView = findViewById(R.id.recyclerviewitem_orders);
 
@@ -209,10 +187,7 @@ public class AllOrdersActivity extends AppCompatActivity {
                     LinearLayoutManager.VERTICAL);
             recyclerView.addItemDecoration(dividerItemDecoration);
 
-
             recyclerView.setAdapter(adapter);
-
         }
-
     }
 }

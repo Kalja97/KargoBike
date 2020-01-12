@@ -16,10 +16,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 public class OrderViewModel extends AndroidViewModel {
 
-    private OrderRepository repository;
-
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
     private final MediatorLiveData<Order> observableOrder;
+    private OrderRepository repository;
 
     public OrderViewModel(@NonNull Application application,
                           final String ordername, OrderRepository orderRepository) {
@@ -32,13 +31,31 @@ public class OrderViewModel extends AndroidViewModel {
         // set by default null, until we get data from the database.
         observableOrder.setValue(null);
 
-
         LiveData<Order> order = repository.getOrder(ordername);
-
 
         //observe the changes of the client entity from the database and forward them
         observableOrder.addSource(order, observableOrder::setValue);
 
+    }
+
+    //get a order
+    public LiveData<Order> getOrder() {
+        return observableOrder;
+    }
+
+    //create order
+    public void createOrder(Order order, OnAsyncEventListener callback) {
+        OrderRepository.getInstance().insert(order, callback);
+    }
+
+    //update order
+    public void updateOrder(Order order, OnAsyncEventListener callback) {
+        OrderRepository.getInstance().update(order, callback);
+    }
+
+    //delete order
+    public void deleteOrder(Order order, OnAsyncEventListener callback) {
+        OrderRepository.getInstance().delete(order, callback);
     }
 
     /**
@@ -62,25 +79,5 @@ public class OrderViewModel extends AndroidViewModel {
             //noinspection unchecked
             return (T) new OrderViewModel(application, ordername, repository);
         }
-    }
-
-    //get a order
-    public LiveData<Order> getOrder() {
-        return observableOrder;
-    }
-
-    //create order
-    public void createOrder(Order order, OnAsyncEventListener callback) {
-        OrderRepository.getInstance().insert(order, callback);
-    }
-
-    //update order
-    public void updateOrder(Order order, OnAsyncEventListener callback) {
-        OrderRepository.getInstance().update(order, callback);
-    }
-
-    //delete order
-    public void deleteOrder(Order order, OnAsyncEventListener callback) {
-        OrderRepository.getInstance().delete(order, callback);
     }
 }

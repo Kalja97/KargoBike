@@ -4,19 +4,14 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.example.kargobike.R;
-
 import com.example.kargobike.database.entity.Checkpoint;
-import com.example.kargobike.ui.SettingsActivity;
 import com.example.kargobike.ui.order.OrdersActivity;
 import com.example.kargobike.util.OnAsyncEventListener;
 import com.example.kargobike.viewmodel.checkpoint.CheckpointViewModel;
@@ -28,25 +23,19 @@ import androidx.lifecycle.ViewModelProviders;
 public class EditCheckpointActivity extends AppCompatActivity {
 
     private static final String TAG = "EditCheckpointActivity";
-
-    //Textviews
-    private EditText etCheckpointName;
-    private Spinner spType;
-
     //Button
     Button btnChange;
-
-    //Toolbar
-    private Toolbar toolbar;
-
     //get intent
     String id;
     String orderNr;
-
     //Strings for saving
     String checkpointName;
     String type;
-
+    //Textviews
+    private EditText etCheckpointName;
+    private Spinner spType;
+    //Toolbar
+    private Toolbar toolbar;
     private Checkpoint checkpoint;
     private CheckpointViewModel vmCheckpoint;
 
@@ -57,7 +46,6 @@ public class EditCheckpointActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_checkpoint);
 
         id = getIntent().getStringExtra("CheckpointId");
-      //  orderNr = getIntent().getStringExtra("OrderNr");
 
         //Toolbar
         toolbar = findViewById(R.id.toolbar);
@@ -100,7 +88,7 @@ public class EditCheckpointActivity extends AppCompatActivity {
                 type = spType.getSelectedItem().toString();
 
                 //call method for checking if required fields are filled
-                if(checkInputField(type)){
+                if (checkInputField(type)) {
                     //call method for saving checkpoint
                     saveChanges(checkpointName, type);
                 }
@@ -152,9 +140,9 @@ public class EditCheckpointActivity extends AppCompatActivity {
         });
     }
 
-    private boolean checkInputField(String type){
+    private boolean checkInputField(String type) {
         //Check if all filed are filled in
-        if(type.isEmpty()){
+        if (type.isEmpty()) {
             final AlertDialog alertDialog = new AlertDialog.Builder(EditCheckpointActivity.this).create();
             alertDialog.setTitle("Not all fields filled in");
             alertDialog.setCancelable(true);

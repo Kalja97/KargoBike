@@ -17,14 +17,11 @@ import androidx.lifecycle.ViewModelProvider;
 public class CheckpointListViewModel extends AndroidViewModel {
 
     private static final String TAG = "CheckpointListViewModel";
-
-    private CheckpointRepository repository;
-
     private final String orderNr;
-
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
     private final MediatorLiveData<List<Checkpoint>> observableCheckpoints;
     private final MediatorLiveData<List<Checkpoint>> observableCheckpointsByOrder;
+    private CheckpointRepository repository;
 
     public CheckpointListViewModel(@NonNull Application application,
                                    final String orderNr, CheckpointRepository checkpointRepository) {
@@ -35,6 +32,7 @@ public class CheckpointListViewModel extends AndroidViewModel {
 
         observableCheckpoints = new MediatorLiveData<>();
         observableCheckpointsByOrder = new MediatorLiveData<>();
+
         // set by default null, until we get data from the database.
         observableCheckpoints.setValue(null);
         observableCheckpointsByOrder.setValue(null);
@@ -44,17 +42,25 @@ public class CheckpointListViewModel extends AndroidViewModel {
         LiveData<List<Checkpoint>> checkpointsByOrder = new LiveData<List<Checkpoint>>() {
         };
 
-        if(this.orderNr != null)
-        {
+        if (this.orderNr != null) {
             checkpointsByOrder = repository.getCheckpointsByOrder(orderNr);
         }
-
 
         checkpoints = repository.getCheckpoints();
 
         // observe the changes of the entities from the database and forward them
         observableCheckpoints.addSource(checkpoints, observableCheckpoints::setValue);
         observableCheckpointsByOrder.addSource(checkpointsByOrder, observableCheckpointsByOrder::setValue);
+    }
+
+    //Get all checkpoints
+    public LiveData<List<Checkpoint>> getCheckpoints() {
+        return observableCheckpoints;
+    }
+
+    //Get the checkpoints of an order
+    public LiveData<List<Checkpoint>> getCheckpointsByOrder() {
+        return observableCheckpointsByOrder;
     }
 
     //Factory of the checkpoint list view model
@@ -68,7 +74,7 @@ public class CheckpointListViewModel extends AndroidViewModel {
         public Factory(@NonNull Application application, String orderNr) {
             this.application = application;
             this.orderNr = orderNr;
-            checkpointRepository =  CheckpointRepository.getInstance();
+            checkpointRepository = CheckpointRepository.getInstance();
         }
 
         @Override
@@ -77,16 +83,5 @@ public class CheckpointListViewModel extends AndroidViewModel {
             return (T) new CheckpointListViewModel(application, orderNr, checkpointRepository);
         }
     }
-
-    //Get all checkpoints
-    public LiveData<List<Checkpoint>> getCheckpoints() {
-        return observableCheckpoints;
-    }
-
-    //Get the checkpoints of an order
-    public LiveData<List<Checkpoint>> getCheckpointsByOrder() {
-        return observableCheckpointsByOrder;
-    }
-
 }
 

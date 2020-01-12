@@ -1,22 +1,22 @@
 package com.example.kargobike.ui.order;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
-import androidx.appcompat.widget.Toolbar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.example.kargobike.R;
 import com.example.kargobike.adapter.ListAdapter;
@@ -24,37 +24,30 @@ import com.example.kargobike.database.entity.Order;
 import com.example.kargobike.database.entity.Product;
 import com.example.kargobike.database.entity.User;
 import com.example.kargobike.ui.LogActivity;
-import com.example.kargobike.ui.SettingsActivity;
 import com.example.kargobike.ui.checkpoint.CheckpointsActivity;
 import com.example.kargobike.util.OnAsyncEventListener;
+import com.example.kargobike.viewmodel.order.OrderViewModel;
 import com.example.kargobike.viewmodel.product.ProductListViewModel;
 import com.example.kargobike.viewmodel.user.UserListViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import android.app.AlertDialog;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.EditText;
-
-import com.example.kargobike.viewmodel.order.OrderViewModel;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProviders;
 
 public class DetailsOrderActivity extends AppCompatActivity {
 
     private static final String TAG = "orderDetails";
 
-    private static final int CREATE_ORDER = 0 ;
-    private static final int EDIT_ORDER = 1 ;
-    private static final int DELETE_ORDER = 2 ;
-
-    private OrderViewModel viewModel ;
-
-    private Toast toast ;
-
+    private static final int CREATE_ORDER = 0;
+    private static final int EDIT_ORDER = 1;
+    private static final int DELETE_ORDER = 2;
+    FloatingActionButton fab;
+    private OrderViewModel viewModel;
+    private Toast toast;
     //private TextView tvOrderNr;
     private EditText etDateDeliv;
     private EditText etTimeDelivery;
@@ -65,17 +58,11 @@ public class DetailsOrderActivity extends AppCompatActivity {
     private Spinner spStatus;
     private Spinner spProduct;
     private EditText etProductQty;
-
     private boolean isEditable;
-
-    private Order order ;
-
+    private Order order;
     private String user_restriction;
-
-    FloatingActionButton fab ;
     private Toolbar toolbar;
 
-    //NEW
     private DatePickerDialog.OnDateSetListener DateSetListener;
     private TimePickerDialog.OnTimeSetListener TimeSetListener;
 
@@ -86,13 +73,13 @@ public class DetailsOrderActivity extends AppCompatActivity {
     // Needed for Riders List
     private UserListViewModel ridersListViewModel;
     private ListAdapter adapterRidersList;
-    //
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_orders);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         String orderNr = getIntent().getStringExtra("OrderNr");
@@ -101,8 +88,8 @@ public class DetailsOrderActivity extends AppCompatActivity {
         OrderViewModel.Factory factory = new OrderViewModel.Factory(getApplication(), orderNr);
         viewModel = ViewModelProviders.of(this, factory).get(OrderViewModel.class);
         viewModel.getOrder().observe(this, Order -> {
-            if(Order != null){
-                order = Order ;
+            if (Order != null) {
+                order = Order;
                 updateContent();
             }
         });
@@ -120,17 +107,15 @@ public class DetailsOrderActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        if(orderNr != null){
+        if (orderNr != null) {
             setTitle(R.string.title_order_details);
-        }else {
+        } else {
             setTitle(R.string.title_order_create);
             switchToEdit();
         }
 
-        //NEW
-
         //OnClickListener für Date Delivery
-        etDateDeliv.setOnClickListener(new View.OnClickListener(){
+        etDateDeliv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Calendar cal = Calendar.getInstance();
@@ -142,14 +127,14 @@ public class DetailsOrderActivity extends AppCompatActivity {
                         DetailsOrderActivity.this,
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         DateSetListener,
-                        year,month,day);
+                        year, month, day);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
         });
 
         //OnClickListener for Time
-        etTimeDelivery.setOnClickListener(new View.OnClickListener(){
+        etTimeDelivery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Calendar cal = Calendar.getInstance();
@@ -174,8 +159,6 @@ public class DetailsOrderActivity extends AppCompatActivity {
 
                 String date = day + "/" + month + "/" + year;
                 etDateDeliv.setText(date);
-
-
             }
         };
 
@@ -192,9 +175,7 @@ public class DetailsOrderActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-
-        //String orderNr = getIntent().getStringExtra("OrderNr");
+    public boolean onCreateOptionsMenu(Menu menu) {
 
         setTitle("KargoBike - Orders");
         toolbar.setTitleTextColor(Color.WHITE);
@@ -214,20 +195,20 @@ public class DetailsOrderActivity extends AppCompatActivity {
         });
 
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main,menu);
+        inflater.inflate(R.menu.menu_main, menu);
 
-        if(order != null){
+        if (order != null) {
             menu.add(0, EDIT_ORDER, Menu.NONE, getString(R.string.action_edit))
                     .setIcon(R.drawable.ic_edit_white)
                     .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
+            // Delete Icon is showing up only if the logged in user is a dispatcher
             if (user_restriction.equals("true")) {
-
                 menu.add(0, DELETE_ORDER, Menu.NONE, getString(R.string.action_delete))
                         .setIcon(R.drawable.ic_delete_white)
                         .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             }
-        }else{
+        } else {
             menu.add(0, CREATE_ORDER, Menu.NONE, getString(R.string.action_create_order))
                     .setIcon(R.drawable.ic_add_white)
                     .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
@@ -236,24 +217,25 @@ public class DetailsOrderActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
 
-        if(item.getItemId() == EDIT_ORDER){
-            if(isEditable){
+        if (item.getItemId() == EDIT_ORDER) {
+            if (isEditable) {
                 item.setIcon(R.drawable.ic_edit_white);
                 switchToEdit();
-            }else{
+            } else {
                 item.setIcon(R.drawable.ic_done);
                 switchToEdit();
             }
         }
-        if(item.getItemId() == DELETE_ORDER){
+
+        if (item.getItemId() == DELETE_ORDER) {
             final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.setTitle(getString(R.string.action_delete));
             alertDialog.setCancelable(false);
             alertDialog.setMessage(getString(R.string.message_DELETE_ORDER));
             alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.action_delete), (dialog, which) -> {
-                viewModel.deleteOrder(order, new OnAsyncEventListener(){
+                viewModel.deleteOrder(order, new OnAsyncEventListener() {
 
                     @Override
                     public void onSuccess() {
@@ -270,40 +252,18 @@ public class DetailsOrderActivity extends AppCompatActivity {
             alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.action_cancel), (dialog, which) -> alertDialog.dismiss());
             alertDialog.show();
         }
-        if(item.getItemId() == CREATE_ORDER){
-/*
-            if(etFloor.getText().toString().isEmpty()){
-                createOrder(etName.getText().toString(),
-                        1000000000,
-                        etSector.getText().toString(),
-                        etCity.getText().toString(),
-                        etCountry.getText().toString());
-            }else{
-                createOrder(etName.getText().toString(),
-                        Integer.parseInt(etFloor.getText().toString()),
-                        etSector.getText().toString(),
-                        etCity.getText().toString(),
-                        etCountry.getText().toString());
-            }*/
-        }
 
-        if(item.getItemId() == R.id.action_logout){
+        if (item.getItemId() == R.id.action_logout) {
             Intent intentHome = new Intent(this, LogActivity.class);
             startActivity(intentHome);
         }
 
-        if(item.getItemId() == R.id.action_logout){
-            Intent intentSettings = new Intent(this, SettingsActivity.class);
-            startActivity(intentSettings);
-        }
-
-            return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
     }
 
-    private void initiateView(){
+    private void initiateView() {
         isEditable = false;
 
-        //tvOrderNr = findViewById(R.id.orderNumber);
         etCustomer = findViewById(R.id.etCustomer);
         spProduct = findViewById(R.id.spProduct);
         etProductQty = findViewById(R.id.ethowManyPackages);
@@ -313,7 +273,6 @@ public class DetailsOrderActivity extends AppCompatActivity {
         spRider = findViewById(R.id.spRider);
         etFromAddress = findViewById(R.id.etFromAddress);
         etToAddress = findViewById(R.id.etToAddress);
-
 
         adapterProductsList = new ListAdapter<>(DetailsOrderActivity.this, R.layout.list_row, new ArrayList<>());
         spProduct.setAdapter(adapterProductsList);
@@ -362,7 +321,7 @@ public class DetailsOrderActivity extends AppCompatActivity {
                 int selectedIndex = 0;
 
                 for (int i = 0; i < productStrings.size(); i++) {
-                    if (productStrings.get(i).equals(order.getProduct())){
+                    if (productStrings.get(i).equals(order.getProduct())) {
                         selectedIndex = i;
                         break;
                     }
@@ -392,7 +351,7 @@ public class DetailsOrderActivity extends AppCompatActivity {
                 int selectedIndex = 0;
 
                 for (int i = 0; i < riderStrings.size(); i++) {
-                    if (riderStrings.get(i).equals(order.getRider())){
+                    if (riderStrings.get(i).equals(order.getRider())) {
                         selectedIndex = i;
                         break;
                     }
@@ -404,8 +363,8 @@ public class DetailsOrderActivity extends AppCompatActivity {
         });
     }
 
-    private void switchToEdit(){
-        if(!isEditable){
+    private void switchToEdit() {
+        if (!isEditable) {
             fab.hide();
 
             etCustomer.setFocusableInTouchMode(true);
@@ -436,8 +395,7 @@ public class DetailsOrderActivity extends AppCompatActivity {
             etToAddress.setFocusable(true);
             etToAddress.setEnabled(true);
 
-        }else{
-            List<String> checkpointsIds = new ArrayList<>();
+        } else {
             saveChanges(
                     etCustomer.getText().toString(),
                     etFromAddress.getText().toString(),
@@ -469,56 +427,8 @@ public class DetailsOrderActivity extends AppCompatActivity {
         isEditable = !isEditable;
     }
 
-    /*
-    private void createOrder(String sender, String receiver, String product,
-                             int productQty, String datePickup, String dateDeliv, String status, String rider){
-
-        if(sender.isEmpty()){
-            etCustomer.setError(getString(R.string.order_error_sender));
-            return;
-        }
-        if(receiver.isEmpty()){
-            etReceiver.setError(getString(R.string.order_error_receiver));
-            return;
-        }
-
-        if(datePickup.isEmpty()){
-            etTimeDelivery.setError(getString(R.string.order_error_datePickup));
-            return;
-        }
-        if(dateDeliv.isEmpty()){
-            etTimeDelivery.setError(getString(R.string.order_error_dateDeliv));
-            return;
-        }
-
-        order = new Order();
-        order.setCustomer(sender);
-        order.setProduct(product);
-        order.setHowMany(productQty);
-        order.setDatePickup(datePickup);
-        order.setDateDelivery(dateDeliv);
-        order.setState(status);
-        order.setRider(rider);
-
-        viewModel.createOrder(order, new OnAsyncEventListener() {
-            @Override
-            public void onSuccess() {
-                Log.d(TAG, "CreateClient: Success");
-                onBackPressed();
-            }
-
-            @Override
-            public void onFailure(Exception e) {
-                Log.d(TAG, "CreateClient: Failure", e);
-            }
-        });
-
-    }
-
-*/
-
     public void saveChanges(String customer, String fromAddress, String toAddress, String timeDelivery,
-                            String dateDelivery, String state, String rider, String product, int howMany){
+                            String dateDelivery, String state, String rider, String product, int howMany) {
 
         order.setDateDelivery(dateDelivery);
         order.setTimeDelivery(timeDelivery);
@@ -557,14 +467,14 @@ public class DetailsOrderActivity extends AppCompatActivity {
         }
     }
 
-    private void updateContent(){
-        if(order != null){
+    private void updateContent() {
+        if (order != null) {
             etCustomer.setText(order.getCustomer());
             etTimeDelivery.setText(order.getTimeDelivery());
             etDateDeliv.setText(order.getDateDelivery());
             etFromAddress.setText(order.getFromAddress());
             etToAddress.setText(order.getToAddress());
-            etProductQty.setText(""+order.getHowMany());
+            etProductQty.setText("" + order.getHowMany());
         }
     }
 }

@@ -16,13 +16,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 public class UserViewModel extends AndroidViewModel {
 
-    private UserRepository repository;
-
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
     private final MediatorLiveData<User> observableUser;
+    private UserRepository repository;
 
     public UserViewModel(@NonNull Application application,
-                          final String email, UserRepository userRepository) {
+                         final String email, UserRepository userRepository) {
 
         super(application);
 
@@ -32,13 +31,26 @@ public class UserViewModel extends AndroidViewModel {
         // set by default null, until we get data from the database.
         observableUser.setValue(null);
 
-
         LiveData<User> user = repository.getUser(email);
-
 
         //observe the changes of the client entity from the database and forward them
         observableUser.addSource(user, observableUser::setValue);
 
+    }
+
+    //get a user
+    public LiveData<User> getUser() {
+        return observableUser;
+    }
+
+    //create user
+    public void createUser(User user, OnAsyncEventListener callback) {
+        UserRepository.getInstance().insert(user, callback);
+    }
+
+    //update user
+    public void updateUser(User user, OnAsyncEventListener callback) {
+        UserRepository.getInstance().update(user, callback);
     }
 
     /**
@@ -63,27 +75,4 @@ public class UserViewModel extends AndroidViewModel {
             return (T) new UserViewModel(application, email, repository);
         }
     }
-
-    //get a user
-    public LiveData<User> getUser() {
-        return observableUser;
-    }
-
-    //create user
-    public void createUser(User user, OnAsyncEventListener callback) {
-        UserRepository.getInstance().insert(user, callback);
-    }
-
-    //update user
-    public void updateUser(User user, OnAsyncEventListener callback) {
-        UserRepository.getInstance().update(user, callback);
-    }
-
-    /*
-    //delete user
-    public void deleteUser(User user, OnAsyncEventListener callback) {
-        UserRepository.getInstance().delete(user, callback);
-    }
-    */
-
 }

@@ -17,10 +17,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 public class ProductListViewModel extends AndroidViewModel {
 
-    private ProductRepository repository;
-
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
     private final MediatorLiveData<List<Product>> observableProducts;
+    private ProductRepository repository;
 
     public ProductListViewModel(@NonNull Application application, ProductRepository productRepository) {
         super(application);
@@ -35,6 +34,25 @@ public class ProductListViewModel extends AndroidViewModel {
 
         // observe the changes of the entities from the database and forward them
         observableProducts.addSource(products, observableProducts::setValue);
+    }
+
+    /**
+     * Expose the LiveData ClientEntities query so the UI can observe it.
+     */
+    public LiveData<List<Product>> getProducts() {
+        return observableProducts;
+    }
+
+    public void deleteProduct(Product product) {
+        repository.delete(product, new OnAsyncEventListener() {
+            @Override
+            public void onSuccess() {
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+            }
+        });
     }
 
     /**
@@ -56,22 +74,5 @@ public class ProductListViewModel extends AndroidViewModel {
             //noinspection unchecked
             return (T) new ProductListViewModel(application, productRepository);
         }
-    }
-
-    /**
-     * Expose the LiveData ClientEntities query so the UI can observe it.
-     */
-    public LiveData<List<Product>> getProducts() {
-        return observableProducts;
-    }
-
-    public void deleteProduct(Product product) {
-        repository.delete(product, new OnAsyncEventListener() {
-            @Override
-            public void onSuccess() {}
-
-            @Override
-            public void onFailure(Exception e) {}
-        });
     }
 }

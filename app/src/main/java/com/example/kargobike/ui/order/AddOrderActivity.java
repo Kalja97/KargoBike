@@ -78,7 +78,7 @@ public class AddOrderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_orders);
 
         //Toolbar
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         String loc = "";
@@ -106,22 +106,22 @@ public class AddOrderActivity extends AppCompatActivity {
         });
 
         //Initialize editTexts
-        EditText etHowManyPackages = (EditText) findViewById(R.id.howManyPackages);
-        EditText etToAddress = (EditText) findViewById(R.id.toAddress);
-        EditText etCustomer = (EditText) findViewById(R.id.customer);
-        Spinner spState = (Spinner) findViewById(R.id.state);
-        EditText etDateDelivery = (EditText) findViewById(R.id.dateDelivery);
-        EditText etTimeDelivery = (EditText) findViewById(R.id.timeDelivery);
-        EditText etFromAddress = (EditText) findViewById(R.id.fromAddress);
+        EditText etHowManyPackages = findViewById(R.id.howManyPackages);
+        EditText etToAddress = findViewById(R.id.toAddress);
+        EditText etCustomer = findViewById(R.id.customer);
+        Spinner spState = findViewById(R.id.state);
+        EditText etDateDelivery = findViewById(R.id.dateDelivery);
+        EditText etTimeDelivery = findViewById(R.id.timeDelivery);
+        EditText etFromAddress = findViewById(R.id.fromAddress);
 
         //Spinner for Products
-        spProducts = (Spinner) findViewById(R.id.productlist);
+        spProducts = findViewById(R.id.productlist);
         adapterProductsList = new ListAdapter<>(AddOrderActivity.this, R.layout.list_row, new ArrayList<>());
         spProducts.setAdapter(adapterProductsList);
         fillProductList();
 
         //Spinner for Products
-        spRiders = (Spinner) findViewById(R.id.ridersList);
+        spRiders = findViewById(R.id.ridersList);
         adapterRidersList = new ListAdapter<>(AddOrderActivity.this, R.layout.list_row, new ArrayList<>());
         spRiders.setAdapter(adapterRidersList);
         fillUserList();
@@ -130,7 +130,7 @@ public class AddOrderActivity extends AppCompatActivity {
         etTimeDelivery.setFocusable(false);
 
         //OnClickListener for Date
-        etDateDelivery.setOnClickListener(new View.OnClickListener(){
+        etDateDelivery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Calendar cal = Calendar.getInstance();
@@ -142,14 +142,14 @@ public class AddOrderActivity extends AppCompatActivity {
                         AddOrderActivity.this,
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         DateSetListener,
-                        year,month,day);
+                        year, month, day);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
         });
 
         //OnClickListener for Time
-        etTimeDelivery.setOnClickListener(new View.OnClickListener(){
+        etTimeDelivery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Calendar cal = Calendar.getInstance();
@@ -217,8 +217,8 @@ public class AddOrderActivity extends AppCompatActivity {
                 product = spProducts.getSelectedItem().toString();
 
                 //Check if all filed are filled in
-                if(dateDelivery.isEmpty() || timeDelivery.isEmpty() || fromAddress.isEmpty() || howManyPackages.isEmpty() || toAddress.isEmpty() ||
-                customer.isEmpty() || rider.isEmpty() || state.isEmpty() || product.isEmpty()){
+                if (dateDelivery.isEmpty() || timeDelivery.isEmpty() || fromAddress.isEmpty() || howManyPackages.isEmpty() || toAddress.isEmpty() ||
+                        customer.isEmpty() || rider.isEmpty() || state.isEmpty() || product.isEmpty()) {
                     final AlertDialog alertDialog = new AlertDialog.Builder(AddOrderActivity.this).create();
                     alertDialog.setTitle("Not all fields filled in");
                     alertDialog.setCancelable(true);
@@ -232,8 +232,7 @@ public class AddOrderActivity extends AppCompatActivity {
                 //if not set error
                 String regexStr = "^[0-9]*$";
 
-                if(!etHowManyPackages.getText().toString().trim().matches(regexStr))
-                {
+                if (!etHowManyPackages.getText().toString().trim().matches(regexStr)) {
                     etHowManyPackages.setError(getString(R.string.error_invalid_packages));
                     etHowManyPackages.requestFocus();
                     return;
@@ -311,7 +310,7 @@ public class AddOrderActivity extends AppCompatActivity {
             if (riders != null) {
 
                 ArrayList<String> userStrings = new ArrayList<String>();
-                for (User rider: riders
+                for (User rider : riders
                 ) {
                     userStrings.add(rider.toString());
                 }
@@ -330,7 +329,7 @@ public class AddOrderActivity extends AppCompatActivity {
 
     //Actions toolbar
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.add:
                 Intent intentHome = new Intent(this, AddOrderActivity.class);
                 startActivity(intentHome);

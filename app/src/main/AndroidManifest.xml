@@ -45,7 +45,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity android:name=".ui.order.OrdersActivity" />
         <activity android:name=".ui.checkpoint.CheckpointsActivity" />
@@ -53,9 +52,7 @@
         <activity android:name=".ui.order.DetailsOrderActivity" />
         <activity android:name=".ui.checkpoint.AddCheckpointActivity" />
         <activity android:name=".ui.checkpoint.EditCheckpointActivity" />
-        <activity android:name=".ui.MainActivity">
-
-        </activity>
+        <activity android:name=".ui.MainActivity"/>
         <activity android:name=".ui.DispatcherActivity" />
         <activity android:name=".ui.user.UserlistActivity" />
         <activity android:name=".ui.user.EditUserActivity" />
@@ -64,8 +61,6 @@
         <activity android:name=".ui.product.EditProductActivity" />
         <activity android:name=".ui.product.AddProductActivity" />
         <activity android:name=".ui.order.AllOrdersActivity" />
-
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.kargobike.fileprovider"
@@ -76,5 +71,4 @@
                 android:resource="@xml/provider_paths"/>
         </provider>
     </application>
-
 </manifest>

@@ -1,46 +1,21 @@
 package com.example.kargobike.ui.checkpoint;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.kargobike.adapter.CheckPointAdapter;
-import com.example.kargobike.adapter.OrderAdapter;
-import com.example.kargobike.database.entity.Checkpoint;
 import com.example.kargobike.R;
+import com.example.kargobike.adapter.CheckPointAdapter;
+import com.example.kargobike.database.entity.Checkpoint;
 import com.example.kargobike.database.entity.Order;
-import com.example.kargobike.database.repository.CheckpointRepository;
-import com.example.kargobike.database.repository.OrderRepository;
-import com.example.kargobike.firebase.OrderLiveData;
 import com.example.kargobike.ui.LogActivity;
-import com.example.kargobike.ui.MainActivity;
-import com.example.kargobike.ui.SettingsActivity;
-import com.example.kargobike.ui.order.DetailsOrderActivity;
 import com.example.kargobike.ui.order.OrdersActivity;
 import com.example.kargobike.util.OnAsyncEventListener;
 import com.example.kargobike.util.RecyclerViewItemClickListener;
@@ -52,21 +27,21 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
-import static com.example.kargobike.R.id.orderListImageButton;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class CheckpointsActivity extends AppCompatActivity {
 
     private static final String TAG = "CheckpointsList";
     private CheckpointListViewModel CheckpointListViewModel;
-    private CheckpointListViewModel CheckpointListByOrder;
 
     //Attributs
     private List<Checkpoint> checkpointList;
@@ -76,14 +51,11 @@ public class CheckpointsActivity extends AppCompatActivity {
 
     // for selection dialog
     private List<Checkpoint> allCheckpoints;
-    private CheckpointListViewModel CheckpointListViewModelForSelect;
-    private CheckPointAdapter<Checkpoint> adapterForSelect;
     private ArrayList<String> selectedCP = new ArrayList<>();
 
     private String username;
 
     private Toolbar toolbar;
-
 
     //create options menu
     @Override
@@ -101,25 +73,19 @@ public class CheckpointsActivity extends AppCompatActivity {
                 Intent intentHome = new Intent(this, LogActivity.class);
                 startActivity(intentHome);
                 return true;
-
-            case R.id.action_settings:
-
-
-                Intent intentSettings = new Intent(this, SettingsActivity.class);
-                startActivity(intentSettings);
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    private void logout(){
+    private void logout() {
         FirebaseAuth.getInstance().signOut();
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);;
+        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
         mGoogleSignInClient.signOut();
     }
 
@@ -130,7 +96,7 @@ public class CheckpointsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkpoints);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         username = getIntent().getStringExtra("user_name");
@@ -156,23 +122,20 @@ public class CheckpointsActivity extends AppCompatActivity {
         String orderNr = getIntent().getStringExtra("OrderNr");
         Order order = (Order) getIntent().getSerializableExtra("Order");
 
-        CheckpointListViewModel.Factory factory = new CheckpointListViewModel.Factory(getApplication(),orderNr);
+        CheckpointListViewModel.Factory factory = new CheckpointListViewModel.Factory(getApplication(), orderNr);
         CheckpointListViewModel = ViewModelProviders.of(this, factory).get(CheckpointListViewModel.class);
         checkpointList = new ArrayList<>();
         allCheckpoints = new ArrayList<>();
 
         CheckpointListViewModel.getCheckpoints().observe(this, CheckpointEntities -> {
-            if(CheckpointEntities != null)
-            {
+            if (CheckpointEntities != null) {
                 // If we are in an order (to manage the multiplechoice list)
-                if(orderNr != null)
-                {
+                if (orderNr != null) {
                     //allCheckpoints = CheckpointListViewModel.getCheckpoints().getValue();
                     allCheckpoints = CheckpointEntities;
 
                     CheckpointListViewModel.getCheckpointsByOrder().observe(this, CheckpointEntities2 -> {
-                        if(CheckpointEntities2 != null)
-                        {
+                        if (CheckpointEntities2 != null) {
                             checkpointList = CheckpointEntities2;
 
                             System.out.println("RATIO:" + checkpointList.size() + "/" + allCheckpoints.size());
@@ -182,8 +145,7 @@ public class CheckpointsActivity extends AppCompatActivity {
                     });
                 }
                 // If we are on the main checkpointlist activity
-                else
-                {
+                else {
                     allCheckpoints = CheckpointEntities;
                     adapter.setData(allCheckpoints);
                 }
@@ -210,7 +172,6 @@ public class CheckpointsActivity extends AppCompatActivity {
                     Log.d(TAG, "Clicked position: " + position);
                     Log.d(TAG, "Clicked on: " + allCheckpoints.get(position).getcheckPointID());
 
-
                     Intent intent = new Intent(CheckpointsActivity.this, EditCheckpointActivity.class);
                     intent.setFlags(
                             Intent.FLAG_ACTIVITY_NO_ANIMATION |
@@ -226,7 +187,6 @@ public class CheckpointsActivity extends AppCompatActivity {
                     Log.d(TAG, "Clicked position: " + position);
                     Log.d(TAG, "Clicked on: " + allCheckpoints.get(position).getcheckPointID());
 
-
                     Intent intent = new Intent(CheckpointsActivity.this, EditCheckpointActivity.class);
                     intent.setFlags(
                             Intent.FLAG_ACTIVITY_NO_ANIMATION |
@@ -237,7 +197,6 @@ public class CheckpointsActivity extends AppCompatActivity {
                     intent.putExtra("checkpointName", allCheckpoints.get(position).getCheckpointName());
                     startActivity(intent);
                 }
-
             });
 
             //Create floatingButton for adding new checkpoints in orders
@@ -259,51 +218,29 @@ public class CheckpointsActivity extends AppCompatActivity {
                     }
 
                     System.out.println("HOPE THIS IS THE LAST TEST: " + checkpointList.size());
-                    for(int j = 0; j < checkpointList.size(); j++)
+                    for (int j = 0; j < checkpointList.size(); j++)
                         for (int k = 0; k < allCheckpoints.size(); k++) {
-                        {
-                            if(allCheckpoints.get(k).getcheckPointID().equals(checkpointList.get(j).getcheckPointID()))
-                                checkedIndexes.add(k);
+                            {
+                                if (allCheckpoints.get(k).getcheckPointID().equals(checkpointList.get(j).getcheckPointID()))
+                                    checkedIndexes.add(k);
+                            }
                         }
-                    }
 
                     // Tab with the names checked checkpoints
                     final boolean[] checkedCP = new boolean[allCheckpoints.size()];
 
                     for (int i = 0; i < checkedCP.length; i++) {
 
-                        if(checkedIndexes.contains(i))
-                            checkedCP[i] = true;
-                        else
-                            checkedCP[i] = false;
+                        checkedCP[i] = checkedIndexes.contains(i);
                     }
 
                     // Convert the checkpoints array to list
                     ArrayList<String> cpList = new ArrayList<>();
 
-                    for(int i = 0; i< cpNamesTab.length; i++)
-                    {
+                    for (int i = 0; i < cpNamesTab.length; i++) {
                         cpList.add(cpNamesTab[i]);
                     }
 
-                    // Set multiple choice items for alert dialog
-                /*
-                    AlertDialog.Builder setMultiChoiceItems(CharSequence[] items, boolean[]
-                    checkedItems, DialogInterface.OnMultiChoiceClickListener listener)
-                        Set a list of items to be displayed in the dialog as the content,
-                        you will be notified of the selected item via the supplied listener.
-                 */
-                /*
-                    DialogInterface.OnMultiChoiceClickListener
-                    public abstract void onClick (DialogInterface dialog, int which, boolean isChecked)
-
-                        This method will be invoked when an item in the dialog is clicked.
-
-                        Parameters
-                        dialog The dialog where the selection was made.
-                        which The position of the item in the list that was clicked.
-                        isChecked True if the click checked the item, else false.
-                 */
                     builder.setMultiChoiceItems(cpNamesTab, checkedCP, new DialogInterface.OnMultiChoiceClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which, boolean isChecked) {
@@ -313,8 +250,6 @@ public class CheckpointsActivity extends AppCompatActivity {
 
                             // Get the current focused item
                             String currentItem = cpList.get(which);
-
-
                         }
                     });
 
@@ -323,7 +258,6 @@ public class CheckpointsActivity extends AppCompatActivity {
 
                     // Set a title for alert dialog
                     builder.setTitle("Checkpoints selector");
-
 
                     // Set the positive/yes button click listener
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -334,9 +268,7 @@ public class CheckpointsActivity extends AppCompatActivity {
                                 boolean checked = checkedCP[i];
                                 if (checked) {
                                     selectedCP.add(allCheckpoints.get(i).getcheckPointID());
-                                }
-                                else
-                                {
+                                } else {
                                     selectedCP.remove(allCheckpoints.get(i).getcheckPointID());
                                 }
                             }
@@ -346,14 +278,14 @@ public class CheckpointsActivity extends AppCompatActivity {
 
                             // creation of the orderViewModel --> to be able to update the DB
                             OrderViewModel.Factory factoryO = new OrderViewModel.Factory(getApplication(), orderNr);
-                            OrderViewModel oVM ;
+                            OrderViewModel oVM;
                             oVM = ViewModelProviders.of(CheckpointsActivity.this, factoryO).get(OrderViewModel.class);
                             oVM.updateOrder(order, new OnAsyncEventListener() {
                                 @Override
                                 public void onSuccess() {
                                     Log.d(TAG, "updateOrder: Success");
                                     //onBackPressed();
-                                    Toast.makeText(CheckpointsActivity.this,R.string.action_add_checkpointsInOrder,Toast.LENGTH_LONG);
+                                    Toast.makeText(CheckpointsActivity.this, R.string.action_add_checkpointsInOrder, Toast.LENGTH_LONG);
                                     finish();
                                     startActivity(getIntent());
                                 }
@@ -361,7 +293,7 @@ public class CheckpointsActivity extends AppCompatActivity {
                                 @Override
                                 public void onFailure(Exception e) {
                                     Log.d(TAG, "updateOrder: Failure", e);
-                                    Toast.makeText(CheckpointsActivity.this,R.string.action_error_add_checkpointsInOrder,Toast.LENGTH_LONG);
+                                    Toast.makeText(CheckpointsActivity.this, R.string.action_error_add_checkpointsInOrder, Toast.LENGTH_LONG);
                                     onBackPressed();
                                 }
                             });
@@ -373,44 +305,35 @@ public class CheckpointsActivity extends AppCompatActivity {
                         }
                     });
 
-
                     // Set the neutral/cancel button click listener
-
                     AlertDialog dialog = builder.create();
                     // Display the alert dialog on interface
                     dialog.show();
                 }
             });
-
             recyclerView.setAdapter(adapter);
-
         }
     }
 
-    public List<Checkpoint> setSelectedCPList(List<Checkpoint> orderCPs, List<Checkpoint> allCheckPoints)
-    {
+    public List<Checkpoint> setSelectedCPList(List<Checkpoint> orderCPs, List<Checkpoint> allCheckPoints) {
         ArrayList<Checkpoint> selectedCheckpoints = new ArrayList<>();
 
-        System.out.println("RATIO IN METHOD: " +  orderCPs.size() + "/" + allCheckPoints.size() );
-        if(orderCPs.size() > 0 && allCheckPoints.size() > 0) {
+        System.out.println("RATIO IN METHOD: " + orderCPs.size() + "/" + allCheckPoints.size());
+        if (orderCPs.size() > 0 && allCheckPoints.size() > 0) {
 
             Checkpoint temp = new Checkpoint();
             for (Checkpoint orderCP : orderCPs) {
                 for (Checkpoint cp : allCheckPoints) {
                     temp = cp;
                     if (orderCP.getcheckPointID().equals(cp.getcheckPointID()))
-                        if(!selectedCheckpoints.contains(temp)|| selectedCheckpoints.isEmpty())
+                        if (!selectedCheckpoints.contains(temp) || selectedCheckpoints.isEmpty())
                             selectedCheckpoints.add(temp);
-                        else
-                            {
+                        else {
                             System.out.println("Prout");
-                            }
+                        }
                 }
             }
         }
-
-
         return selectedCheckpoints;
     }
-
 }

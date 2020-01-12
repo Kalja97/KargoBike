@@ -9,7 +9,6 @@ public class Checkpoint {
 
     private String id;
 
-    //    private Long fk;
     private String checkPointID;
     private String checkpointName;
     private String type;
@@ -18,14 +17,14 @@ public class Checkpoint {
     private String rider;
 
     //Constructor
-    public Checkpoint(){
+    public Checkpoint() {
 
     }
 
-    public Checkpoint(String checkPointID, String checkpointName, String type, String gps, String datetime, String rider){
+    public Checkpoint(String checkPointID, String checkpointName, String type, String gps, String datetime, String rider) {
         this.checkPointID = checkPointID;
         this.checkpointName = checkpointName;
-        this. type = type;
+        this.type = type;
         this.gps = gps;
         this.datetime = datetime;
         this.rider = rider;
@@ -68,16 +67,8 @@ public class Checkpoint {
         return gps;
     }
 
-    public void setGps(String gps) {
-        this.gps = gps;
-    }
-
     public String getDatetime() {
         return datetime;
-    }
-
-    public void setDatetime(String datetime) {
-        this.datetime = datetime;
     }
 
     public String getRider() {
